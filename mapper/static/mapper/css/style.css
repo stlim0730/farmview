@@ -1,0 +1,60 @@
+#home-wrap {
+  background: url(../images/home-wrap.jpg) no-repeat center top;
+  text-align: center;
+
+  margin-top: 0px;
+  padding-top: 120px;
+  background-attachment: relative;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#home-wrap h1 {
+  color: #ffffff;
+  margin-top: 90px;
+  padding-bottom: 30px;
+  letter-spacing: 8px;
+  font-size: 100px;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px #000;
+}
+
+#map-wrap {
+  background: url(../images/map-wrap.jpg) no-repeat center top;
+  /*text-align: center;*/
+
+  margin-top: 0px;
+  padding-top: 120px;
+  background-attachment: relative;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#map-wrap .container-fluid,
+#map-wrap .row {
+  height: 95%;
+}
+
+#map {
+  height: 100%;
+}
