@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mapper',
+    'survey_question',
+    'import_export'
 )
 
 MIDDLEWARE_CLASSES = (
