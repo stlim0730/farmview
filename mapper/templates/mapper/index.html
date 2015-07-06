@@ -121,6 +121,7 @@
     </div><!--/map-wrap -->
 
     <script src='{% static "mapper/js/jquery/jquery-1.11.3.min.js" %}'></script>
+    <script src='{% static "mapper/js/jquery.cookie/jquery.cookie.js" %}'></script>
     <script src='{% static "mapper/js/bootstrap/bootstrap.min.js" %}'></script>
     <script src='{% static "mapper/js/smoothscroll/smoothscroll.js" %}'></script>
     <script src='{% static "mapper/js/fancybox/jquery.fancybox.js" %}'></script>
@@ -143,9 +144,9 @@
       var vis;
       var layers;
 
-      var vizjson_url = '{{ admin_setting.vizjson_url }}';
-      var pub_date = '{{ admin_setting.pub_date }}';
-      var optional_note = '{{ admin_setting.optional_note }}';
+      var vizjson_url = '{{ admin_settings.vizjson_url }}';
+      var pub_date = '{{ admin_settings.pub_date }}';
+      var optional_note = '{{ admin_settings.optional_note }}';
       
       console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
       console.log(pub_date);
