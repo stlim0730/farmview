@@ -161,6 +161,11 @@
       // END MAP SETTINGS
 
       // START QUERY SETTINGS
+      var query_fields = '{{ query_fields }}';
+      for (var i = 0; i < query_fields.length; i++) {
+        query_fields = query_fields.replace('&#39;', '"');
+      }
+      query_fields = JSON.parse(query_fields);
       // var fields = [];
       // var values = [];
 
