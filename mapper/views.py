@@ -7,6 +7,9 @@ def index(request):
   survey_questions = list(SurveyQuestion.objects.all())
   query_fields = []
   for survey_question in survey_questions:
+    queryable = survey_question.queryable
+    if not queryable:
+      continue
     type = survey_question.type
     name = survey_question.name
     field = {

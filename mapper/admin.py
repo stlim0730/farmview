@@ -15,5 +15,6 @@ class SurveyQuestionResource(resources.ModelResource):
 
 class SurveyQuestionAdmin(ImportExportModelAdmin):
   resource_class = SurveyQuestionResource
+  list_display = ('id', 'name', 'type', 'queryable', 'label_english')
 
 admin.site.register(SurveyQuestion, SurveyQuestionAdmin)

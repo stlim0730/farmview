@@ -58,3 +58,12 @@
 #map {
   height: 100%;
 }
+
+#query-sidebar {
+  height: 100%;
+}
+
+#query-area {
+  height: 100%;
+  overflow-y: scroll;
+}

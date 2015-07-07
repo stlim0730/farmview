@@ -1,229 +1,190 @@
-{% load staticfiles %}
+{% extends "mapper/base.html" %}
 
-<!DOCTYPE html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <meta name='description' content='' />
-    <meta name='author' content='Seongtaek Lim' />
-    <!-- <link rel='shortcut icon' href='assets/ico/favicon.ico'> -->
+{% block index %}
 
-    <title>Farmview</title>
+  <section id='home-section' name='home-section'></section>
+  <div id='home-wrap'>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-md-6 col-md-offset-3'>
+          <h1>Farmview</h1>
+        </div>
+      </div><!--/row -->
+    </div><!--/container -->
+  </div><!--/home-wrap -->
 
-    <!-- Bootstrap core CSS -->
-    <link rel='stylesheet' href='{% static "mapper/css/bootstrap/bootstrap.css" %}' />
+  <section id='map-section' name='map-section'></section>
+  <div id='map-wrap'>
+    <div class='container-fluid'>
+      <div class='row'>
+        <div id='map' class='col-md-9'></div>
+        <!-- query boxes go here -->
+        <div id='query-sidebar' class='col-md-3'>
+          <div id='query-area' class='col-md-12'>
+          </div>
+          <!-- <div class='checkbox'>
+            <label>
+              <input id='zoning_query_chk' type='checkbox' />
+              Zoning Category
+            </label>
+            <select id='zoning_query_slct' class='form-control' disabled>
+              <option>-- Select --</option>
+              <option>CA</option>
+              <option>A</option>
+              <option>AP</option>
+              <option>RA</option>
+              <option>RR</option>
+              <option>R-1</option>
+              <option>RB</option>
+              <option>RM</option>
+              <option>PA</option>
+              <option>VA</option>
+              <option>CT</option>
+              <option>C-1</option>
+              <option>C-2</option>
+              <option>C-4</option>
+              <option>M-1</option>
+              <option>M-2</option>
+              <option>M-3</option>
+              <option>PR</option>
+              <option>PF</option>
+              <option>TP</option>
+              <option>SU</option>
+            </select>
+          </div>
+          <div class='checkbox'>
+            <label>
+              <input id='soil_query_chk' type='checkbox' />
+              Soil Type
+            </label>
+            <select id='soil_query_slct' class='form-control' disabled>
+              <option>-- Select --</option>
+              <option>P</option>
+              <option>S</option>
+              <option>U</option>
+              <option>L</option>
+              <option>G</option>
+              <option>D</option>
+              <option>X</option>
+              <option>W</option>
+            </select>
+          </div> -->
+          <br />
+          <button type='button' class='btn btn-primary btn-lg btn-block'>Submit</button>
+        </div><!--/ query-sidebar -->
+      </div><!--/row -->
+    </div><!--/container -->
+  </div><!--/map-wrap -->
 
-    <!-- Third-party CSS -->
-    <link rel='stylesheet' href='{% static "mapper/css/blacktie/studio.css" %}' />
-    <link rel='stylesheet' href='{% static "mapper/css/font-awesome/font-awesome.min.css" %}' />
-    <link rel='stylesheet' href='{% static "mapper/css/fancybox/jquery.fancybox.css" %}' />
-    <link rel='stylesheet' href='//libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css' />
+  <script>
+    // START TOGGLE MENU SETTINGS
+    $('#menuToggle, .menu-close').click(function (e) {
+      $('#menuToggle').toggleClass('active');
+      $('body').toggleClass('body-push-toleft');
+      $('#theMenu').toggleClass('menu-open');
+    });
 
-    <!-- Custom styles for this template -->
-    <link rel='stylesheet' href='{% static "mapper/css/style.css" %}' />
+    $('#theMenu a').click(function (e) {
+      $('i.menu-close').click();
+    });
+    // END TOGGLE MENU SETTINGS
+
+    // START MAP SETTINGS
+    var vis;
+    var layers;
+
+    var vizjson_url = '{{ admin_settings.vizjson_url }}';
+    var pub_date = '{{ admin_settings.pub_date }}';
+    var optional_note = '{{ admin_settings.optional_note }}';
     
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js'></script>
-      <script src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js'></script>
-    <![endif]-->
-  </head>
+    console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
+    console.log(pub_date);
+    if (optional_note)
+      console.log('Note: ' + optional_note);
 
-  <body data-spy='scroll' data-offset='0' data-target='#theMenu'>
+    cartodb.createVis('map', vizjson_url)
+    .done(function (_vis, _layers) {
+      vis = _vis;
+      layers = _layers;
+    });
+    // END MAP SETTINGS
 
-  	<!-- Menu -->
-  	<nav class='menu' id='theMenu'>
-  		<div class='menu-wrap'>
-  			<h1 class='logo'><a href='index.html#home-section'>Farmview</a></h1>
-  			<i class='fa fa-times menu-close'></i>
-  			<a href='#home-section' class='smoothScroll'>Home</a>
-  			<a href='#map-section' class='smoothScroll'>Map</a>
-        <a href='/admin' target='_blank'>Admin</a>
-        <a href='#' class='smoothScroll'>More to Come!</a>
-  			<!-- <a href='#'><i class='fa fa-envelope'></i></a> -->
-  		</div>
-  		<!-- Menu button -->
-  		<div id='menuToggle'><i class='fa fa-bars'></i></div>
-  	</nav>
+    // START QUERY SETTINGS
+    function get_query_ui(field_name, field_type, options) {
+      // console.log((i+1) + ' ' + field_name + ', ' + field_type);
+      var ui = $('<div id="' + field_name + '-query-ui" class="checkbox query-ui"></div>');
+      ui.append('<label>' + '<input id="' + field_name + '-input" type="checkbox" />' + field_name + '</label>');
+      return ui;
+    }
 
-  	<section id='home-section' name='home-section'></section>
-  	<div id='home-wrap'>
-  		<div class='container'>
-  			<div class='row'>
-  				<div class='col-md-6 col-md-offset-3'>
-  					<h1>Farmview</h1>
-  				</div>
-  			</div><!--/row -->
-  		</div><!--/container -->
-  	</div><!--/home-wrap -->
+    var query_fields = '{{ query_fields }}';
+    for (var i = 0; i < query_fields.length; i++) {
+      query_fields = query_fields.replace('&#39;', '"');
+    }
+    query_fields = JSON.parse(query_fields);
+    for (var i = query_fields.length - 1; i >= 0; i--) {
+      var ui = get_query_ui(query_fields[i].name, query_fields[i].type);
+      $('#query-area').append(ui);
+    }
+    
+    // var fields = [];
+    // var values = [];
 
-    <section id='map-section' name='map-section'></section>
-    <div id='map-wrap'>
-      <div class='container-fluid'>
-        <div class='row'>
-          <div id='map' class='col-md-10'></div>
-          <!-- query boxes go here -->
-          <div id='query-sidebar' class='col-md-2'>
-            <div class='checkbox'>
-              <label>
-                <input id='zoning_query_chk' type='checkbox' />
-                Zoning Category
-              </label>
-              <select id='zoning_query_slct' class='form-control' disabled>
-                <option>-- Select --</option>
-                <option>CA</option>
-                <option>A</option>
-                <option>AP</option>
-                <option>RA</option>
-                <option>RR</option>
-                <option>R-1</option>
-                <option>RB</option>
-                <option>RM</option>
-                <option>PA</option>
-                <option>VA</option>
-                <option>CT</option>
-                <option>C-1</option>
-                <option>C-2</option>
-                <option>C-4</option>
-                <option>M-1</option>
-                <option>M-2</option>
-                <option>M-3</option>
-                <option>PR</option>
-                <option>PF</option>
-                <option>TP</option>
-                <option>SU</option>
-              </select>
-            </div>
-            <div class='checkbox'>
-              <label>
-                <input id='soil_query_chk' type='checkbox' />
-                Soil Type
-              </label>
-              <select id='soil_query_slct' class='form-control' disabled>
-                <option>-- Select --</option>
-                <option>P</option>
-                <option>S</option>
-                <option>U</option>
-                <option>L</option>
-                <option>G</option>
-                <option>D</option>
-                <option>X</option>
-                <option>W</option>
-              </select>
-            </div>
-            <br />
-            <button type='button' class='btn btn-primary btn-lg btn-block'>Submit</button>
-          </div><!--/ query-sidebar -->
-        </div><!--/row -->
-      </div><!--/container -->
-    </div><!--/map-wrap -->
+    // $('#query-sidebar input[type=checkbox]').click(function (e) {
+    //   var field = $(this).attr('id').split('_')[0];
+    //   var checked = $(this).prop('checked');
+    //   var field_index = fields.indexOf(field);
 
-    <script src='{% static "mapper/js/jquery/jquery-1.11.3.min.js" %}'></script>
-    <script src='{% static "mapper/js/jquery.cookie/jquery.cookie.js" %}'></script>
-    <script src='{% static "mapper/js/bootstrap/bootstrap.min.js" %}'></script>
-    <script src='{% static "mapper/js/smoothscroll/smoothscroll.js" %}'></script>
-    <script src='{% static "mapper/js/fancybox/jquery.fancybox.js" %}'></script>
-    <script src='//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'></script>
-    <script src='{% static "mapper/js/index.js" %}'></script>
-  	<script>
-      // START TOGGLE MENU SETTINGS
-      $('#menuToggle, .menu-close').click(function (e) {
-        $('#menuToggle').toggleClass('active');
-        $('body').toggleClass('body-push-toleft');
-        $('#theMenu').toggleClass('menu-open');
-      });
+    //   if (checked) { // CHECK
+    //     if (field_index >= 0) { // EXISTING FIELD
+    //       fields.splice(field_index, 1); // REMOVE IT FIRST
+    //     }
+    //     fields.push(field); // PUSH IT
 
-      $('#theMenu a').click(function (e) {
-        $('i.menu-close').click();
-      });
-      // END TOGGLE MENU SETTINGS
+    //     // ENABLE QUERY VALUE OPTIONS
+    //     $(this).parent('label').parent('div').children('select').prop('disabled', false);
+    //   }
+    //   else { // UNCHECK
+    //     fields.splice(field_index, 1); // REMOVE THE FIELD
+    //     values.splice(field_index, 1); // REMOVE THE VALUE
 
-      // START MAP SETTINGS
-      var vis;
-      var layers;
+    //     // DISABLE QUERY VALUE OPTIONS
+    //     $(this).parent('label').parent('div').children('select').prop('disabled', true);
+    //   }
 
-      var vizjson_url = '{{ admin_settings.vizjson_url }}';
-      var pub_date = '{{ admin_settings.pub_date }}';
-      var optional_note = '{{ admin_settings.optional_note }}';
-      
-      console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
-      console.log(pub_date);
-      if (optional_note)
-        console.log('Note: ' + optional_note);
+    //   console.log(fields);
+    //   console.log(values);
+    // });
 
-      cartodb.createVis('map', vizjson_url)
-      .done(function (_vis, _layers) {
-        vis = _vis;
-        layers = _layers;
-      });
-      // END MAP SETTINGS
+    // $('#query-sidebar select').change(function (e) {
+    //   var field = $(this).attr('id').split('_')[0];
+    //   var value = $(this).val();
+    //   if (value == '-- Select --') return;
+    //   var field_index = fields.indexOf(field);
+    //   values.splice(field_index, 1, value);
 
-      // START QUERY SETTINGS
-      var query_fields = '{{ query_fields }}';
-      for (var i = 0; i < query_fields.length; i++) {
-        query_fields = query_fields.replace('&#39;', '"');
-      }
-      query_fields = JSON.parse(query_fields);
-      // var fields = [];
-      // var values = [];
+    //   console.log(fields);
+    //   console.log(values);
+    // });
 
-      // $('#query-sidebar input[type=checkbox]').click(function (e) {
-      //   var field = $(this).attr('id').split('_')[0];
-      //   var checked = $(this).prop('checked');
-      //   var field_index = fields.indexOf(field);
+    // TODO: SEND QUERY
+    // var sql = new cartodb.SQL({ user: 'cartodb_user' });
+    // sql.execute("SELECT * FROM table_name WHERE id > {{id}}", { id: 3 })
+    // .done(function(data) {
+    //   console.log(data.rows);
+    // })
+    // .error(function(errors) {
+    //   // errors contains a list of errors
+    //   console.log("errors:" + errors);
+    // });
+    // END QUERY SETTINGS
+    
+    // START
+    // $('#menuToggle').click();
+    // setTimeout(function () {
+    //   $('#menuToggle').click();
+    // }, 500);
+    // END
+  </script>
 
-      //   if (checked) { // CHECK
-      //     if (field_index >= 0) { // EXISTING FIELD
-      //       fields.splice(field_index, 1); // REMOVE IT FIRST
-      //     }
-      //     fields.push(field); // PUSH IT
-
-      //     // ENABLE QUERY VALUE OPTIONS
-      //     $(this).parent('label').parent('div').children('select').prop('disabled', false);
-      //   }
-      //   else { // UNCHECK
-      //     fields.splice(field_index, 1); // REMOVE THE FIELD
-      //     values.splice(field_index, 1); // REMOVE THE VALUE
-
-      //     // DISABLE QUERY VALUE OPTIONS
-      //     $(this).parent('label').parent('div').children('select').prop('disabled', true);
-      //   }
-
-      //   console.log(fields);
-      //   console.log(values);
-      // });
-
-      // $('#query-sidebar select').change(function (e) {
-      //   var field = $(this).attr('id').split('_')[0];
-      //   var value = $(this).val();
-      //   if (value == '-- Select --') return;
-      //   var field_index = fields.indexOf(field);
-      //   values.splice(field_index, 1, value);
-
-      //   console.log(fields);
-      //   console.log(values);
-      // });
-
-      // TODO: SEND QUERY
-      // var sql = new cartodb.SQL({ user: 'cartodb_user' });
-      // sql.execute("SELECT * FROM table_name WHERE id > {{id}}", { id: 3 })
-      // .done(function(data) {
-      //   console.log(data.rows);
-      // })
-      // .error(function(errors) {
-      //   // errors contains a list of errors
-      //   console.log("errors:" + errors);
-      // });
-      // END QUERY SETTINGS
-      
-      // START
-      // $('#menuToggle').click();
-      // setTimeout(function () {
-      //   $('#menuToggle').click();
-      // }, 500);
-      // END
-    </script>
-  </body>
-</html>
+{% endblock %}
