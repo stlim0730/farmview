@@ -11,22 +11,6 @@
     "label_english": "Consent",
     "label_espanol": "Consentimiento",
     "name": "consent",
-    "options": [
-      {
-        "image": "",
-        "label_english": "I accept, begin the survey",
-        "label_espanol": "Estoy de acuerdo, empieza la encuesta",
-        "list_name": "consent",
-        "name": "consentgiven"
-      },
-      {
-        "image": "",
-        "label_english": "I decline",
-        "label_espanol": "No estoy de acuerdo",
-        "list_name": "consent",
-        "name": "consentdeclined"
-      }
-    ],
     "relevant": "",
     "required": true,
     "type": "select_one"
@@ -59,22 +43,6 @@
     "label_english": "Are you using a mobile device?",
     "label_espanol": "\u00bfEsta usando un movil?",
     "name": "on_mobile",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "",
     "required": true,
     "type": "select_one"
@@ -91,29 +59,6 @@
     "label_english": "Choose an option for data entry",
     "label_espanol": "Elige una opci\u00f3n de recolecci\u00f3n de datos",
     "name": "session_desc",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Farmland site visit",
-        "label_espanol": "Visita  a un sitio",
-        "list_name": "session",
-        "name": "site_visit"
-      },
-      {
-        "image": "",
-        "label_english": "Farmland listing",
-        "label_espanol": "Entrando un terreno para rentar",
-        "list_name": "session",
-        "name": "land_listing"
-      },
-      {
-        "image": "",
-        "label_english": "Description of an existing farm operation",
-        "label_espanol": "Descripci\u00f3n de un rancho existante",
-        "list_name": "session",
-        "name": "exisiting_ranch"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -130,43 +75,6 @@
     "label_english": "Choose a profile",
     "label_espanol": "Elige un perfil",
     "name": "respondant_type2",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Property owner of agricultural land",
-        "label_espanol": "Due\u00f1o de Terreno",
-        "list_name": "actor",
-        "name": "has_land"
-      },
-      {
-        "image": "",
-        "label_english": "Owner-operator: currently farming on property you own",
-        "label_espanol": "Agricultor que tambi\u00e9n es deu\u00f1o",
-        "list_name": "actor",
-        "name": "farmer_owns_land"
-      },
-      {
-        "image": "",
-        "label_english": "Farmer who rents land for their farm operation",
-        "label_espanol": "Rentador de terrenos",
-        "list_name": "actor",
-        "name": "currently_leasing"
-      },
-      {
-        "image": "",
-        "label_english": "Seeking land to lease or own for farming",
-        "label_espanol": "Agricultor buscando para terrenos",
-        "list_name": "actor",
-        "name": "land_seeking"
-      },
-      {
-        "image": "",
-        "label_english": "Non profit, government employee, or other actor in the food system, working on agricultural issues",
-        "label_espanol": "Empleado ONG, o del gobiernio que trata con temas agr\u00edcolas",
-        "list_name": "actor",
-        "name": "ag_professional"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -199,22 +107,6 @@
     "label_english": "Would you like to enter contact information?",
     "label_espanol": "\u00bfTiene inter\u00e9s en dejar sus contactos?",
     "name": "contacts_entered",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -295,29 +187,6 @@
     "label_english": "What county is the land in?",
     "label_espanol": "\u00bfCu\u00e1l es el condado del terreno?",
     "name": "land_county",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Monterey",
-        "label_espanol": "Monterey",
-        "list_name": "counties",
-        "name": "monterey"
-      },
-      {
-        "image": "",
-        "label_english": "Santa Cruz",
-        "label_espanol": "Santa Cruz",
-        "list_name": "counties",
-        "name": "santa_cruz"
-      },
-      {
-        "image": "",
-        "label_english": "San Benito",
-        "label_espanol": "San Benito",
-        "list_name": "counties",
-        "name": "san_benito"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -446,64 +315,6 @@
     "label_english": "What current farming is going on the parcel?",
     "label_espanol": "\u00bfQue tipo de agricultura hay en el terreno?",
     "name": "farming_practices",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Certified Organic",
-        "label_espanol": "Organico, certificado",
-        "list_name": "farmingpractices",
-        "name": "organic"
-      },
-      {
-        "image": "",
-        "label_english": "Conventional",
-        "label_espanol": "Convencional",
-        "list_name": "farmingpractices",
-        "name": "conventional"
-      },
-      {
-        "image": "",
-        "label_english": "Organic, but without certification",
-        "label_espanol": "Organico, pero sin una certificaci\u00f3n",
-        "list_name": "farmingpractices",
-        "name": "nospray"
-      },
-      {
-        "image": "",
-        "label_english": "Some Organic, Some Conventional",
-        "label_espanol": "Parte, Org\u00e1nico, parte convencional",
-        "list_name": "farmingpractices",
-        "name": "mixed"
-      },
-      {
-        "image": "",
-        "label_english": "Transitioning to Organic",
-        "label_espanol": "En transici\u00f3n a org\u00e1nico",
-        "list_name": "farmingpractices",
-        "name": "transitioning"
-      },
-      {
-        "image": "",
-        "label_english": "Just Livestock",
-        "label_espanol": "Solo ganado",
-        "list_name": "farmingpractices",
-        "name": "livestock_only"
-      },
-      {
-        "image": "",
-        "label_english": "Fallow",
-        "label_espanol": "En barbecho",
-        "list_name": "farmingpractices",
-        "name": "fallow"
-      },
-      {
-        "image": "",
-        "label_english": "Some Livestock, Some Crops",
-        "label_espanol": "Parte ganado, parte cultivos",
-        "list_name": "farmingpractices",
-        "name": "livestock_and_crops"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -520,29 +331,6 @@
     "label_english": "How long has it been fallow?",
     "label_espanol": "\u00bfPor cu\u00e1nto tiempo ha estado en barbecho?",
     "name": "fallowtime",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Less than 1 year",
-        "label_espanol": "Menos que un a\u00f1o",
-        "list_name": "fallowtime",
-        "name": "1"
-      },
-      {
-        "image": "",
-        "label_english": "1 to 3 years",
-        "label_espanol": "Entre 1 y 3 a\u00f1os",
-        "list_name": "fallowtime",
-        "name": "2"
-      },
-      {
-        "image": "",
-        "label_english": "Greater than 3 years",
-        "label_espanol": "M\u00e1s que 3 a\u00f1os",
-        "list_name": "fallowtime",
-        "name": "3"
-      }
-    ],
     "relevant": "selected(${farming_practices}, 'fallow')",
     "required": false,
     "type": "select_one"
@@ -559,64 +347,6 @@
     "label_english": "If any, which crops / products were previously grown?",
     "label_espanol": "\u00bfCu\u00e1les cultivos fueron cultivado previamente?",
     "name": "previousfarming",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Row crops, vegetables",
-        "label_espanol": "verduras",
-        "list_name": "landhistory",
-        "name": "rowcrops"
-      },
-      {
-        "image": "",
-        "label_english": "Strawberries",
-        "label_espanol": "fresa",
-        "list_name": "landhistory",
-        "name": "strawberries"
-      },
-      {
-        "image": "",
-        "label_english": "Raspberries",
-        "label_espanol": "mora",
-        "list_name": "landhistory",
-        "name": "raspberries"
-      },
-      {
-        "image": "",
-        "label_english": "Tomatoes",
-        "label_espanol": "jitomate",
-        "list_name": "landhistory",
-        "name": "tomatoes"
-      },
-      {
-        "image": "",
-        "label_english": "Potatoes",
-        "label_espanol": "papa",
-        "list_name": "landhistory",
-        "name": "potatoes"
-      },
-      {
-        "image": "",
-        "label_english": "Flowers",
-        "label_espanol": "flores",
-        "list_name": "landhistory",
-        "name": "flowers"
-      },
-      {
-        "image": "",
-        "label_english": "No farming history",
-        "label_espanol": "no hab\u00eda agricultura prevamente",
-        "list_name": "landhistory",
-        "name": "no_farming"
-      },
-      {
-        "image": "",
-        "label_english": "Unknown",
-        "label_espanol": "desconocido",
-        "list_name": "landhistory",
-        "name": "unknown"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -633,22 +363,6 @@
     "label_english": "Is the land fenced?",
     "label_espanol": "\u00bfEl terreno est\u00e1 encercado?",
     "name": "fence_status",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -665,43 +379,6 @@
     "label_english": "What is the soil texture?",
     "label_espanol": "\u00bfCu\u00e1l es el tipo de suelo?",
     "name": "soil_type",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Very light (sand)",
-        "label_espanol": "Muy ligero (arena)",
-        "list_name": "soiltype",
-        "name": "sand"
-      },
-      {
-        "image": "",
-        "label_english": "Somewhat light (sandy loam)",
-        "label_espanol": "Ligero (sandy loam)",
-        "list_name": "soiltype",
-        "name": "sandyloam"
-      },
-      {
-        "image": "",
-        "label_english": "Medium (loam)",
-        "label_espanol": "Mediana (loam)",
-        "list_name": "soiltype",
-        "name": "loam"
-      },
-      {
-        "image": "",
-        "label_english": "Somewhat heavy (clay loam)",
-        "label_espanol": "Pesado (clay loam)",
-        "list_name": "soiltype",
-        "name": "calyloam"
-      },
-      {
-        "image": "",
-        "label_english": "Heavy (clay)",
-        "label_espanol": "Muy pesado (arcilla)",
-        "list_name": "soiltype",
-        "name": "clay"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -750,43 +427,6 @@
     "label_english": "What has been the weed management strategy on the property?",
     "label_espanol": "\u00bfC\u00f3mo est\u00e1 la presencia de maleza?",
     "name": "weed_mgmt",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Clean cultivation",
-        "label_espanol": "Cultivaci\u00f3n limpio",
-        "list_name": "qualscaleweed",
-        "name": "clean_cult"
-      },
-      {
-        "image": "",
-        "label_english": "Dry summer fallow",
-        "label_espanol": "En barbecho durante el verano",
-        "list_name": "qualscaleweed",
-        "name": "summer_fallow"
-      },
-      {
-        "image": "",
-        "label_english": "Cover Cropping",
-        "label_espanol": "Cultivos de cobertura",
-        "list_name": "qualscaleweed",
-        "name": "cover_cropping"
-      },
-      {
-        "image": "",
-        "label_english": "Invasive present",
-        "label_espanol": "Hay Invasivos",
-        "list_name": "qualscaleweed",
-        "name": "invasives"
-      },
-      {
-        "image": "",
-        "label_english": "Unknown",
-        "label_espanol": "Desconocido",
-        "list_name": "qualscaleweed",
-        "name": "unknown"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -819,29 +459,6 @@
     "label_english": "Does the land owner live on site?",
     "label_espanol": "\u00bfD\u00f3nde permanece el due\u00f1o de la propiedad?",
     "name": "land_owner_lives_where",
-    "options": [
-      {
-        "image": "",
-        "label_english": "The land owner lives on this property",
-        "label_espanol": "El due\u00f1o vive en un acasa ubicado en la parcela",
-        "list_name": "landownerlocation",
-        "name": "lives_on_property"
-      },
-      {
-        "image": "",
-        "label_english": "The land owner lives somewhere else",
-        "label_espanol": "El due\u00f1o vive en otro parte",
-        "list_name": "landownerlocation",
-        "name": "lives_elsewhere"
-      },
-      {
-        "image": "",
-        "label_english": "I don't know if the land owner lives on site",
-        "label_espanol": "No s\u00e9 si el due\u00f1o vive en la parcela",
-        "list_name": "landownerlocation",
-        "name": "unknown"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -874,43 +491,6 @@
     "label_english": "What types of building or infrastructure is on the property?",
     "label_espanol": "\u00bfQ\u00fae tipos de edificios est\u00e1n establecidos en la propiedad?",
     "name": "infrastructure",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Housing",
-        "label_espanol": "Casa",
-        "list_name": "infrastructure",
-        "name": "housing"
-      },
-      {
-        "image": "",
-        "label_english": "GreenHouse",
-        "label_espanol": "Invernadero",
-        "list_name": "infrastructure",
-        "name": "greenhouse"
-      },
-      {
-        "image": "",
-        "label_english": "Garage",
-        "label_espanol": "Garaje",
-        "list_name": "infrastructure",
-        "name": "garage"
-      },
-      {
-        "image": "",
-        "label_english": "Barn",
-        "label_espanol": "Granero",
-        "list_name": "infrastructure",
-        "name": "barn"
-      },
-      {
-        "image": "",
-        "label_english": "Cooler",
-        "label_espanol": "Cooler",
-        "list_name": "infrastructure",
-        "name": "cooler"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -927,50 +507,6 @@
     "label_english": "How are the neighboring properties being used?",
     "label_espanol": "\u00bfC\u00f3mo est\u00e1n utilizando las propiedades vecinas?",
     "name": "neighbors",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Farming",
-        "label_espanol": "Agricultura",
-        "list_name": "neighbors",
-        "name": "farming"
-      },
-      {
-        "image": "",
-        "label_english": "Residential",
-        "label_espanol": "Casas",
-        "list_name": "neighbors",
-        "name": "residential"
-      },
-      {
-        "image": "",
-        "label_english": "Commercial",
-        "label_espanol": "Commercial",
-        "list_name": "neighbors",
-        "name": "commerical"
-      },
-      {
-        "image": "",
-        "label_english": "Public",
-        "label_espanol": "P\u00fablico",
-        "list_name": "neighbors",
-        "name": "public"
-      },
-      {
-        "image": "",
-        "label_english": "Natural habitat",
-        "label_espanol": "Terreno silvestre",
-        "list_name": "neighbors",
-        "name": "habitat"
-      },
-      {
-        "image": "",
-        "label_english": "Not Sure",
-        "label_espanol": "No s\u00e9",
-        "list_name": "neighbors",
-        "name": "unknown"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -987,36 +523,6 @@
     "label_english": "What type of farming?",
     "label_espanol": "\u00bfQ\u00fae tipo de agricultura?",
     "name": "neighboringfarm",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Conventional",
-        "label_espanol": "Convencional",
-        "list_name": "neighborstatus",
-        "name": "conventional"
-      },
-      {
-        "image": "",
-        "label_english": "Certified organic",
-        "label_espanol": "Org\u00e1nico, certificado",
-        "list_name": "neighborstatus",
-        "name": "certified_organic"
-      },
-      {
-        "image": "",
-        "label_english": "Fallow",
-        "label_espanol": "En barbecho",
-        "list_name": "neighborstatus",
-        "name": "fallow"
-      },
-      {
-        "image": "",
-        "label_english": "Not sure",
-        "label_espanol": "No s\u00e9",
-        "list_name": "neighborstatus",
-        "name": "unknown"
-      }
-    ],
     "relevant": "selected(${neighbors}, 'farming')",
     "required": false,
     "type": "select_one"
@@ -1129,43 +635,6 @@
     "label_english": "What is the water source?",
     "label_espanol": "\u00bfC\u00faal es el fuente de agua?",
     "name": "water_source",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Well on site",
-        "label_espanol": "Pozo en la propiedad",
-        "list_name": "watersource",
-        "name": "wellonsite"
-      },
-      {
-        "image": "",
-        "label_english": "Well off site",
-        "label_espanol": "Pozo afuera de la propiedad",
-        "list_name": "watersource",
-        "name": "welloffsite"
-      },
-      {
-        "image": "",
-        "label_english": "County Water",
-        "label_espanol": "Agua del condado",
-        "list_name": "watersource",
-        "name": "countywater"
-      },
-      {
-        "image": "",
-        "label_english": "Residential",
-        "label_espanol": "Agua solo para la casa",
-        "list_name": "watersource",
-        "name": "residential"
-      },
-      {
-        "image": "",
-        "label_english": "Unknown",
-        "label_espanol": "Desconocido",
-        "list_name": "watersource",
-        "name": "unknown"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -1182,36 +651,6 @@
     "label_english": "What water infrastructure is there in place?",
     "label_espanol": "\u00bfQ\u00fae tipos de infrastructuras de regar ya hay?",
     "name": "water_infrastructure",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Sprinklers",
-        "label_espanol": "Regadera",
-        "list_name": "waterinfrastructure",
-        "name": "sprinklers"
-      },
-      {
-        "image": "",
-        "label_english": "Drip tape",
-        "label_espanol": "Cinta",
-        "list_name": "waterinfrastructure",
-        "name": "tape"
-      },
-      {
-        "image": "",
-        "label_english": "Mainline",
-        "label_espanol": "L\u00ednea central ya instalada",
-        "list_name": "waterinfrastructure",
-        "name": "mainline"
-      },
-      {
-        "image": "",
-        "label_english": "Infrastructure needed",
-        "label_espanol": "Falta de la infrastructura ",
-        "list_name": "waterinfrastructure",
-        "name": "investment_needed"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -1228,29 +667,6 @@
     "label_english": "What investment is needed?",
     "label_espanol": "\u00bfC\u00faal nivel de inversi\u00f3n se requiere?",
     "name": "water_investment",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Low Investment, infrastructure present ",
-        "label_espanol": "Inversi\u00f3n minimo",
-        "list_name": "qualscalewaterinvestment",
-        "name": "Low "
-      },
-      {
-        "image": "",
-        "label_english": "Medium, some investment needed",
-        "label_espanol": "Mediana, algunas inversi\u00f3nes necesarias ",
-        "list_name": "qualscalewaterinvestment",
-        "name": "Medium"
-      },
-      {
-        "image": "",
-        "label_english": "High, lots of investment needed",
-        "label_espanol": "Alto, inversiones grandes necesarias",
-        "list_name": "qualscalewaterinvestment",
-        "name": "High"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -1331,29 +747,6 @@
     "label_english": "How is the well permited?",
     "label_espanol": "\u00bfC\u00f3mo est\u00e1 el pozo permitida?",
     "name": "Irrigation_permit",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Agriculture",
-        "label_espanol": "Agricultura",
-        "list_name": "waterpermitstatus",
-        "name": "Agriculture"
-      },
-      {
-        "image": "",
-        "label_english": "Residential",
-        "label_espanol": "Residencial",
-        "list_name": "waterpermitstatus",
-        "name": "Residential"
-      },
-      {
-        "image": "",
-        "label_english": "Unknown",
-        "label_espanol": "Desconocido",
-        "list_name": "waterpermitstatus",
-        "name": "Unknown"
-      }
-    ],
     "relevant": "selected(${water_source}, 'wellonsite') or selected(${water_source}, 'welloffsite')",
     "required": false,
     "type": "select_one"
@@ -1402,29 +795,6 @@
     "label_english": "Who pays for water?",
     "label_espanol": "\u00bfQui\u00e9n paga por el agua?",
     "name": "water_payment",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Owner pays ",
-        "label_espanol": "Due\u00f1o paga",
-        "list_name": "waterpayment",
-        "name": "ownerpays"
-      },
-      {
-        "image": "",
-        "label_english": "Farmer pays ",
-        "label_espanol": "Agricultor paga",
-        "list_name": "waterpayment",
-        "name": "farmerpays"
-      },
-      {
-        "image": "",
-        "label_english": "Shared costs",
-        "label_espanol": "gastos compartidos",
-        "list_name": "waterpayment",
-        "name": "costshare"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -1473,29 +843,6 @@
     "label_english": "Is part or all of this property available for rent or purchase?",
     "label_espanol": "\u00bfEs parte o todo de la parcela disponible para rentar o comprar? ",
     "name": "land_availability",
-    "options": [
-      {
-        "image": "",
-        "label_english": "The whole property is available",
-        "label_espanol": "La parcela entera esta disponible",
-        "list_name": "land_availability",
-        "name": "whole_farm_available"
-      },
-      {
-        "image": "",
-        "label_english": "Part of the property is available",
-        "label_espanol": "Parte de la parcela esta disponible",
-        "list_name": "land_availability",
-        "name": "part_of_farm_available"
-      },
-      {
-        "image": "",
-        "label_english": "The property isn't available",
-        "label_espanol": "Ningun parte de la parcela esta disponible",
-        "list_name": "land_availability",
-        "name": "no_land_availalble"
-      }
-    ],
     "relevant": "selected(${session_desc}, 'land_listing') or selected(${session_desc}, 'site_visit')",
     "required": false,
     "type": "select_one"
@@ -1528,50 +875,6 @@
     "label_english": "Possible tenure arrangement",
     "label_espanol": "\u00bfTipo de contrato de arrendimineto?",
     "name": "tenure_arrangement_offered",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Short term lease",
-        "label_espanol": "Contrato de corto plazo",
-        "list_name": "leasetype",
-        "name": "short_term"
-      },
-      {
-        "image": "",
-        "label_english": "Long term lease",
-        "label_espanol": "Contrato de largo plazo",
-        "list_name": "leasetype",
-        "name": "long_term"
-      },
-      {
-        "image": "",
-        "label_english": "Crop Share",
-        "label_espanol": "Compartir de ingresos",
-        "list_name": "leasetype",
-        "name": "crop_share"
-      },
-      {
-        "image": "",
-        "label_english": "Partnership",
-        "label_espanol": "Socios",
-        "list_name": "leasetype",
-        "name": "partnership"
-      },
-      {
-        "image": "",
-        "label_english": "Work to own",
-        "label_espanol": "Trabaje a opc\u00edon a compra ",
-        "list_name": "leasetype",
-        "name": "worktoown"
-      },
-      {
-        "image": "",
-        "label_english": "Farm Manage",
-        "label_espanol": "Manejo del rancho",
-        "list_name": "leasetype",
-        "name": "farmmanage"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -1588,22 +891,6 @@
     "label_english": "Agricultural Easement on the property?",
     "label_espanol": "\u00bfHay un servidumbre agr\u00edcola?",
     "name": "Ageasment",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -1620,50 +907,6 @@
     "label_english": "Which livestock are allowed?",
     "label_espanol": "\u00bfQue tipos de gando son permitido?",
     "name": "livestock_allowed",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Cows",
-        "label_espanol": "Res",
-        "list_name": "livestock",
-        "name": "cows"
-      },
-      {
-        "image": "",
-        "label_english": "Chickens",
-        "label_espanol": "Gallinas",
-        "list_name": "livestock",
-        "name": "chickens"
-      },
-      {
-        "image": "",
-        "label_english": "Goats",
-        "label_espanol": "Cabras",
-        "list_name": "livestock",
-        "name": "goats"
-      },
-      {
-        "image": "",
-        "label_english": "Sheep",
-        "label_espanol": "Ovejas",
-        "list_name": "livestock",
-        "name": "sheep"
-      },
-      {
-        "image": "",
-        "label_english": "Any of the Above",
-        "label_espanol": "Todos",
-        "list_name": "livestock",
-        "name": "any"
-      },
-      {
-        "image": "",
-        "label_english": "None",
-        "label_espanol": "Ninguna",
-        "list_name": "livestock",
-        "name": "none"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_multiple"
@@ -1696,64 +939,6 @@
     "label_english": "What farming do you want to do on the parcel?",
     "label_espanol": "\u00bfQu\u00e9 tipo de agricultura quiere realizar en el terreno?",
     "name": "desired_practices",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Certified Organic",
-        "label_espanol": "Organico, certificado",
-        "list_name": "farmingpractices",
-        "name": "organic"
-      },
-      {
-        "image": "",
-        "label_english": "Conventional",
-        "label_espanol": "Convencional",
-        "list_name": "farmingpractices",
-        "name": "conventional"
-      },
-      {
-        "image": "",
-        "label_english": "Organic, but without certification",
-        "label_espanol": "Organico, pero sin una certificaci\u00f3n",
-        "list_name": "farmingpractices",
-        "name": "nospray"
-      },
-      {
-        "image": "",
-        "label_english": "Some Organic, Some Conventional",
-        "label_espanol": "Parte, Org\u00e1nico, parte convencional",
-        "list_name": "farmingpractices",
-        "name": "mixed"
-      },
-      {
-        "image": "",
-        "label_english": "Transitioning to Organic",
-        "label_espanol": "En transici\u00f3n a org\u00e1nico",
-        "list_name": "farmingpractices",
-        "name": "transitioning"
-      },
-      {
-        "image": "",
-        "label_english": "Just Livestock",
-        "label_espanol": "Solo ganado",
-        "list_name": "farmingpractices",
-        "name": "livestock_only"
-      },
-      {
-        "image": "",
-        "label_english": "Fallow",
-        "label_espanol": "En barbecho",
-        "list_name": "farmingpractices",
-        "name": "fallow"
-      },
-      {
-        "image": "",
-        "label_english": "Some Livestock, Some Crops",
-        "label_espanol": "Parte ganado, parte cultivos",
-        "list_name": "farmingpractices",
-        "name": "livestock_and_crops"
-      }
-    ],
     "relevant": "selected(${respondant_type2}, 'land_seeking')",
     "required": false,
     "type": "select_multiple"
@@ -1770,22 +955,6 @@
     "label_english": "Is there on site equipment available to rent?",
     "label_espanol": "\u00bfHay equipamentos disbonibles a rentar?",
     "name": "equipment_available",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"
@@ -1882,22 +1051,6 @@
     "label_english": "Is this land listing for land managed by a land trust?",
     "label_espanol": "\u00bfEste terreno est\u00e1 manejado por una organizaci\u00f3n?",
     "name": "landtrust",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "selected(${session_desc}, 'land_listing')",
     "required": false,
     "type": "select_one"
@@ -2026,22 +1179,6 @@
     "label_english": "Would you need a loan to rent and operate this property?",
     "label_espanol": "\u00bfnecesitar\u00edas un prestamos a rentar la parcela?",
     "name": "loan_potential",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "${respondant_type2} = 'land_seeking'",
     "required": false,
     "type": "select_one"
@@ -2058,22 +1195,6 @@
     "label_english": "Did you take out a loan to operate this property?",
     "label_espanol": "\u00bfRealiz\u00f3 un pr\u00e9stamo a utilice su terreno actual?",
     "name": "loan_needed",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "${respondant_type2} = 'currently_leasing' or 'farmer_owns_land'",
     "required": false,
     "type": "select_one"
@@ -2218,50 +1339,6 @@
     "label_english": "What type of lease are you operating?",
     "label_espanol": "\u00bfQu\u00e9 tipo de contrato de arrendimiento \u00e9sta operando?",
     "name": "lease_current_op",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Short term lease",
-        "label_espanol": "Contrato de corto plazo",
-        "list_name": "leasetype",
-        "name": "short_term"
-      },
-      {
-        "image": "",
-        "label_english": "Long term lease",
-        "label_espanol": "Contrato de largo plazo",
-        "list_name": "leasetype",
-        "name": "long_term"
-      },
-      {
-        "image": "",
-        "label_english": "Crop Share",
-        "label_espanol": "Compartir de ingresos",
-        "list_name": "leasetype",
-        "name": "crop_share"
-      },
-      {
-        "image": "",
-        "label_english": "Partnership",
-        "label_espanol": "Socios",
-        "list_name": "leasetype",
-        "name": "partnership"
-      },
-      {
-        "image": "",
-        "label_english": "Work to own",
-        "label_espanol": "Trabaje a opc\u00edon a compra ",
-        "list_name": "leasetype",
-        "name": "worktoown"
-      },
-      {
-        "image": "",
-        "label_english": "Farm Manage",
-        "label_espanol": "Manejo del rancho",
-        "list_name": "leasetype",
-        "name": "farmmanage"
-      }
-    ],
     "relevant": "selected(${respondant_type2}, 'land_seeking') or selected(${respondant_type2}, 'currently_leasing')",
     "required": false,
     "type": "select_one"
@@ -2278,22 +1355,6 @@
     "label_english": "Are you connected with any farm advocacy organizations?",
     "label_espanol": "\u00bfEst\u00e1 vinculado con alguna organizaci\u00f3n social relacionado con agricultura?",
     "name": "orgs",
-    "options": [
-      {
-        "image": "",
-        "label_english": "Yes",
-        "label_espanol": "S\u00ed",
-        "list_name": "yes_no",
-        "name": "yes"
-      },
-      {
-        "image": "",
-        "label_english": "No",
-        "label_espanol": "No",
-        "list_name": "yes_no",
-        "name": "no"
-      }
-    ],
     "relevant": "",
     "required": false,
     "type": "select_one"

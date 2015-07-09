@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import AdminSetting
+from .models import Config
 from .models import SurveyQuestion
 
 def index(request):
-  admin_settings = AdminSetting.objects.order_by('-pub_date')[0]
+  admin_settings = Config.objects.order_by('-pub_date')[0]
   survey_questions = list(SurveyQuestion.objects.all())
   query_fields = []
   for survey_question in survey_questions:

@@ -1,13 +1,14 @@
 from django.contrib import admin
 from import_export import resources
-from .models import AdminSetting
+from .models import Config
 from .models import SurveyQuestion
+from .models import SurveyChoice
 from import_export.admin import ImportExportModelAdmin
 
-class AdminSettingMA(admin.ModelAdmin):
+class ConfigAdmin(admin.ModelAdmin):
   list_display = ('pub_date', 'vizjson_url', 'optional_note')
 
-admin.site.register(AdminSetting, AdminSettingMA)
+admin.site.register(Config, ConfigAdmin)
 
 class SurveyQuestionResource(resources.ModelResource):
   class Meta:
@@ -28,3 +29,13 @@ class SurveyQuestionAdmin(ImportExportModelAdmin):
   actions = [make_queryable, make_not_queryable]
 
 admin.site.register(SurveyQuestion, SurveyQuestionAdmin)
+
+class SurveyChoiceResource(resources.ModelResource):
+  class Meta:
+    model = SurveyChoice
+
+class SurveyChoiceAdmin(ImportExportModelAdmin):
+  resource_class = SurveyChoiceResource
+  list_display = ('id', 'question', 'list_name', 'name', 'label_english')
+
+admin.site.register(SurveyChoice, SurveyChoiceAdmin)
