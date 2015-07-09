@@ -114,6 +114,52 @@
       // console.log((i+1) + ' ' + field_name + ', ' + field_type);
       var ui = $('<div id="' + field_name + '-query-ui" class="checkbox query-ui"></div>');
       ui.append('<label>' + '<input id="' + field_name + '-input" type="checkbox" />' + field_name + '</label>');
+      var elem;
+      switch (field_type) {
+        // TEXT
+        case 'text':
+        break;
+
+        // SELECT
+        case 'select_one':
+        if (options) {
+          elem = $('<select id="' + field_name + '-elem" class="form-control" disabled>');
+        }
+        break;
+
+        // CHECKBOX
+        case 'select_multiple':
+        break;
+
+        // NUMBER
+        case 'decimal':
+        case 'integer':
+        break;
+
+        // DATE
+        case 'date':
+        case 'today':
+        break;
+
+        // YOU DON'T WANT TO QUERY USING THESE FIELD TYPES
+        case 'photo':
+        case 'audio':
+        case 'imei':
+        case 'phonenumber':
+        case 'start':
+        case 'end':
+        case 'geoshape':
+        case 'geopoint':
+        break;
+
+        // ANYTHING ELSE?
+        default:
+        console.log('I don\'t know how to query ' + field_type);
+        break;
+      }
+
+      ui.append(elem);
+
       return ui;
     }
 
@@ -122,11 +168,11 @@
       query_fields = query_fields.replace('&#39;', '"');
     }
     query_fields = JSON.parse(query_fields);
-    for (var i = query_fields.length - 1; i >= 0; i--) {
+    for (var i = 0; i < query_fields.length; i++) {
       var ui = get_query_ui(query_fields[i].name, query_fields[i].type);
       $('#query-area').append(ui);
     }
-    
+
     // var fields = [];
     // var values = [];
 
