@@ -120,22 +120,21 @@
     }
 
     function get_query_ui(q, c) {
-      console.log(c);
       var ui = $('<div id="' + q.q_name + '-query-ui" class="checkbox query-ui"></div>');
-      ui.append('<label>' + '<input id="' + q.q_name + '-chkbox" type="checkbox" />' + q.q_name + '</label>');
+      ui.append('<label>' + '<input id="' + q.q_name + '-chkbox" type="checkbox" class="query-group"/>' + q.q_name + '</label>');
       
       var operand;
       switch (q.q_type) {
         // TEXT
         case 'text':
-        operand = $('<input id="' + q.q_name + '-operand" type="text" class="form-control" placeholder="' + q.q_name + '" disabled />');
+        operand = $('<input id="' + q.q_name + '-operand" type="text" class="form-control operand-ui" placeholder="' + q.q_name + '" disabled />');
         break;
 
         // SELECT
         case 'select_one':
         if (c.length > 0) {
-          operand = $('<select id="' + q.q_name + '-operand" class="form-control" disabled />');
-          operand.append('<option>- Selct One -</option>');
+          operand = $('<select id="' + q.q_name + '-operand" class="form-control operand-ui" disabled />');
+          operand.append('<option>- Select One -</option>');
           for (var i = 0; i < c.length; i++) {
             var option = $('<option>' + c[i].c_label_english + '</option>');
             operand.append(option);
@@ -145,7 +144,11 @@
 
         // CHECKBOX
         case 'select_multiple':
-        //
+        operand = $('<div id="' + q.q_name + '-operand" class="checkbox disabled" />');
+        for (var i = 0; i < c.length; i++) {
+          var option = $('<label><input type="checkbox" value="" class="operand-ui" disabled>' + c[i].c_label_english + '</label><br/>');
+          operand.append(option);
+        }
         break;
 
         // NUMBER
@@ -199,31 +202,44 @@
     // var fields = [];
     // var values = [];
 
-    // $('#query-sidebar input[type=checkbox]').click(function (e) {
-    //   var field = $(this).attr('id').split('_')[0];
-    //   var checked = $(this).prop('checked');
-    //   var field_index = fields.indexOf(field);
+    $('#query-area input[type=checkbox].query-group').click(function (e) {
+      // var idstr = $(this).attr('id');
+      // var field = idstr.split('-')[0];
+      var checked = $(this).prop('checked');
+      // var field_index = fields.indexOf(field);
 
-    //   if (checked) { // CHECK
-    //     if (field_index >= 0) { // EXISTING FIELD
-    //       fields.splice(field_index, 1); // REMOVE IT FIRST
-    //     }
-    //     fields.push(field); // PUSH IT
+      if (checked) { // CHECK
+        // if (field_index >= 0) { // EXISTING FIELD
+        //   fields.splice(field_index, 1); // REMOVE IT FIRST
+        // }
+        // fields.push(field); // PUSH IT
 
-    //     // ENABLE QUERY VALUE OPTIONS
-    //     $(this).parent('label').parent('div').children('select').prop('disabled', false);
-    //   }
-    //   else { // UNCHECK
-    //     fields.splice(field_index, 1); // REMOVE THE FIELD
-    //     values.splice(field_index, 1); // REMOVE THE VALUE
+        // ENABLE OPERAND UI
+        $(this).parent('label').parent('div').find('.operand-ui').prop('disabled', false);
+        $(this).parent('label').parent('div').find('.operand-ui').removeClass('disabled');
 
-    //     // DISABLE QUERY VALUE OPTIONS
-    //     $(this).parent('label').parent('div').children('select').prop('disabled', true);
-    //   }
+        // PUSH EXISTING VALUE OPTIONS, IF ANY
+        // var existing_single_val = $(this).parent('label').parent('div').find('.operand-ui').val();
+        // if (existing_single_val && existing_single_val != '- Select One -') {
+        //   console.log('existing ' + existing_single_val);
+        //   values.push(existing_single_val);
+        // }
+        // else {
+        //   alert($(this).parent('label').parent('div').find('.operand-ui').attr('id'));
+        // }
+      }
+      else { // UNCHECK
+        // fields.splice(field_index, 1); // REMOVE THE FIELD
+        // values.splice(field_index, 1); // REMOVE THE VALUE
 
-    //   console.log(fields);
-    //   console.log(values);
-    // });
+        // DISABLE QUERY VALUE OPTIONS
+        $(this).parent('label').parent('div').find('.operand-ui').prop('disabled', true);
+        $(this).parent('label').parent('div').find('.operand-ui').addClass('disabled');
+      }
+
+      // console.log(fields);
+      // console.log(values);
+    });
 
     // $('#query-sidebar select').change(function (e) {
     //   var field = $(this).attr('id').split('_')[0];
