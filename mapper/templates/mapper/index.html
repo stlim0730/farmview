@@ -20,7 +20,7 @@
         <div id='map' class='col-md-9'></div>
         <!-- query boxes go here -->
         <div id='query-sidebar' class='col-md-3'>
-          <div id='query-area' class='col-md-12'>
+          <div id='query-area' class='form-group col-md-12'>
           </div>
           <!-- <div class='checkbox'>
             <label>
@@ -93,10 +93,9 @@
     var vis;
     var layers;
 
-    var vizjson_url = '{{ admin_settings.vizjson_url }}';
-    var pub_date = '{{ admin_settings.pub_date }}';
-    var optional_note = '{{ admin_settings.optional_note }}';
-    
+    var vizjson_url = '{{ config.vizjson_url }}';
+    var pub_date = '{{ config.pub_date }}';
+    var optional_note = '{{ config.optional_note }}';
     console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
     console.log(pub_date);
     if (optional_note)
@@ -110,25 +109,43 @@
     // END MAP SETTINGS
 
     // START QUERY SETTINGS
-    function get_query_ui(field_name, field_type, options) {
-      // console.log((i+1) + ' ' + field_name + ', ' + field_type);
-      var ui = $('<div id="' + field_name + '-query-ui" class="checkbox query-ui"></div>');
-      ui.append('<label>' + '<input id="' + field_name + '-input" type="checkbox" />' + field_name + '</label>');
-      var elem;
-      switch (field_type) {
+    function my_deserializer(str_arr) {
+      var arr = [];
+      for (var i = 0; i < str_arr.length; i++) {
+        str_arr = str_arr.replace('&#39;', '"');
+        str_arr = str_arr.replace('u"', '"'); // FOR UNICODE SUPPORT
+      }
+      arr = JSON.parse(str_arr);
+      return arr;
+    }
+
+    function get_query_ui(q, c) {
+      console.log(c);
+      var ui = $('<div id="' + q.q_name + '-query-ui" class="checkbox query-ui"></div>');
+      ui.append('<label>' + '<input id="' + q.q_name + '-chkbox" type="checkbox" />' + q.q_name + '</label>');
+      
+      var operand;
+      switch (q.q_type) {
         // TEXT
         case 'text':
+        operand = $('<input id="' + q.q_name + '-operand" type="text" class="form-control" placeholder="' + q.q_name + '" disabled />');
         break;
 
         // SELECT
         case 'select_one':
-        if (options) {
-          elem = $('<select id="' + field_name + '-elem" class="form-control" disabled>');
+        if (c.length > 0) {
+          operand = $('<select id="' + q.q_name + '-operand" class="form-control" disabled />');
+          operand.append('<option>- Selct One -</option>');
+          for (var i = 0; i < c.length; i++) {
+            var option = $('<option>' + c[i].c_label_english + '</option>');
+            operand.append(option);
+          }
         }
         break;
 
         // CHECKBOX
         case 'select_multiple':
+        //
         break;
 
         // NUMBER
@@ -154,22 +171,28 @@
 
         // ANYTHING ELSE?
         default:
-        console.log('I don\'t know how to query ' + field_type);
+        console.log('I don\'t know how to query ' + q.q_type);
         break;
       }
 
-      ui.append(elem);
+      ui.append(operand);
 
       return ui;
     }
 
-    var query_fields = '{{ query_fields }}';
-    for (var i = 0; i < query_fields.length; i++) {
-      query_fields = query_fields.replace('&#39;', '"');
-    }
-    query_fields = JSON.parse(query_fields);
-    for (var i = 0; i < query_fields.length; i++) {
-      var ui = get_query_ui(query_fields[i].name, query_fields[i].type);
+    var q_data = my_deserializer('{{ q_data }}');
+    var c_data = my_deserializer('{{ c_data }}');
+    for (var i = 0; i<q_data.length; i++) {
+      var question = q_data[i];
+      var choices = [];
+      for (var j=0; j<c_data.length; j++) {
+        var choice = c_data[j];
+        if (choice.q_name == question.q_name) {
+          choices.push(choice);
+        }
+      }
+
+      var ui = get_query_ui(question, choices);
       $('#query-area').append(ui);
     }
 
