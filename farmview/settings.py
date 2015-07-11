@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'farmview.wsgi.application'
 DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'farmview',
-    'USER': 'farmview',
-    'PASSWORD': 'farmviewdb',
-    'HOST': '127.0.0.1',
+    'NAME': 'd4tj4urol6fqf1',
+    'USER': 'hjgblmqzztzppf',
+    'PASSWORD': 'tTtTEE2HPi7BNZXPhyji6Nxlkv',
+    'HOST': 'ec2-54-225-134-223.compute-1.amazonaws.com',
     'PORT': '5432'
   }
 }
@@ -108,8 +108,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+# import dj_database_url
+# DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
