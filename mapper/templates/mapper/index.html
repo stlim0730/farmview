@@ -22,53 +22,6 @@
         <div id='query-sidebar' class='col-md-3'>
           <div id='query-area' class='form-group col-md-12'>
           </div>
-          <!-- <div class='checkbox'>
-            <label>
-              <input id='zoning_query_chk' type='checkbox' />
-              Zoning Category
-            </label>
-            <select id='zoning_query_slct' class='form-control' disabled>
-              <option>-- Select --</option>
-              <option>CA</option>
-              <option>A</option>
-              <option>AP</option>
-              <option>RA</option>
-              <option>RR</option>
-              <option>R-1</option>
-              <option>RB</option>
-              <option>RM</option>
-              <option>PA</option>
-              <option>VA</option>
-              <option>CT</option>
-              <option>C-1</option>
-              <option>C-2</option>
-              <option>C-4</option>
-              <option>M-1</option>
-              <option>M-2</option>
-              <option>M-3</option>
-              <option>PR</option>
-              <option>PF</option>
-              <option>TP</option>
-              <option>SU</option>
-            </select>
-          </div>
-          <div class='checkbox'>
-            <label>
-              <input id='soil_query_chk' type='checkbox' />
-              Soil Type
-            </label>
-            <select id='soil_query_slct' class='form-control' disabled>
-              <option>-- Select --</option>
-              <option>P</option>
-              <option>S</option>
-              <option>U</option>
-              <option>L</option>
-              <option>G</option>
-              <option>D</option>
-              <option>X</option>
-              <option>W</option>
-            </select>
-          </div> -->
           <br />
           <button id='submit-button' type='button' class='btn btn-primary btn-lg btn-block'>Submit</button>
         </div><!--/ query-sidebar -->
@@ -101,10 +54,35 @@
     if (optional_note)
       console.log('Note: ' + optional_note);
 
-    cartodb.createVis('map', vizjson_url)
+    var cartodb_options = {
+      layer_selector: false,
+      shareable: false,
+      title: false,
+      description: false,
+      search: true,
+      zoomControl: true,
+      loaderControl: true,
+      center_lat: 36.9719,
+      center_lon: -122.0264,
+      zoom: 11,
+      cartodb_logo: false,
+      infowindow: true,
+      time_slider: false,
+      layer_selector: false,
+      legends: true,
+      https: true,
+      scrollwheel: true,
+      fullscreen: false,
+      mobile_layout: true,
+      force_mobile: false
+      // gmaps_base_type: 'roadmap',
+      // gmaps_style: null,
+      // no_cdn: false
+    };
+    cartodb.createVis('map', vizjson_url, cartodb_options)
     .done(function (_vis, _layers) {
       vis = _vis;
-      layers = _layers;
+      layers = _layers; // layers[0] is a torque layer where we don't have much control.
     });
     // END MAP SETTINGS
 
