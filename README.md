@@ -34,7 +34,7 @@ python converter.py question_inputfile.csv choice_inputfile.csv question_outputf
 ```
 python manage.py runserver
 ```
-- If you're using UNIX systems including Mac OS X, you may use this shortcut.
+- If you're using one of UNIX systems including Mac OS X, you may use this shortcut.
 ```
 ./run
 ```
