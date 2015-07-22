@@ -57,4 +57,4 @@ python manage.py runserver
 
 ###Survey Choices
 - Currently, there's nothing to do in this panel. Use this panel for reference.
-- If the panel is empty, import the converted question JSON file.
+- If the panel is empty, import the converted choice JSON file.
