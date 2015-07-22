@@ -43,6 +43,7 @@ python manage.py runserver
 ##Admin Panel
 - To access the admin panel of the software, you may click `Admin` on the sidebar menu or go to http://127.0.0.1:8000/admin
 - Log in with your admin account.
+- *Note that the changes you make here will directly affect both your local instance and the remote instance on the production server.*
 
 ###Basic Configurations
 - Under `Mapper` section, click `Configs`.
