@@ -13,6 +13,23 @@
     </div><!--/container -->
   </div><!--/home-wrap -->
 
+  <script type='infowindow/html' id='infowindow_template'>
+    <div class='cartodb-popup'>
+      <a href='#close' class='cartodb-popup-close-button close'>x</a>
+       <div class='cartodb-popup-content-wrapper'>
+         <div class='cartodb-popup-header'>
+           <img style='width: 100%' src='http://cartodb.com/assets/logos/logos_full_cartodb_light.png'></src>
+         </div>
+         <div class='cartodb-popup-content'>
+           <!-- content.data contains the field info -->
+           <h4>City: </h4>
+           <!-- <p>content.data.name</p> -->
+         </div>
+       </div>
+       <div class='cartodb-popup-tip-container'></div>
+    </div>
+  </script><!-- /infowindow_template -->
+
   <section id='map-section' name='map-section'></section>
   <div id='map-wrap'>
     <div class='container-fluid'>
@@ -43,6 +60,7 @@
     // END TOGGLE MENU SETTINGS
 
     // START MAP SETTINGS
+    var map;
     var vis;
     var layers;
 
@@ -79,11 +97,37 @@
       // gmaps_style: null,
       // no_cdn: false
     };
-    cartodb.createVis('map', vizjson_url, cartodb_options)
-    .done(function (_vis, _layers) {
-      vis = _vis;
-      layers = _layers; // layers[0] is a torque layer where we don't have much control.
+    
+    // START FROM-THE-SCRATCH
+    // cartodb.createVis('map', vizjson_url, cartodb_options)
+    // .done(function (_vis, _layers) {
+    //   vis = _vis;
+    //   layers = _layers; // layers[0] is a torque layer where we don't have much control.
+    // });
+    map = new L.Map('map', {
+      center: [36.9719, -122.0264],
+      zoom: 11
     });
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: 'Mapbox <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>',
+      maxZoom: 18,
+      id: 'stlim.n5ao08a6',
+      accessToken: 'pk.eyJ1Ijoic3RsaW0iLCJhIjoiYTdlYjEwODZiMGM1NWE3ZTc0ZDM1ZGVhODJhOTg2OWQifQ.XNtb-GJD5Tdd5j1-rnxaKw'
+    }).addTo(map);
+
+    cartodb.createLayer(map, vizjson_url)
+      .addTo(map)
+      .on('done', function (layer) {
+        // var sublayer = layer.getSubLayer(0);
+        // sublayer.infowindow.set('template', $('#infowindow_template').html());
+        cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['cartodb_id']);
+      })
+      .on('error', function() {
+        //log the error
+      });
+    // END FROM-THE-SCRATCH
+
     // END MAP SETTINGS
 
     // START QUERY SETTINGS
