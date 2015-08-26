@@ -13,15 +13,15 @@
     <title>Farmview</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel='stylesheet' href='{% static "index/css/bootstrap.min.css" %}' />
+    <link rel='stylesheet' href='{% static "map/css/bootstrap.min.css" %}' />
     <!-- Third-party CSS -->
     <link rel='stylesheet' href='//libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css' />
     <!-- Custom styles for this template -->
-    <link rel='stylesheet' href='{% static "index/css/style.css" %}' />
+    <link rel='stylesheet' href='{% static "map/css/style.css" %}' />
     
     <!-- Scripts -->
-    <script src='{% static "index/js/jquery/jquery-1.11.3.min.js" %}'></script>
-    <script src='{% static "index/js/bootstrap/bootstrap.min.js" %}'></script>
+    <script src='{% static "map/js/jquery/jquery-1.11.3.min.js" %}'></script>
+    <script src='{% static "map/js/bootstrap/bootstrap.min.js" %}'></script>
     <script src='//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'></script>
   </head>
 
@@ -41,8 +41,8 @@
 
         <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-2'>
           <ul class='nav navbar-nav'>
-            <li class='active'><a href='/'>Home</a></li>
-            <li><a href='/map'>Map</a></li>
+            <li><a href='/'>Home</a></li>
+            <li class='active'><a href='/map'>Map</a></li>
           </ul>
           <ul class='nav navbar-nav navbar-right'>
             <li><a href='/admin' target='_blank'>Admin</a></li>
@@ -53,7 +53,7 @@
 
     <div class='container-fluid'>
 
-      {% block index %}{% endblock %}
+      {% block map %}{% endblock %}
 
     </div><!-- /container -->
 

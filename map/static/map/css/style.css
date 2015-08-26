@@ -1,0 +1,24 @@
+html, body {
+  height: 100%;
+}
+
+.container-fluid {
+  height: 85%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.height-90 {
+  height: 90%;
+  margin-bottom: 20px;
+}
+
+#map {
+  
+}
+
+.query-ui {
+  
+}

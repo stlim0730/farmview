@@ -1,0 +1,194 @@
+{% extends "map/base.html" %}
+
+{% block map %}
+
+  <div class='row height-90'>
+    <div class='col-md-12 full-height'>
+      <div id='map' class='col-md-12 full-height'>
+      </div>
+    </div>
+  </div>
+
+  <div class='row well'>
+    <div id='query-area' class='form-group col-md-12'>
+      &nbsp;
+    </div>
+  </div>
+
+
+  
+  <script>
+    // var map;
+    var vis;
+    var layers;
+
+    // START LOADING CONFIG FROM DATABASE
+    var vizjson_url = '{{ config.vizjson_url }}';
+    var pub_date = '{{ config.pub_date }}';
+    var optional_note = '{{ config.optional_note }}';
+    console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
+    console.log(pub_date);
+    if (optional_note)
+      console.log('Note: ' + optional_note);
+    // END LOADING CONFIG FROM DATABASE
+
+    // START SETTING CartoDB
+    var cartodb_options = {
+      layer_selector: false, shareable: false, title: false, description: false,
+      search: true, zoomControl: true, loaderControl: true, center_lat: 36.9719,
+      center_lon: -122.0264, zoom: 11, cartodb_logo: false, infowindow: true,
+      time_slider: false, layer_selector: false, legends: true, https: true,
+      scrollwheel: false, fullscreen: true, mobile_layout: true, force_mobile: false
+      // gmaps_base_type: 'roadmap',
+      // gmaps_style: null,
+      // no_cdn: false
+    };
+
+    cartodb.createVis('map', vizjson_url, cartodb_options)
+    .done(function (_vis, _layers) {
+      vis = _vis;
+      layers = _layers; // layers[0] is a torque layer where we don't have much control.
+    });
+    // END SETTING CartoDB
+
+    // START QUERY UI SETTINGS
+    function my_deserializer(str_arr) {
+      var arr = [];
+      for (var i = 0; i < str_arr.length; i++) {
+        str_arr = str_arr.replace('&#39;', '"');
+        str_arr = str_arr.replace('u"', '"'); // FOR UNICODE SUPPORT
+      }
+      arr = JSON.parse(str_arr);
+      return arr;
+    }
+
+    function get_query_ui(q, c) {
+      var ui = $('<div id="' + q.q_name + '-query-ui" class="checkbox query-ui col-md-3"></div>');
+      ui.append('<label>' + '<input id="' + q.q_name + '-chkbox" type="checkbox" class="query-group"/>' + q.q_name + '</label>');
+      
+      var operand;
+      switch (q.q_type) {
+        // TEXT
+        case 'text':
+        operand = $('<input id="' + q.q_name + '-operand" type="text" class="form-control operand-ui col-md-3" placeholder="' + q.q_name + '" disabled />');
+        break;
+
+        // SELECT
+        case 'select_one':
+        if (c.length > 0) {
+          operand = $('<select id="' + q.q_name + '-operand" class="form-control operand-ui col-md-3" disabled />');
+          operand.append('<option>- Select One -</option>');
+          for (var i = 0; i < c.length; i++) {
+            var option = $('<option>' + c[i].c_label_english + '</option>');
+            operand.append(option);
+          }
+        }
+        break;
+
+        // CHECKBOX
+        case 'select_multiple':
+        operand = $('<div id="' + q.q_name + '-operand" class="checkbox disabled col-md-3" />');
+        for (var i = 0; i < c.length; i++) {
+          var option = $('<label><input type="checkbox" value="" class="operand-ui" disabled>' + c[i].c_label_english + '</label><br/>');
+          operand.append(option);
+        }
+        break;
+
+        // NUMBER
+        case 'decimal':
+        case 'integer':
+        break;
+
+        // DATE
+        case 'date':
+        case 'today':
+        break;
+
+        // YOU DON'T WANT TO QUERY USING THESE FIELD TYPES
+        case 'photo':
+        case 'audio':
+        case 'imei':
+        case 'phonenumber':
+        case 'start':
+        case 'end':
+        case 'geoshape':
+        case 'geopoint':
+        break;
+
+        // ANYTHING ELSE?
+        default:
+        console.log('I don\'t know how to query ' + q.q_type);
+        break;
+      }
+
+      ui.append(operand);
+
+      return ui;
+    }
+
+    var q_data = my_deserializer('{{ q_data }}');
+    var c_data = my_deserializer('{{ c_data }}');
+    for (var i = 0; i < q_data.length; i++) {
+      var question = q_data[i];
+      var choices = [];
+      for (var j=0; j < c_data.length; j++) {
+        var choice = c_data[j];
+        if (choice.q_name == question.q_name) {
+          choices.push(choice);
+        }
+      }
+
+      var ui = get_query_ui(question, choices);
+      $('#query-area').append(ui);
+    }
+
+    $('#query-area input[type=checkbox].query-group').click(function (e) {
+      // var idstr = $(this).attr('id');
+      // var field = idstr.split('-')[0];
+      var checked = $(this).prop('checked');
+      // var field_index = fields.indexOf(field);
+
+      if (checked) { // CHECK
+        // if (field_index >= 0) { // EXISTING FIELD
+        //   fields.splice(field_index, 1); // REMOVE IT FIRST
+        // }
+        // fields.push(field); // PUSH IT
+
+        // ENABLE OPERAND UI
+        $(this).parent('label').parent('div').find('.operand-ui').prop('disabled', false);
+        $(this).parent('label').parent('div').find('.operand-ui').removeClass('disabled');
+
+        // PUSH EXISTING VALUE OPTIONS, IF ANY
+        // var existing_single_val = $(this).parent('label').parent('div').find('.operand-ui').val();
+        // if (existing_single_val && existing_single_val != '- Select One -') {
+        //   console.log('existing ' + existing_single_val);
+        //   values.push(existing_single_val);
+        // }
+        // else {
+        //   alert($(this).parent('label').parent('div').find('.operand-ui').attr('id'));
+        // }
+      }
+      else { // UNCHECK
+        // fields.splice(field_index, 1); // REMOVE THE FIELD
+        // values.splice(field_index, 1); // REMOVE THE VALUE
+
+        // DISABLE QUERY VALUE OPTIONS
+        $(this).parent('label').parent('div').find('.operand-ui').prop('disabled', true);
+        $(this).parent('label').parent('div').find('.operand-ui').addClass('disabled');
+      }
+
+      // console.log(fields);
+      // console.log(values);
+    });
+
+    // $('#submit-button').click(function (e) {
+      // COLLECT FIELD NAME
+
+      // COLLECT OPERAND VALUE
+
+      // SUBMIT
+    // });
+    // END QUERY UI SETTINGS
+
+  </script>
+{% endblock %}
