@@ -1,0 +1,12 @@
+<div id='{{q.q_name}}-query' class='checkbox query-ui col-md-3'>
+  <label>
+    <input id='{{q.q_name}}-checkbox' type='checkbox' class='query-group' />{{q.q_name}}
+  </label>
+  <!-- <input id='{{q.q_name}}-input' type='text' class='form-control operand-ui col-md-3' placeholder='{{q.q_name}}' disabled /> -->
+  <select id='{{q.q_name}}-input' class='form-control operand-ui col-md-2' disabled>
+    <option>- Select One -</option>
+    {% for choice in q.choices %}
+      <option>{{choice.c_label_english}}</option>
+    {% endfor %}
+  </select>
+</div>

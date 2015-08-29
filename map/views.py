@@ -22,6 +22,8 @@ def map(request):
     }
     q_data.append(q_obj)
     choices = list(SurveyChoice.objects.filter(question=q_id))
+    if len(choices) > 0:
+      q_obj['choices'] = []
     for choice in choices:
       c_id = choice.id
       q_name = choice.question
@@ -37,10 +39,11 @@ def map(request):
         'c_label_english': str(c_label_english),
         'c_label_espanol': unicode(c_label_espanol)
       }
-      c_data.append(c_obj)
+      # c_data.append(c_obj)
+      q_obj['choices'].append(c_obj)
   context = {
     'config': config,
-    'q_data': q_data,
-    'c_data': c_data
+    'q_data': q_data#,
+    # 'c_data': c_data
   }
   return render(request, 'map/map.html', context)

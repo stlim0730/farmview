@@ -8,14 +8,16 @@
       </div>
     </div>
   </div>
-
+  
   <div class='row well'>
     <div id='query-area' class='form-group col-md-12'>
-      &nbsp;
+      {% for q in q_data %}
+        {% with template_file_name=q.q_type|stringformat:"s"|add:"_query_ui.html" %}
+          {% include "map/partials/"|add:template_file_name with q_obj=q %}
+        {% endwith %}
+      {% endfor %}
     </div>
   </div>
-
-
   
   <script>
     // var map;
@@ -88,10 +90,12 @@
         // CHECKBOX
         case 'select_multiple':
         operand = $('<div id="' + q.q_name + '-operand" class="checkbox disabled col-md-3" />');
+        var popup = $('<div id="' + q.q_name + '-popup" class="checkbox-popup col-md-3 operand-ui disabled hidden" />')
         for (var i = 0; i < c.length; i++) {
           var option = $('<label><input type="checkbox" value="" class="operand-ui" disabled>' + c[i].c_label_english + '</label><br/>');
-          operand.append(option);
+          popup.append(option);
         }
+        operand.append(popup);
         break;
 
         // NUMBER
@@ -126,21 +130,22 @@
       return ui;
     }
 
-    var q_data = my_deserializer('{{ q_data }}');
-    var c_data = my_deserializer('{{ c_data }}');
-    for (var i = 0; i < q_data.length; i++) {
-      var question = q_data[i];
-      var choices = [];
-      for (var j=0; j < c_data.length; j++) {
-        var choice = c_data[j];
-        if (choice.q_name == question.q_name) {
-          choices.push(choice);
-        }
-      }
+    // var q_data = my_deserializer('{{ q_data }}');
+    // var c_data = my_deserializer('{{ c_data }}');
+    // for (var i = 0; i < q_data.length; i++) {
+      // console.log(q_data[i]);
+      // var question = q_data[i];
+      // var choices = [];
+      // for (var j=0; j < c_data.length; j++) {
+      //   var choice = c_data[j];
+      //   if (choice.q_name == question.q_name) {
+      //     choices.push(choice);
+      //   }
+      // }
 
-      var ui = get_query_ui(question, choices);
-      $('#query-area').append(ui);
-    }
+      // var ui = get_query_ui(question, choices);
+      // $('#query-area').append(ui);
+    // }
 
     $('#query-area input[type=checkbox].query-group').click(function (e) {
       // var idstr = $(this).attr('id');
@@ -156,7 +161,10 @@
 
         // ENABLE OPERAND UI
         $(this).parent('label').parent('div').find('.operand-ui').prop('disabled', false);
+        $(this).parent('label').parent('div').find('input.output-only').prop('disabled', true);
         $(this).parent('label').parent('div').find('.operand-ui').removeClass('disabled');
+        $($(this).parent('label').parent('div').find('.operand-ui.modal')[0]).modal('show');
+        // console.log($($(this).parent('label').parent('div').find('.operand-ui .modal')[0]));
 
         // PUSH EXISTING VALUE OPTIONS, IF ANY
         // var existing_single_val = $(this).parent('label').parent('div').find('.operand-ui').val();

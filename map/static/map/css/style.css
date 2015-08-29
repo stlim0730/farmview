@@ -22,3 +22,8 @@ html, body {
 .query-ui {
   
 }
+
+.radio+.radio.query-ui, .checkbox+.checkbox.query-ui {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
