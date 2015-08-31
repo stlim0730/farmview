@@ -20,7 +20,6 @@
   </div>
   
   <script>
-    // var map;
     var vis;
     var layers;
 
@@ -50,6 +49,13 @@
     .done(function (_vis, _layers) {
       vis = _vis;
       layers = _layers; // layers[0] is a torque layer where we don't have much control.
+
+      // START DYNAMIC ELEMENTS ON INFO WINDOW
+      $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
+        var apn = $(this).attr('data-apn');
+        // $($(this).parent('label').parent('div').find('.operand-ui.modal')[0]).modal('show');
+      });
+      // END DYNAMIC ELEMENTS ON INFO WINDOW
     });
     // END SETTING CartoDB
 
@@ -127,23 +133,6 @@
       return ui;
     }
 
-    // var q_data = my_deserializer('{{ q_data }}');
-    // var c_data = my_deserializer('{{ c_data }}');
-    // for (var i = 0; i < q_data.length; i++) {
-      // console.log(q_data[i]);
-      // var question = q_data[i];
-      // var choices = [];
-      // for (var j=0; j < c_data.length; j++) {
-      //   var choice = c_data[j];
-      //   if (choice.q_name == question.q_name) {
-      //     choices.push(choice);
-      //   }
-      // }
-
-      // var ui = get_query_ui(question, choices);
-      // $('#query-area').append(ui);
-    // }
-
     $('#query-area input[type=checkbox].query-group').click(function (e) {
       // var idstr = $(this).attr('id');
       // var field = idstr.split('-')[0];
@@ -185,7 +174,7 @@
       // console.log(fields);
       // console.log(values);
     });
-
+    
     // $('#submit-button').click(function (e) {
       // COLLECT FIELD NAME
 
@@ -194,6 +183,5 @@
       // SUBMIT
     // });
     // END QUERY UI SETTINGS
-
   </script>
 {% endblock %}
