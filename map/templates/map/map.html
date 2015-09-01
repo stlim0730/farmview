@@ -19,6 +19,8 @@
     </div>
   </div>
   
+  {% include "map/partials/detail_page.html" with q_obj=q %}
+
   <script>
     var vis;
     var layers;
@@ -52,8 +54,35 @@
 
       // START DYNAMIC ELEMENTS ON INFO WINDOW
       $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
+        // GET DATA FROM CARTODB
         var apn = $(this).attr('data-apn');
-        // $($(this).parent('label').parent('div').find('.operand-ui.modal')[0]).modal('show');
+        // NOTE: THE QUERY STRING BELOW HAS TO USE SINGLE QUOTE BUT NOT DOUBLE!
+        var query_str = "select * from central_coast_joined where apn = '" + apn + "'";
+        $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
+          console.log(data);
+          
+          // SET THE DETAIL PAGE WITH THE SELECTED PARCEL
+          $('.data-field').html('N/A');
+          if (data.rows.length > 0) {
+            var parcel_record = data.rows[0];
+            var apn = parcel_record.apn || 'N/A';
+            var acres = parcel_record.acres || 'N/A';
+            var site_full = parcel_record.site_full || 'N/A';
+            var county = parcel_record.county || 'N/A';
+            var soil_type = parcel_record.soil_type || 'N/A';
+            var zone_type = parcel_record.zone_type || 'N/A';
+
+            $('#apn-field').html(apn);
+            $('#acres-field').html(acres);
+            $('#site_full-field').html(site_full);
+            $('#county-field').html(county);
+            $('#soil_type-field').html(soil_type);
+            $('#zone_type-field').html(zone_type);
+          }
+
+          // SHOW THE POPUP
+          $('#detail-page').modal('show');
+        });
       });
       // END DYNAMIC ELEMENTS ON INFO WINDOW
     });

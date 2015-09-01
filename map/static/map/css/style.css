@@ -35,3 +35,11 @@ html, body {
 p.info-window-custom-paragraph {
   text-align: center;
 }
+
+.data-label {
+  margin-left: 20px;
+}
+
+.data-field {
+  margin-left: 45px;
+}
