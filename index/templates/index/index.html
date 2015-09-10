@@ -6,7 +6,7 @@
     <div class='page-header col-sm-12 col-md-8 col-md-offset-2'>
       <div class='jumbotron'>
         <h1>Farmview</h1>
-        <p class='lead'>(Any short description of the application?)</p>
+        <p class='lead'>Explore public data about farmland in the California Central Coast</p>
         <p><a href='/map' class='btn btn-primary btn-lg'>Go to map</a></p>
       </div>
     </div>
@@ -22,7 +22,7 @@
             <div class='panel {{ notice.notice_type }}'>
               <div class='panel-heading'>{{ notice.title }}</div>
               <div class='panel-body'>
-                {{ notice.content }}
+                {{ notice.content|safe }}
               </div>
             </div>
           </div>
