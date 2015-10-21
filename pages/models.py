@@ -22,3 +22,9 @@ class Notice(models.Model):
 
   def __unicode__(self):
     return unicode(self.title)
+
+class AboutPage(models.Model):
+  html = models.TextField(blank=True)
+
+  def __unicode__(self):
+    return unicode(self.html)
