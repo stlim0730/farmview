@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'index',
     'map',
-    'mapper',
     'import_export'
 )
 
