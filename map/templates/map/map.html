@@ -225,7 +225,7 @@
           query_clauses.push(query_clause);
         }
       }
-      console.log(query_clauses);
+      // console.log(query_clauses);
 
       // CONSTRUCT A QUERY STRING
       var query_str = 'select * from central_coast_joined where';
@@ -244,13 +244,24 @@
         clause_str += ')';
         query_str += clause_str;
       }
-      console.log(query_str);
+      // console.log(query_str);
 
       // SUBMIT
       if (query_str == 'select * from central_coast_joined where') return;
-      $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
-        console.log(data);
-      });
+      var subLayerOptions = {
+        sql: query_str
+      };
+
+      // console.log(vis.getLayers());
+      // var layer = vis.getLayers()[1];
+
+      vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+      // console.log(layer.getLayerCount());
+      // sublayer.set(subLayerOptions);
+
+      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
+      //   console.log(data);
+      // });
     });
 
     $('#query-reset').click(function (e) {
@@ -261,6 +272,11 @@
           query_ui.click();
         }
       }
+      var query_str = 'select * from central_coast_joined';
+      vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
+      //   console.log(data);
+      // });
     });
     // END QUERY UI SETTINGS
   </script>
