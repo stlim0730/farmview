@@ -18,6 +18,12 @@
       {% endfor %}
     </div>
   </div>
+  <div class='row'>
+    <div class='form-group col-md-offset-10 col-md-2'>
+      <button id='query-reset' class='btn btn-default'>Reset</button>
+      <button id='query-submit' class='btn btn-primary'>Submit</button>
+    </div>
+  </div>
   
   {% include "map/partials/detail_page.html" with q_obj=q %}
 
@@ -57,7 +63,7 @@
         // GET DATA FROM CARTODB
         var apn = $(this).attr('data-apn');
         // NOTE: THE QUERY STRINGS HAVE TO USE SINGLE QUOTE BUT NOT DOUBLE!
-        var query_str = "select * from central_coast_joined where apn = '" + apn + "'";
+        var query_str = 'select * from central_coast_joined where apn = \'' + apn + '\'';
         $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
           console.log(data);
           
@@ -163,50 +169,26 @@
     // }
 
     $('#query-area input[type=checkbox].query-group').click(function (e) {
-      // var idstr = $(this).attr('id');
-      // var field = idstr.split('-')[0];
       var checked = $(this).prop('checked');
-      // var field_index = fields.indexOf(field);
 
       if (checked) { // CHECK
-        // if (field_index >= 0) { // EXISTING FIELD
-        //   fields.splice(field_index, 1); // REMOVE IT FIRST
-        // }
-        // fields.push(field); // PUSH IT
-
         // ENABLE OPERAND UI
         $(this).parent('label').parent('div').find('.operand-ui').prop('disabled', false);
         $(this).parent('label').parent('div').find('input.output-only').prop('disabled', true);
         $(this).parent('label').parent('div').find('.operand-ui').removeClass('disabled');
         $($(this).parent('label').parent('div').find('.operand-ui.modal')[0]).modal('show');
-        // console.log($($(this).parent('label').parent('div').find('.operand-ui .modal')[0]));
-
-        // PUSH EXISTING VALUE OPTIONS, IF ANY
-        // var existing_single_val = $(this).parent('label').parent('div').find('.operand-ui').val();
-        // if (existing_single_val && existing_single_val != '- Select One -') {
-        //   console.log('existing ' + existing_single_val);
-        //   values.push(existing_single_val);
-        // }
-        // else {
-        //   alert($(this).parent('label').parent('div').find('.operand-ui').attr('id'));
-        // }
       }
       else { // UNCHECK
-        // fields.splice(field_index, 1); // REMOVE THE FIELD
-        // values.splice(field_index, 1); // REMOVE THE VALUE
-
         // DISABLE QUERY VALUE OPTIONS
         $(this).parent('label').parent('div').find('.operand-ui').prop('disabled', true);
         $(this).parent('label').parent('div').find('.operand-ui').addClass('disabled');
       }
-
-      // console.log(fields);
-      // console.log(values);
     });
     
+    // APPLYING MULTIPLE SELECTION
     $('button.apply-selection').click(function (e) {
       var query_ui_id = $(this).closest('div.query-ui').attr('id');
-      var field_name = query_ui_id.substring(0, query_ui_id.length - 6);
+      var field_name = query_ui_id.substring(0, query_ui_id.length - '-query'.length);
       var vals = [];
       var modal_content = $(this).closest('div.modal-content');
       var checkboxes = modal_content.find('input[type=checkbox].operand-ui');
@@ -216,18 +198,70 @@
           vals.push(checkbox.value);
         }
       }
-      var val_str = vals.join(', ');
+      var val_str = vals.join(); // JOIN WITH COMMA BY DEFAULT
       $('#' + field_name + '-input').val(val_str);
       $('button.close').click();
     });
 
-    // $('#submit-button').click(function (e) {
-      // COLLECT FIELD NAME
+    $('#query-submit').click(function (e) {
+      // COLLECT FIELD NAMES AND OPERANDS
+      var query_clauses = [];
+      var query_uis = $('.query-group');
+      for (var i = 0; i < query_uis.length; i++) {
+        var query_ui = $(query_uis[i]);
+        var query_ui_id = query_ui.attr('id');
+        var field_name = query_ui_id.substring(0, query_ui_id.length - '-checkbox'.length);
+        if (query_ui.prop('checked')) {
+          var query_input = $('#' + field_name + '-input');
+          var values = query_input.val().split(',');
+          
+          // SKIPPING QUERIES WITHOUT VALUES SPECIFIED
+          if (values.indexOf('') >= 0) continue;
 
-      // COLLECT OPERAND VALUE
+          var query_clause = {
+            field: field_name,
+            values: values
+          };
+          query_clauses.push(query_clause);
+        }
+      }
+      console.log(query_clauses);
+
+      // CONSTRUCT A QUERY STRING
+      var query_str = 'select * from central_coast_joined where';
+      for (var i = 0; i < query_clauses.length; i++) {
+        var query_clause = query_clauses[i];
+        var clause_str = ' (';
+        if (i >= 1) clause_str = ' and (';
+        for (var j = 0; j < query_clause.values.length; j++) {
+          if (j >= 1) {
+            clause_str += ' or ';
+          }
+          clause_str += query_clause.field + ' = \'';
+          clause_str += query_clause.values[j];
+          clause_str += '\'';
+        }
+        clause_str += ')';
+        query_str += clause_str;
+      }
+      console.log(query_str);
 
       // SUBMIT
-    // });
+      if (query_str == 'select * from central_coast_joined where') return;
+      $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
+        console.log(data);
+      });
+    });
+
+    $('#query-reset').click(function (e) {
+      var query_uis = $('.query-group');
+      for (var i = 0; i < query_uis.length; i++) {
+        var query_ui = $(query_uis[i]);
+        if (query_ui.prop('checked')) {
+          query_ui.click();
+        }
+      }
+    });
     // END QUERY UI SETTINGS
   </script>
 {% endblock %}
