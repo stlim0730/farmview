@@ -56,7 +56,7 @@
       $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
         // GET DATA FROM CARTODB
         var apn = $(this).attr('data-apn');
-        // NOTE: THE QUERY STRING BELOW HAS TO USE SINGLE QUOTE BUT NOT DOUBLE!
+        // NOTE: THE QUERY STRINGS HAVE TO USE SINGLE QUOTE BUT NOT DOUBLE!
         var query_str = "select * from central_coast_joined where apn = '" + apn + "'";
         $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
           console.log(data);
@@ -89,78 +89,78 @@
     // END SETTING CartoDB
 
     // START QUERY UI SETTINGS
-    function my_deserializer(str_arr) {
-      var arr = [];
-      for (var i = 0; i < str_arr.length; i++) {
-        str_arr = str_arr.replace('&#39;', '"');
-        str_arr = str_arr.replace('u"', '"'); // FOR UNICODE SUPPORT
-      }
-      arr = JSON.parse(str_arr);
-      return arr;
-    }
+    // function my_deserializer(str_arr) {
+    //   var arr = [];
+    //   for (var i = 0; i < str_arr.length; i++) {
+    //     str_arr = str_arr.replace('&#39;', '"');
+    //     str_arr = str_arr.replace('u"', '"'); // FOR UNICODE SUPPORT
+    //   }
+    //   arr = JSON.parse(str_arr);
+    //   return arr;
+    // }
 
-    function get_query_ui(q, c) {
-      var ui = $('<div id="' + q.q_name + '-query-ui" class="checkbox query-ui col-md-3"></div>');
-      ui.append('<label>' + '<input id="' + q.q_name + '-chkbox" type="checkbox" class="query-group"/>' + q.q_name + '</label>');
+    // function get_query_ui(q, c) {
+    //   var ui = $('<div id="' + q.q_name + '-query-ui" class="checkbox query-ui col-md-3"></div>');
+    //   ui.append('<label>' + '<input id="' + q.q_name + '-chkbox" type="checkbox" class="query-group"/>' + q.q_name + '</label>');
       
-      var operand;
-      switch (q.q_type) {
-        // TEXT
-        case 'text':
-        operand = $('<input id="' + q.q_name + '-operand" type="text" class="form-control operand-ui col-md-3" placeholder="' + q.q_name + '" disabled />');
-        break;
+    //   var operand;
+    //   switch (q.q_type) {
+    //     // TEXT
+    //     case 'text':
+    //     operand = $('<input id="' + q.q_name + '-operand" type="text" class="form-control operand-ui col-md-3" placeholder="' + q.q_name + '" disabled />');
+    //     break;
 
-        // SELECT
-        case 'select_one':
-        if (c.length > 0) {
-          operand = $('<select id="' + q.q_name + '-operand" class="form-control operand-ui col-md-3" disabled />');
-          operand.append('<option>- Select One -</option>');
-          for (var i = 0; i < c.length; i++) {
-            var option = $('<option>' + c[i].c_label_english + '</option>');
-            operand.append(option);
-          }
-        }
-        break;
+    //     // SELECT
+    //     case 'select_one':
+    //     if (c.length > 0) {
+    //       operand = $('<select id="' + q.q_name + '-operand" class="form-control operand-ui col-md-3" disabled />');
+    //       operand.append('<option>- Select One -</option>');
+    //       for (var i = 0; i < c.length; i++) {
+    //         var option = $('<option>' + c[i].c_label_english + '</option>');
+    //         operand.append(option);
+    //       }
+    //     }
+    //     break;
 
-        // CHECKBOX
-        case 'select_multiple':
-        operand = $('<div id="' + q.q_name + '-operand" class="checkbox disabled col-md-3" />');
-        var popup = $('<div id="' + q.q_name + '-popup" class="checkbox-popup col-md-3 operand-ui disabled hidden" />')
-        for (var i = 0; i < c.length; i++) {
-          var option = $('<label><input type="checkbox" value="" class="operand-ui" disabled>' + c[i].c_label_english + '</label><br/>');
-          popup.append(option);
-        }
-        operand.append(popup);
-        break;
+    //     // CHECKBOX
+    //     case 'select_multiple':
+    //     operand = $('<div id="' + q.q_name + '-operand" class="checkbox disabled col-md-3" />');
+    //     var popup = $('<div id="' + q.q_name + '-popup" class="checkbox-popup col-md-3 operand-ui disabled hidden" />')
+    //     for (var i = 0; i < c.length; i++) {
+    //       var option = $('<label><input type="checkbox" value="" class="operand-ui" disabled>' + c[i].c_label_english + '</label><br/>');
+    //       popup.append(option);
+    //     }
+    //     operand.append(popup);
+    //     break;
 
-        // NUMBER
-        case 'decimal':
-        case 'integer':
-        break;
+    //     // NUMBER
+    //     case 'decimal':
+    //     case 'integer':
+    //     break;
 
-        // YOU DON'T WANT TO QUERY USING THESE FIELD TYPES
-        case 'date':
-        case 'today':
-        case 'photo':
-        case 'audio':
-        case 'imei':
-        case 'phonenumber':
-        case 'start':
-        case 'end':
-        case 'geoshape':
-        case 'geopoint':
-        break;
+    //     // YOU DON'T WANT TO QUERY USING THESE FIELD TYPES
+    //     case 'date':
+    //     case 'today':
+    //     case 'photo':
+    //     case 'audio':
+    //     case 'imei':
+    //     case 'phonenumber':
+    //     case 'start':
+    //     case 'end':
+    //     case 'geoshape':
+    //     case 'geopoint':
+    //     break;
 
-        // ANYTHING ELSE?
-        default:
-        console.log('I don\'t know how to query ' + q.q_type);
-        break;
-      }
+    //     // ANYTHING ELSE?
+    //     default:
+    //     console.log('I don\'t know how to query ' + q.q_type);
+    //     break;
+    //   }
 
-      ui.append(operand);
+    //   ui.append(operand);
 
-      return ui;
-    }
+    //   return ui;
+    // }
 
     $('#query-area input[type=checkbox].query-group').click(function (e) {
       // var idstr = $(this).attr('id');
@@ -204,6 +204,23 @@
       // console.log(values);
     });
     
+    $('button.apply-selection').click(function (e) {
+      var query_ui_id = $(this).closest('div.query-ui').attr('id');
+      var field_name = query_ui_id.substring(0, query_ui_id.length - 6);
+      var vals = [];
+      var modal_content = $(this).closest('div.modal-content');
+      var checkboxes = modal_content.find('input[type=checkbox].operand-ui');
+      for (var i = 0; i < checkboxes.length; i++) {
+        var checkbox = checkboxes[i];
+        if (checkbox.checked) {
+          vals.push(checkbox.value);
+        }
+      }
+      var val_str = vals.join(', ');
+      $('#' + field_name + '-input').val(val_str);
+      $('button.close').click();
+    });
+
     // $('#submit-button').click(function (e) {
       // COLLECT FIELD NAME
 
