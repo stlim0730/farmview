@@ -43,3 +43,7 @@ p.info-window-custom-paragraph {
 .data-field {
   margin-left: 45px;
 }
+
+.query-ui > input.form-control.operand-ui.inline-input {
+  display: inline-block;
+}

@@ -11,9 +11,9 @@
   
   <div class='row well'>
     <div id='query-area' class='form-group col-md-12'>
-      {% for q in q_data %}
-        {% with template_file_name=q.q_type|stringformat:"s"|add:"_query_ui.html" %}
-          {% include "map/partials/"|add:template_file_name with q_obj=q %}
+      {% for query_field in query_fields %}
+        {% with template_file_name=query_field.type|stringformat:"s"|add:"_query_ui.html" %}
+          {% include "map/partials/"|add:template_file_name with query_field=query_field %}
         {% endwith %}
       {% endfor %}
     </div>
@@ -25,7 +25,7 @@
     </div>
   </div>
   
-  {% include "map/partials/detail_page.html" with q_obj=q %}
+  {% include "map/partials/detail_page.html" %}
 
   <script>
     var vis;
