@@ -20,9 +20,9 @@ git clone https://github.com/stlim0730/farmview.git
 ```
 cd farmview
 ```
-- The conversion tool is located in mapper directory.
+- The conversion tool is located in map directory.
 ```
-cd mapper
+cd map
 ```
 - Run the conversion tool using the command as follows. Replace the input / output file names with your actual file names.
 ```
@@ -46,7 +46,7 @@ python manage.py runserver
 - *Note that the changes you make here will directly affect both your local instance and the remote instance on the production server.*
 
 ###Basic Configurations
-- Under `Mapper` section, click `Configs`.
+- Under `Map` section, click `Configs`.
 - The software works based on the latest configuration in the list. If you want to update the configuration, press `add config` on the right.
 
 ###Survey Questions
