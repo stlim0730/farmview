@@ -262,8 +262,8 @@
         }
       }
 
-      console.log('query_objs', query_objs);
-      console.log('tables_needed', tables_needed);
+      // console.log('query_objs', query_objs);
+      // console.log('tables_needed', tables_needed);
 
       if (tables_needed.length == 0 || query_objs.length == 0) return;
 
@@ -290,12 +290,11 @@
         // INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
         // INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
 
-        // var pairs = [];
-        // for (var i = 0; i < tables_needed.length - 1; i++) {
-        //   pairs.push([tables_needed[i], tables_needed[i + 1]]);
-        //   // query_str += ' JOIN ' + tables_needed[i] + ' ON ST_Intersects(' +  + ')';
-        // }
-        // // console.log(pairs);
+        for (var i = 0; i < num_joins; i++) {
+          query_str += ' INNER JOIN ';
+          query_str += tables_needed[i + 1];
+          query_str += ' ON ST_Intersects(' + tables_needed[i] + '.the_geom, ' + tables_needed[i + 1] + '.the_geom)'
+        }
       }
 
       console.log('query:', query_str);
@@ -348,7 +347,7 @@
 
       // // console.log(vis.getLayers());
       // // var layer = vis.getLayers()[1];
-      vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+      // QUERY // vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
       // // console.log(layer.getLayerCount());
       // // sublayer.set(subLayerOptions);
 
