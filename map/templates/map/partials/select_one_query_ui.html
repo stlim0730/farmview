@@ -1,6 +1,6 @@
 <div id='{{query_field.name}}-query' class='checkbox query-ui col-md-3'>
   <label>
-    <input id='{{query_field.name}}-checkbox' type='checkbox' class='query-group' />{{query_field.label_eng}}
+    <input id='{{query_field.name}}-checkbox' type='checkbox' class='query-group' data-query-type='{{query_field.type}}' data-table='{{query_field.data_sources}}' data-field='{{query_field.name}}' />{{query_field.label_eng}}
   </label>
   <select id='{{query_field.name}}-input' class='form-control operand-ui' disabled>
     <option value=''>- Select One -</option>

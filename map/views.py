@@ -14,10 +14,10 @@ def map(request):
     query_field_name = str(query_field.query_field_name)
     query_field_label_eng = str(query_field.query_field_label_eng)
     query_field_label_esp = unicode(query_field.query_field_label_esp)
-    data_sources = str(query_field.data_sources).split('\n')
-    query_choices_vals = str(query_field.query_choices_vals).split('\n') # name in XLS Form
-    query_choices_labels_eng = str(query_field.query_choices_labels_eng).split('\n') # label_english in XLS Form
-    query_choices_labels_esp = unicode(query_field.query_choices_labels_esp).split('\n') # label_espanol in XLS Form
+    data_sources = str(query_field.data_sources).replace('\n', ',').replace('\r', '')
+    query_choices_vals = str(query_field.query_choices_vals).split('\n')#.replace('\n', ',').replace('\r', '') # name in XLS Form
+    query_choices_labels_eng = str(query_field.query_choices_labels_eng).split('\n')#.replace('\n', ',').replace('\r', '') # label_english in XLS Form
+    query_choices_labels_esp = unicode(query_field.query_choices_labels_esp).split('\n')#.replace('\n', ',').replace('\r', '') # label_espanol in XLS Form
     query_choices = []
     for i in range(len(query_choices_vals)):
       choice_obj = {

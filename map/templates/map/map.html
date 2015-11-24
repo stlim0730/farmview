@@ -204,64 +204,129 @@
     });
 
     $('#query-submit').click(function (e) {
-      // COLLECT FIELD NAMES AND OPERANDS
-      var query_clauses = [];
-      var query_uis = $('.query-group');
-      for (var i = 0; i < query_uis.length; i++) {
-        var query_ui = $(query_uis[i]);
-        var query_ui_id = query_ui.attr('id');
-        var field_name = query_ui_id.substring(0, query_ui_id.length - '-checkbox'.length);
-        if (query_ui.prop('checked')) {
-          var query_input = $('#' + field_name + '-input');
-          var values = query_input.val().split(',');
-          
-          // SKIPPING QUERIES WITHOUT VALUES SPECIFIED
-          if (values.indexOf('') >= 0) continue;
+      // COLLECT DATASOURCES, FIELD NAMES, AND OPERANDS FOR NON-EMPTY OPERAND UIS
+      var query_objs = [];
+      var tables_needed = [];
 
-          var query_clause = {
-            field: field_name,
-            values: values
+      var query_checkboxes = $('.query-group');
+      for (var i = 0; i < query_checkboxes.length; i++) {
+        var query_checkbox = $(query_checkboxes[i]);
+        if (query_checkbox.prop('checked')) { // ONLY FOR SELECTED QUERY UIS
+          var type = query_checkbox.data('query-type');
+          var table = query_checkbox.data('table').split(',');
+          var field = query_checkbox.data('field');
+          var clause = '';
+          
+          // GET INPUT VALUE PER TYPE AND GENERATE QUERY CLAUSE
+          switch (type) {
+            
+            case 'text':
+            var input = $('#' + field + '-input');
+            var val = input.val().trim();
+            clause = ' ' + field + ' LIKE \'' + val + '\'';
+            // alert(clause);
+            break;
+            
+            case 'range':
+            var input_min = $('#' + field + '-min-input');
+            var input_max = $('#' + field + '-max-input');
+            var val_min = parseFloat(input_min.val().trim());
+            var val_max = parseFloat(input_max.val().trim());
+            if (val_min && !isNaN(val_min)) {
+              clause += ' ' + field + ' >= ' + val_min;
+            }
+            if (val_max && !isNaN(val_max)) {
+              if (clause != '') clause += ' and';
+              clause += ' ' + field + ' <= ' + val_max;
+            }
+            // alert(clause);
+            break;
+
+            case 'select_one':
+            var input = $('#' + field + '-input');
+            var val = input.val().trim();
+            clause = ' ' + field + ' = \'' + val + '\'';
+            // alert(clause);
+            break;
+
+            default:
+            console.log('error - unexpected query type');
+            break;
+          }
+          tables_needed.push(table);
+          var query_obj = {
+            type: type,
+            table: table,
+            field: field,
+            clause: clause
           };
-          query_clauses.push(query_clause);
+          query_objs.push(query_obj);
         }
       }
+
+      console.log(query_objs);
+      console.log(tables_needed);
+
+      // TODO: make a query string
+      
+
+      // var query_clauses = [];
+      // var query_uis = $('.query-group');
+      // for (var i = 0; i < query_uis.length; i++) {
+      //   var query_ui = $(query_uis[i]);
+      //   var query_ui_id = query_ui.attr('id');
+      //   var field_name = query_ui_id.substring(0, query_ui_id.length - '-checkbox'.length);
+      //   if (query_ui.prop('checked')) {
+      //     var query_input = $('#' + field_name + '-input');
+      //     var values = query_input.val().split(',');
+          
+      //     // SKIPPING QUERIES WITHOUT VALUES SPECIFIED
+      //     if (values.indexOf('') >= 0) continue;
+
+      //     var query_clause = {
+      //       field: field_name,
+      //       values: values
+      //     };
+      //     query_clauses.push(query_clause);
+      //   }
+      // }
       // console.log(query_clauses);
 
       // CONSTRUCT A QUERY STRING
-      var query_str = 'select * from central_coast_joined where';
-      for (var i = 0; i < query_clauses.length; i++) {
-        var query_clause = query_clauses[i];
-        var clause_str = ' (';
-        if (i >= 1) clause_str = ' and (';
-        for (var j = 0; j < query_clause.values.length; j++) {
-          if (j >= 1) {
-            clause_str += ' or ';
-          }
-          clause_str += query_clause.field + ' = \'';
-          clause_str += query_clause.values[j];
-          clause_str += '\'';
-        }
-        clause_str += ')';
-        query_str += clause_str;
-      }
+      // var query_str = 'select * from central_coast_joined where';
+      // for (var i = 0; i < query_clauses.length; i++) {
+      //   var query_clause = query_clauses[i];
+      //   var clause_str = ' (';
+      //   if (i >= 1) clause_str = ' and (';
+      //   for (var j = 0; j < query_clause.values.length; j++) {
+      //     if (j >= 1) {
+      //       clause_str += ' or ';
+      //     }
+      //     clause_str += query_clause.field + ' = \'';
+      //     clause_str += query_clause.values[j];
+      //     clause_str += '\'';
+      //   }
+      //   clause_str += ')';
+      //   query_str += clause_str;
+      // }
       // console.log(query_str);
 
       // SUBMIT
-      if (query_str == 'select * from central_coast_joined where') return;
-      var subLayerOptions = {
-        sql: query_str
-      };
+      // if (query_str == 'select * from central_coast_joined where') return;
+      // var subLayerOptions = {
+      //   sql: query_str
+      // };
 
-      // console.log(vis.getLayers());
-      // var layer = vis.getLayers()[1];
+      // // console.log(vis.getLayers());
+      // // var layer = vis.getLayers()[1];
 
-      vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
-      // console.log(layer.getLayerCount());
-      // sublayer.set(subLayerOptions);
+      // vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+      // // console.log(layer.getLayerCount());
+      // // sublayer.set(subLayerOptions);
 
-      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
-      //   console.log(data);
-      // });
+    //   // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
+    //   //   console.log(data);
+    //   // });
     });
 
     $('#query-reset').click(function (e) {
