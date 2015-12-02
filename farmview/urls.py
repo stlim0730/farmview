@@ -20,5 +20,7 @@ urlpatterns = [
   url(r'^admin/', include(admin.site.urls)),
   url(r'^map/$', include('map.urls')),
   url(r'^about/$', 'pages.views.about'),
+  url(r'^mapbook/$', 'pages.views.mapbook'),
+  url(r'^mapbook/$', 'pages.views.contact'),
   url(r'^$', include('pages.urls')),
 ]

@@ -28,3 +28,4 @@ class AboutPage(models.Model):
 
   def __unicode__(self):
     return unicode(self.html)
+  
