@@ -287,16 +287,7 @@
       if (tables_needed.length == 0 || query_objs.length == 0) return;
 
       // TODO: make a query string
-
-      var fields_to_display = {
-        central_coast_joined: ['apn', 'acres', 'county', 'owner', 'site_full', 'soil_type', 'zone_type'],
-        data_point: ['survey_ranch_details_lease_rate_current', 'survey_land_availability', 'survey_available_land_details_lease_rate_expected', 'survey_ranch_address_ranch_name', 'survey_session_desc', 'survey_available_land_details_property_description2', 'survey_ranch details_desc_general'],
-        data_polygon: ['survey_ranch_details_lease_rate_current', 'survey_land_availability', 'survey_available_land_details_lease_rate_expected', 'survey_ranch_address_ranch_name', 'survey_session_desc', 'survey_available_land_details_property_description2', 'survey_ranch details_desc_general']
-      };
-
-      // TODO: convert the fields into a string
-
-      var query_str = 'SELECT ' + fields_to_display + ' FROM ' + tables_needed[0];
+      var query_str = 'SELECT * FROM ' + tables_needed[0];
       var num_joins = tables_needed.length - 1;
       if (num_joins == 0) {
         // NO JOIN NEEDED
