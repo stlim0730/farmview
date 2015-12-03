@@ -1,10 +1,7 @@
 from django.contrib import admin
 from import_export import resources
 from .models import Config
-# from .models import SurveyQuestion
-# from .models import SurveyChoice
 from .models import QueryField
-from import_export.admin import ImportExportModelAdmin
 
 class ConfigAdmin(admin.ModelAdmin):
   list_display = ('pub_date', 'vizjson_url', 'optional_note')
