@@ -8,10 +8,6 @@ class Config(models.Model):
   def __unicode__(self):
     return unicode(self.vizjson_url)
 
-QUERY_FIELD_TYPE_CHOICES = (('text', 'Text'),
-                            ('select_one', 'Select One'),
-                            ('range', 'Range of Values'))
-
 class QueryField(models.Model):
   query_field_id = models.AutoField(primary_key = True)
   query_field_type = models.CharField(max_length = 20, choices = QUERY_FIELD_TYPE_CHOICES)
