@@ -19,13 +19,15 @@ def map(request):
     query_choices_labels_eng = str(query_field.query_choices_labels_eng).split('\n')#.replace('\n', ',').replace('\r', '') # label_english in XLS Form
     query_choices_labels_esp = unicode(query_field.query_choices_labels_esp).split('\n')#.replace('\n', ',').replace('\r', '') # label_espanol in XLS Form
     query_choices = []
-    for i in range(len(query_choices_vals)):
-      choice_obj = {
-        'val': query_choices_vals[i],
-        'label_eng': query_choices_labels_eng[i],
-        'label_esp': query_choices_labels_esp[i]
-      }
-      query_choices.append(choice_obj)
+    if len(query_choices_vals) == len(query_choices_labels_eng):
+      for i in range(len(query_choices_vals)):
+        choice_obj = {
+          'val': query_choices_vals[i],
+          'label_eng': query_choices_labels_eng[i]
+        }
+        if len(query_choices_labels_esp) >= i + 1:
+          choice_obj['label_esp'] = query_choices_labels_esp[i]
+        query_choices.append(choice_obj)
     field_obj = {
       'id': query_field_id,
       'type': query_field_type,

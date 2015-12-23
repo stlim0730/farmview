@@ -281,19 +281,22 @@
         }
       }
 
+      // THIS INFORMATION SHOULD BE INCLUDED IN THE QUERY STRING BELOW.
       // console.log('query_objs', query_objs);
       // console.log('tables_needed', tables_needed);
 
+      // NOTHING TO QUERY
       if (tables_needed.length == 0 || query_objs.length == 0) return;
 
-      // TODO: make a query string
+      // MAKE A QUERY STRING
       var query_str = 'SELECT * FROM ' + tables_needed[0];
       var num_joins = tables_needed.length - 1;
       if (num_joins == 0) {
         // NO JOIN NEEDED
         //
-        // SELECT * FROM table1
-        // WHERE (col1 = val1) and (col2 = val2)
+        // FOR EXAMPLE,
+        //  SELECT * FROM table1
+        //  WHERE (col1 = val1) and (col2 = val2)
         query_str += ' WHERE';
         for (var i = 0; i < query_objs.length; i++) {
           if (i > 0) query_str += ' and';
@@ -305,9 +308,10 @@
       else {
         // JOIN
         //
-        // SELECT * FROM table1
-        // INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
-        // INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
+        // FOR EXAMPLE,
+        //  SELECT * FROM table1
+        //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
+        //  INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
 
         for (var i = 0; i < num_joins; i++) {
           query_str += ' INNER JOIN ';
@@ -366,7 +370,7 @@
 
       // // console.log(vis.getLayers());
       // // var layer = vis.getLayers()[1];
-      // QUERY // vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+      // vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
       // // console.log(layer.getLayerCount());
       // // sublayer.set(subLayerOptions);
 
