@@ -11,7 +11,7 @@ def map(request):
       continue
     query_field_id = str(query_field.query_field_id)
     query_field_type = str(query_field.query_field_type)
-    query_field_name = str(query_field.query_field_name)
+    query_field_name = str(query_field.query_field_name).strip()
     query_field_label_eng = str(query_field.query_field_label_eng)
     query_field_label_esp = unicode(query_field.query_field_label_esp)
     data_sources = str(query_field.data_sources).replace('\n', ',').replace('\r', '')
@@ -22,7 +22,7 @@ def map(request):
     if len(query_choices_vals) == len(query_choices_labels_eng):
       for i in range(len(query_choices_vals)):
         choice_obj = {
-          'val': query_choices_vals[i],
+          'val': query_choices_vals[i].strip(),
           'label_eng': query_choices_labels_eng[i]
         }
         if len(query_choices_labels_esp) >= i + 1:

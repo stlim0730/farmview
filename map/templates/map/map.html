@@ -248,7 +248,7 @@
             case 'range':
             var input_min = $('#' + field + '-min-input');
             var input_max = $('#' + field + '-max-input');
-            var val_min = parseFloat(input_min.val().trim());
+            var val_min = parseInt(input_min.val().trim());
             var val_max = parseFloat(input_max.val().trim());
             if (val_min && !isNaN(val_min)) {
               clause += ' ' + field + ' >= ' + val_min;
@@ -370,13 +370,24 @@
 
       // // console.log(vis.getLayers());
       // // var layer = vis.getLayers()[1];
-      // vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+
+      // UNCOMMENT THIS LINE TO ENABLE QUERY
+      vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+
       // // console.log(layer.getLayerCount());
       // // sublayer.set(subLayerOptions);
 
-    //   // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
-    //   //   console.log(data);
-    //   // });
+      // FOR EXAMPLE,
+        //  SELECT * FROM table1
+        //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
+        //  INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
+      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=SELECT * FROM central_coast_joined INNER JOIN data_polygon ON ST_Intersects(central_coast_joined.the_geom, data_polygon.the_geom)', function(data) {
+      //   console.log(data);
+      // });
+
+      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
+      //   console.log(data);
+      // });
     });
 
     $('#query-reset').click(function (e) {
