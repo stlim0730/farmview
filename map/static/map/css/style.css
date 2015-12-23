@@ -44,8 +44,14 @@ p.info-window-custom-paragraph {
   margin-left: 45px;
 }
 
-.query-ui > input.form-control.operand-ui.inline-input {
+/*.query-ui > input.form-control.operand-ui.inline-input {
   display: inline-block;
+}*/
+
+.min-max-text-input {
+  width: 50%;
+  display: inline-block;
+  float: left;
 }
 
   html, body
