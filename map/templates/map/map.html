@@ -49,6 +49,8 @@
   <script>
     var vis;
     var layers;
+    var basemap_layer;
+    var data_layer;
 
     // START LOADING CONFIG FROM DATABASE
     var vizjson_url = '{{ config.vizjson_url }}';
@@ -76,6 +78,7 @@
     .done(function (_vis, _layers) {
       vis = _vis;
       layers = _layers; // layers[0] is a torque layer where we don't have much control.
+      data_layer = layers[1];
 
       // START DYNAMIC ELEMENTS ON INFO WINDOW
       $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
@@ -112,80 +115,6 @@
       // END DYNAMIC ELEMENTS ON INFO WINDOW
     });
     // END SETTING CartoDB
-
-    // START QUERY UI SETTINGS
-    // function my_deserializer(str_arr) {
-    //   var arr = [];
-    //   for (var i = 0; i < str_arr.length; i++) {
-    //     str_arr = str_arr.replace('&#39;', '"');
-    //     str_arr = str_arr.replace('u"', '"'); // FOR UNICODE SUPPORT
-    //   }
-    //   arr = JSON.parse(str_arr);
-    //   return arr;
-    // }
-
-    // function get_query_ui(q, c) {
-    //   var ui = $('<div id="' + q.q_name + '-query-ui" class="checkbox query-ui col-md-3"></div>');
-    //   ui.append('<label>' + '<input id="' + q.q_name + '-chkbox" type="checkbox" class="query-group"/>' + q.q_name + '</label>');
-      
-    //   var operand;
-    //   switch (q.q_type) {
-    //     // TEXT
-    //     case 'text':
-    //     operand = $('<input id="' + q.q_name + '-operand" type="text" class="form-control operand-ui col-md-3" placeholder="' + q.q_name + '" disabled />');
-    //     break;
-
-    //     // SELECT
-    //     case 'select_one':
-    //     if (c.length > 0) {
-    //       operand = $('<select id="' + q.q_name + '-operand" class="form-control operand-ui col-md-3" disabled />');
-    //       operand.append('<option>- Select One -</option>');
-    //       for (var i = 0; i < c.length; i++) {
-    //         var option = $('<option>' + c[i].c_label_english + '</option>');
-    //         operand.append(option);
-    //       }
-    //     }
-    //     break;
-
-    //     // CHECKBOX
-    //     case 'select_multiple':
-    //     operand = $('<div id="' + q.q_name + '-operand" class="checkbox disabled col-md-3" />');
-    //     var popup = $('<div id="' + q.q_name + '-popup" class="checkbox-popup col-md-3 operand-ui disabled hidden" />')
-    //     for (var i = 0; i < c.length; i++) {
-    //       var option = $('<label><input type="checkbox" value="" class="operand-ui" disabled>' + c[i].c_label_english + '</label><br/>');
-    //       popup.append(option);
-    //     }
-    //     operand.append(popup);
-    //     break;
-
-    //     // NUMBER
-    //     case 'decimal':
-    //     case 'integer':
-    //     break;
-
-    //     // YOU DON'T WANT TO QUERY USING THESE FIELD TYPES
-    //     case 'date':
-    //     case 'today':
-    //     case 'photo':
-    //     case 'audio':
-    //     case 'imei':
-    //     case 'phonenumber':
-    //     case 'start':
-    //     case 'end':
-    //     case 'geoshape':
-    //     case 'geopoint':
-    //     break;
-
-    //     // ANYTHING ELSE?
-    //     default:
-    //     console.log('I don\'t know how to query ' + q.q_type);
-    //     break;
-    //   }
-
-    //   ui.append(operand);
-
-    //   return ui;
-    // }
 
     $('#query-area input[type=checkbox].query-group').click(function (e) {
       var checked = $(this).prop('checked');
@@ -248,7 +177,7 @@
             case 'range':
             var input_min = $('#' + field + '-min-input');
             var input_max = $('#' + field + '-max-input');
-            var val_min = parseFloat(input_min.val().trim());
+            var val_min = parseInt(input_min.val().trim());
             var val_max = parseFloat(input_max.val().trim());
             if (val_min && !isNaN(val_min)) {
               clause += ' ' + field + ' >= ' + val_min;
@@ -281,19 +210,22 @@
         }
       }
 
+      // THIS INFORMATION SHOULD BE INCLUDED IN THE QUERY STRING BELOW.
       // console.log('query_objs', query_objs);
       // console.log('tables_needed', tables_needed);
 
+      // NOTHING TO QUERY
       if (tables_needed.length == 0 || query_objs.length == 0) return;
 
-      // TODO: make a query string
+      // MAKE A QUERY STRING
       var query_str = 'SELECT * FROM ' + tables_needed[0];
       var num_joins = tables_needed.length - 1;
       if (num_joins == 0) {
         // NO JOIN NEEDED
         //
-        // SELECT * FROM table1
-        // WHERE (col1 = val1) and (col2 = val2)
+        // FOR EXAMPLE,
+        //  SELECT * FROM table1
+        //  WHERE (col1 = val1) and (col2 = val2)
         query_str += ' WHERE';
         for (var i = 0; i < query_objs.length; i++) {
           if (i > 0) query_str += ' and';
@@ -305,9 +237,10 @@
       else {
         // JOIN
         //
-        // SELECT * FROM table1
-        // INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
-        // INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
+        // FOR EXAMPLE,
+        //  SELECT * FROM table1
+        //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
+        //  INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
 
         for (var i = 0; i < num_joins; i++) {
           query_str += ' INNER JOIN ';
@@ -318,63 +251,24 @@
 
       console.log('query:', query_str);
 
-      // var query_clauses = [];
-      // var query_uis = $('.query-group');
-      // for (var i = 0; i < query_uis.length; i++) {
-      //   var query_ui = $(query_uis[i]);
-      //   var query_ui_id = query_ui.attr('id');
-      //   var field_name = query_ui_id.substring(0, query_ui_id.length - '-checkbox'.length);
-      //   if (query_ui.prop('checked')) {
-      //     var query_input = $('#' + field_name + '-input');
-      //     var values = query_input.val().split(',');
-          
-      //     // SKIPPING QUERIES WITHOUT VALUES SPECIFIED
-      //     if (values.indexOf('') >= 0) continue;
-
-      //     var query_clause = {
-      //       field: field_name,
-      //       values: values
-      //     };
-      //     query_clauses.push(query_clause);
-      //   }
-      // }
-      // console.log(query_clauses);
-
-      // CONSTRUCT A QUERY STRING
-      // var query_str = 'select * from central_coast_joined where';
-      // for (var i = 0; i < query_clauses.length; i++) {
-      //   var query_clause = query_clauses[i];
-      //   var clause_str = ' (';
-      //   if (i >= 1) clause_str = ' and (';
-      //   for (var j = 0; j < query_clause.values.length; j++) {
-      //     if (j >= 1) {
-      //       clause_str += ' or ';
-      //     }
-      //     clause_str += query_clause.field + ' = \'';
-      //     clause_str += query_clause.values[j];
-      //     clause_str += '\'';
-      //   }
-      //   clause_str += ')';
-      //   query_str += clause_str;
-      // }
-      // console.log(query_str);
-
       // SUBMIT
-      var subLayerOptions = {
-        sql: query_str
-      };
+      // UNCOMMENT THIS LINE TO ENABLE QUERY
+      data_layer.getSubLayer(0).setSQL(query_str);
+      // console.log(layer.getLayerCount());
 
-      // // console.log(vis.getLayers());
-      // // var layer = vis.getLayers()[1];
-      // QUERY // vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
-      // // console.log(layer.getLayerCount());
-      // // sublayer.set(subLayerOptions);
+      // FOR EXAMPLE,
+        //  SELECT * FROM table1
+        //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
+        //  INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
+      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=SELECT * FROM central_coast_joined INNER JOIN data_point ON ST_Intersects(central_coast_joined.the_geom, data_point.the_geom) INNER JOIN data_polygon ON ST_Intersects(data_point.the_geom, data_polygon.the_geom)', function(data) {
+      //   console.log(data);
+      // });
 
-    //   // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
-    //   //   console.log(data);
-    //   // });
+      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
+      //   console.log(data);
+      // });
     });
-
+    
     $('#query-reset').click(function (e) {
       var query_uis = $('.query-group');
       for (var i = 0; i < query_uis.length; i++) {
@@ -384,7 +278,7 @@
         }
       }
       var query_str = 'select * from central_coast_joined';
-      vis.getLayers()[1].getSubLayer(0).setSQL(query_str);
+      data_layer.getSubLayer(0).setSQL(query_str);
       // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
       //   console.log(data);
       // });
