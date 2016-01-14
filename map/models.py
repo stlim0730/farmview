@@ -16,7 +16,7 @@ class QueryField(models.Model):
                               ('select_one', 'Select One')
                              )
   query_field_type = models.CharField(max_length = 20, choices=QUERY_FIELD_TYPE_CHOICES)
-  query_field_name = models.CharField(max_length = 40)
+  query_field_name = models.CharField(max_length = 50)
   query_field_label_eng = models.CharField(max_length = 30, blank = False)
   query_field_label_esp = models.CharField(max_length = 30, blank = True)
   data_sources = models.TextField(blank = False)

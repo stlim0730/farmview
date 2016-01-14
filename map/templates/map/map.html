@@ -47,9 +47,14 @@
   {% include "map/partials/detail_page.html" %}
 
   <script>
+    var SUBLAYER_INDICES = {
+      central_coast_joined: 0,
+      data_point: 4,
+      data_polygon: 2
+    };
+
     var vis;
     var layers;
-    var basemap_layer;
     var data_layer;
 
     // START LOADING CONFIG FROM DATABASE
@@ -191,7 +196,7 @@
             case 'select_one':
             var input = $('#' + field + '-input');
             var val = input.val().trim();
-            clause = ' ' + field + ' = \'' + val + '\'';
+            clause = ' ' + field + ' LIKE \'' + val + '\'';
             break;
 
             default:
@@ -211,65 +216,66 @@
       }
 
       // THIS INFORMATION SHOULD BE INCLUDED IN THE QUERY STRING BELOW.
-      // console.log('query_objs', query_objs);
-      // console.log('tables_needed', tables_needed);
+      console.log('query_objs', query_objs);
+      console.log('tables_needed', tables_needed);
 
       // NOTHING TO QUERY
+      // TODO: ERROR MESSAGE?
       if (tables_needed.length == 0 || query_objs.length == 0) return;
 
-      // MAKE A QUERY STRING
-      var query_str = 'SELECT * FROM ' + tables_needed[0];
-      var num_joins = tables_needed.length - 1;
-      if (num_joins == 0) {
-        // NO JOIN NEEDED
-        //
-        // FOR EXAMPLE,
-        //  SELECT * FROM table1
-        //  WHERE (col1 = val1) and (col2 = val2)
-        query_str += ' WHERE';
-        for (var i = 0; i < query_objs.length; i++) {
-          if (i > 0) query_str += ' and';
-          query_str += ' (';
-          query_str += query_objs[i].clause;
-          query_str += ' )';
-        }
+      // START INITIALIZING query_str_obj
+      var query_str_obj = {};
+      for (var i = 0; i < tables_needed.length; i++) {
+        var table = tables_needed[i];
+        query_str_obj[table] = 'SELECT * FROM ' + table + ' WHERE';
       }
-      else {
-        // JOIN
-        //
-        // FOR EXAMPLE,
-        //  SELECT * FROM table1
-        //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
-        //  INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
+      // END INITIALIZING query_str_obj
 
-        for (var i = 0; i < num_joins; i++) {
-          query_str += ' INNER JOIN ';
-          query_str += tables_needed[i + 1];
-          query_str += ' ON ST_Intersects(' + tables_needed[i] + '.the_geom, ' + tables_needed[i + 1] + '.the_geom)'
+      for (var i = 0; i < query_objs.length; i++) {
+        var query_obj = query_objs[i];
+        var tables = query_obj.table;
+
+        for (var j = 0; j < tables.length; j++) {
+          var table = tables[j];
+          query_str_obj[table] += ' (' + query_obj.clause + ' )';
+          query_str_obj[table] += ' and'
         }
       }
 
-      console.log('query:', query_str);
+      // REMOVING THE FOLLOWING ' and'
+      for (var i = 0; i < tables_needed.length; i++) {
+        var table = tables_needed[i];
+        var len = query_str_obj[table].length;
+        query_str_obj[table] = query_str_obj[table].slice(0, len - ' and'.length);
+      }
 
-      // SUBMIT
-      // UNCOMMENT THIS LINE TO ENABLE QUERY
-      data_layer.getSubLayer(0).setSQL(query_str);
-      // console.log(layer.getLayerCount());
+      // CHECK THE query_str_obj; IT SHOULD CONTAIN ALL THE INFORMATION ON QUERY YOU WANT TO PERFORM
+      console.log(query_str_obj);
 
-      // FOR EXAMPLE,
+      // START APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
+      for (table in SUBLAYER_INDICES) {
+        var sublayer_index = SUBLAYER_INDICES[table];
+
+        if (table in query_str_obj) {
+          var query_str = query_str_obj[table];
+          // COMMENT OUT THE NEXT LINE TO DISABLE QUERY
+          data_layer.getSubLayer(sublayer_index).setSQL(query_str);
+        }
+      }
+      // END APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
+
+      // EXAMPLE FOR A JOIN QUERY:
         //  SELECT * FROM table1
         //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
         //  INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
       // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=SELECT * FROM central_coast_joined INNER JOIN data_point ON ST_Intersects(central_coast_joined.the_geom, data_point.the_geom) INNER JOIN data_polygon ON ST_Intersects(data_point.the_geom, data_polygon.the_geom)', function(data) {
       //   console.log(data);
       // });
-
-      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
-      //   console.log(data);
-      // });
     });
     
     $('#query-reset').click(function (e) {
+
+      // UNCHECK EVERYTHING
       var query_uis = $('.query-group');
       for (var i = 0; i < query_uis.length; i++) {
         var query_ui = $(query_uis[i]);
@@ -277,11 +283,14 @@
           query_ui.click();
         }
       }
-      var query_str = 'select * from central_coast_joined';
-      data_layer.getSubLayer(0).setSQL(query_str);
-      // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
-      //   console.log(data);
-      // });
+
+      // START APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
+      for (table in SUBLAYER_INDICES) {
+        var sublayer_index = SUBLAYER_INDICES[table];
+        var query_str = 'SELECT * FROM ' + table;
+        data_layer.getSubLayer(sublayer_index).setSQL(query_str);
+      }
+      // END APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
     });
     // END QUERY UI SETTINGS
   </script>
