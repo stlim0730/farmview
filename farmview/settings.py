@@ -38,8 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages',
-    'map',
-    'import_export'
+    'map'
 )
 
 MIDDLEWARE_CLASSES = (
