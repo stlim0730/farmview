@@ -21,28 +21,36 @@
     </div>
 </div>
 
-  <div class='row height-90'>
+  <div class='row height-90 container' id='banner'>
     <div class='col-md-12 full-height'>
       <div id='map' class='col-md-12 full-height'>
       </div>
     </div>
   </div>
   
-  <div class='row well'>
-    <div id='query-area' class='form-group col-md-12'>
+  <!-- <div class='row well'> -->
+  <div id="extra"> 
+  <div class="container">
+  <div class='container' id ='extra'>
+    <div id='query-area' class='form-group'>
       {% for query_field in query_fields %}
         {% with template_file_name=query_field.type|stringformat:"s"|add:"_query_ui.html" %}
           {% include "map/partials/"|add:template_file_name with query_field=query_field %}
         {% endwith %}
       {% endfor %}
     </div>
-  </div>
+  <!-- </div> -->
   <div class='row'>
-    <div class='form-group col-md-offset-10 col-md-2'>
+    <div class='form-group col-md-offset-9 col-md-2'>
       <button id='query-reset' class='btn btn-default'>Reset</button>
       <button id='query-submit' class='btn btn-primary'>Submit</button>
     </div>
   </div>
+  </div>
+  </div>
+  </div>
+
+
   
   {% include "map/partials/detail_page.html" %}
 
