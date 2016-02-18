@@ -716,13 +716,13 @@
 		top: 0;
 	}
 
-	h2 {
+	.profile h2 {
 		font-size: 25px;
 		text-align: left;
 		margin-left: 0px;
 		padding-bottom: 5px;
 	}
-	p {
+	.profile p {
 		margin-bottom: 0px;
 	}
 
