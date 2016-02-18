@@ -703,6 +703,27 @@
 /* Contact Page                                                                  */
 /*********************************************************************************/
 
+.profile {
+	padding: 0 0 0 165px; /* 150px being the width of the thumbnail + how much space you want to put between it and your text */
+	position: relative; /* So the thumbnail is relative to this */
+}
+
+	.profile img {
+		width: 150px;
+		left: 0;
+		right: 5;
+		position: absolute;
+		top: 0;
+	}
+
+	h2 {
+		text-align: left;
+		margin-left: 0px;
+		padding-bottom: 5px;
+	}
+	p {
+		margin-bottom: 0px;
+	}
 
 #feedback-page{
 	text-align:center;
