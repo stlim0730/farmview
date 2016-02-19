@@ -17,12 +17,13 @@
 	
 	h1, h2, h3
 	{
-		margin: 0;
+		margin: 0.5em;
 		padding: 0;
 		font-weight: 700;
 		color: #022836;
 		text-align: center;
 	}
+
 	
 	p, ol, ul
 	{
@@ -69,6 +70,11 @@
 		overflow: hidden;
 		margin: 0em auto;
 		width: 1000px;
+	}
+
+	td {
+		vertical-align:top;
+		padding: 5px;
 	}
 
 	
@@ -353,7 +359,7 @@
 	#logo
 	{
 		position: absolute;
-		top: 1em;
+		top: .4em;
 		left: 0;
 	}
 	
@@ -697,6 +703,28 @@
 /* Contact Page                                                                  */
 /*********************************************************************************/
 
+.profile {
+	padding: 0 0 0 165px; /* 150px being the width of the thumbnail + how much space you want to put between it and your text */
+	position: relative; /* So the thumbnail is relative to this */
+}
+
+	.profile img {
+		width: 150px;
+		left: 0;
+		right: 5;
+		position: absolute;
+		top: 0;
+	}
+
+	.profile h2 {
+		font-size: 25px;
+		text-align: left;
+		margin-left: 0px;
+		padding-bottom: 5px;
+	}
+	.profile p {
+		margin-bottom: 0px;
+	}
 
 #feedback-page{
 	text-align:center;
@@ -710,16 +738,16 @@
 
 #form-div {
 	background-color:rgba(72,72,72,0.4);
-	padding-left:35px;
-	padding-right:35px;
-	padding-top:35px;
-	padding-bottom:50px;
-	width: 450px;
+	padding-left:30px;
+	padding-right:30px;
+	padding-top:30px;
+	padding-bottom:20px;
+	width: 100%;
 	float: left;
-	left: 50%;
+	/*left: 50%;*/
 	position: relative;
   	margin-top:30px;
-	margin-left: -260px;
+	/*margin-left: -260px;*/
   /*-moz-border-radius: 7px;*/
   /*-webkit-border-radius: 7px;*/
 }

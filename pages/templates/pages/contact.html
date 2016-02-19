@@ -38,16 +38,17 @@ Released   : 20140309
         </div>
     </div>
     </div>
-    <div>
+    <!-- <div>
         <p></p>
         <p style = "text-align: center"> <strong>What data would you like to see represented? Any errors that we can correct?  Have other ideas?  </strong> </p>
-    </div>
-    <div id="banner">
-        <!-- <div class="container"> -->
+    </div> -->
+    <div id="page">
+        <div class="container">
         <div class="title"><h1>Contact Us</h1></div>
-        <div id="form-main">
+         <p style = "text-align: center"> What data would you like to see represented? Any errors that we can correct?  Have other ideas? </p>
+        <div id="form-main extra" class="container">
           <div id="form-div">
-            <form class="form" id="form1">
+            <form class="form" id="form1" method="post" action="http://formspree.io/farmlandmonitoring@gmail.com"> 
               
               <p class="name">
                 <input name="name" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Name" id="name" />
@@ -63,31 +64,60 @@ Released   : 20140309
               
               
              <ul class="actions">
-                <li><a href="mailto:farmlandmonitoring@gmail.com"class="button">Submit</a></li>
+                <li>
+                  <!-- <class="button">Submit</a> -->
+
+                  <input type="submit" value="Send Message" class="button" style="border:0px"/>
+                    <input type="hidden" name="_next" value="#contact" /> <!-- value = "contact page link (to refresh)" -->
+                  </li>
             </ul>
 
             </form>
           </div>
      </div>
-            
-
-    <!-- <form action="" class="tsc_form_contact_light">
-        <label for="name">Name <span>(required)</span></label>
-        <input type="text" name="name" class="form-input" required />
-        <label for="email">Email <span>(required)</span></label>
-        <input type="email" name="email" class="form-input" required />
-        <label for="subject">Subject <span>(optional)</span></label>
-        <input type="text" name="subject" class="form-input" />
-        <label for="message">Message <span>(required)</span></label>
-        <textarea name="message" class="form-input" required></textarea>
-        <input class="form-btn" type="submit" value="Send Message" />
-      </form>    -->    
-
-
-    <!-- </div> -->
-
 
     </div> 
+    </div>
+  <div id="extra">
+  <div class="container">
+    <h1>Who We Are</h1>
+    <div class = "profile">
+        <h2>Adam Calo</h2>
+        <img src="">
+        <p><strong>Role: </strong>Lorem impsum...</p>
+        <p><strong>What brought you to Farmview: </strong>Lorem impsum...</p>
+        <p><strong>What you study at Cal: </strong>Lorem ipsum...</p>
+        <p><a href="">Website</a></p>
+    </div>
+    <div class = "profile">
+        <h2>Songtaek Lim</h2>
+        <img src="">
+        <p><strong>Role: </strong>Lorem impsum...</p>
+        <p><strong>What brought you to Farmview: </strong>Lorem impsum...</p>
+        <p><strong>What you study at Cal: </strong>Lorem ipsum...</p>
+        <p><a href="">Website</a></p>
+    </div>
+    <div class = "profile">
+        <h2>Bofan Chen</h2>
+        <img src="">
+        <p><strong>Role: </strong>Lorem impsum...</p>
+        <p><strong>What brought you to Farmview: </strong>Lorem impsum...</p>
+        <p><strong>What you study at Cal: </strong>Lorem ipsum...</p>
+        <p><a href="">Website</a></p>
+    </div>
+<div class = "profile">
+        <h2>Karin Goh</h2>
+        <img src="http://karingoh.me/images/profilepic.png">
+        <p><strong>Role: </strong>Lorem impsum...</p>
+        <p><strong>What brought you to Farmview: </strong>Lorem impsum...</p>
+        <p><strong>What you study at Cal: </strong>Lorem impsum...</p>
+        <p><a href="karingoh.me">Website</a></p>
+    </div>
+    </div>
+
+  </div>
+</div>
+
 </div>
 <div id="copyright">
     <div class="container">
