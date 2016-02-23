@@ -1,3 +1,4 @@
+/* START CUSTOM DEFINITIONS */
 html, body {
   height: 100%;
 }
@@ -15,8 +16,9 @@ html, body {
   margin-bottom: 20px;
 }
 
-#map {
-  
+#detail-page.modal {
+  margin-top: 75px;
+  z-index: 10000000;
 }
 
 .query-ui {
@@ -44,15 +46,13 @@ p.info-window-custom-paragraph {
   margin-left: 45px;
 }
 
-/*.query-ui > input.form-control.operand-ui.inline-input {
-  display: inline-block;
-}*/
-
 .min-max-text-input {
   width: 50%;
   display: inline-block;
   float: left;
 }
+
+/* END CUSTOM DEFINITIONS */
 
   html, body
   {
