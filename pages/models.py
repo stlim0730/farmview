@@ -10,7 +10,7 @@ class Mapbook(models.Model):
   thumbnail_url = models.CharField(max_length = 100, unique = True)
   cartodb_iframe = models.TextField(blank = True)
   text = models.TextField(blank = True)
-  enabled = models.BooleanField(default = True)
+  # enabled = models.BooleanField(default = True)
   optional_note = models.CharField(max_length = 200, blank = True)
   
   def __unicode__(self):
