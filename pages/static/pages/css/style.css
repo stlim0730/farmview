@@ -608,45 +608,45 @@
 	}
 
 
-	#extra
+	.extra
 	{
 		overflow: hidden;
 		padding: 3em 0em;
 		background-color: #EEEEEE;
 	}
 
-	#extra h1
+	.extra h1
 	{
 		overflow: hidden;
 		color: #022836;
 	}
 
-	#extra h2
+	.extra h2
 	{
 		overflow: hidden;
 		color: #022836;
 	}
 	
 	
-	#extra .title
+	.extra .title
 	{
 		text-align: center;
 	}
 
-	#extra .p
+	.extra .p
 	{
 		text-align: left;
 		color: black;
 	}
 	
-	#extra .button
+	.extra .button
 	{
 		/*text-align: center;*/
 		margin-top: 1em;
 
 	}
 	
-	#extra .fa
+	.extra .fa
 	{
 		display: block;
 		margin-bottom: 0.5em;
@@ -654,44 +654,44 @@
 		font-size: 3em;
 	}
 
-	#extra2
+	.extra2
 	{
 		overflow: hidden;
 		padding: 3em 0em;
 		background-color: #FFFFFF;
 	}
 	
-	#extra2 .title
+	.extra2 .title
 	{
 		text-align: center;
 	}
 
-	#extra2 h1
+	.extra2 h1
 	{
 		overflow: hidden;
 		color: #022836;
 	}
 
-	#extra2 h2
+	.extra2 h2
 	{
 		overflow: hidden;
 		color: #022836;
 	}
 
-	#extra2 .p
+	.extra2 .p
 	{
 		text-align: left;
 		color: black;
 	}
 	
-	#extra2 .button
+	.extra2 .button
 	{
 		/*text-align: center;*/
 		margin-top: 1em;
 		
 	}
 	
-	#extra2 .fa
+	.extra2 .fa
 	{
 		display: block;
 		margin-bottom: 0.5em;

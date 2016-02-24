@@ -126,16 +126,22 @@ Released   : 20140309
 
 {% for mapbook in mapbooks %}
     <span id="{{mapbook.slug}}">&nbsp;</span>
-    <div class="container"> 
-        <h2 style="text-align: center; color: #022836">{{mapbook.title}}</h2>
-        <br />
-        {{mapbook.cartodb_iframe|safe}}
-        <p class="p">{{mapbook.text}}</p>  
-    </div>
-    <div class = "container">
-        <ul class="actions">
-            <li><a href="#" class="button">Return</a></li>
-        </ul>
+    {% if forloop.counter0|divisibleby:2 %}
+    <div class="extra">
+    {% else %}
+    <div class="extra2">
+    {% endif %}
+        <div class="container"> 
+            <h2 style="text-align: center">{{mapbook.title}}</h2>
+            <br />
+            {{mapbook.cartodb_iframe|safe}}
+            <p class="p">{{mapbook.text}}</p>  
+        </div>
+        <div class = "container">
+            <ul class="actions">
+                <li><a href="#" class="button">Return</a></li>
+            </ul>
+        </div>
     </div>
 {% endfor %}
 
