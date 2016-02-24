@@ -64,12 +64,12 @@ Released   : 20140309
                             <img src="../static/mapbook pictures/{{mapbook.thumbnail_url}}" width="100%"></a>
                         <p>{{mapbook.title_short}}</p>
                     </td>
-                {% if forloop.counter0|add:-2|divisibleby:3 %}
+                {% if forloop.counter0 >= 2 and forloop.counter0|add:-2|divisibleby:3 %}
                 </tr>
-                {% elif mapbooks|last %}
+                {% elif forloop.counter == mapbooks|length %}
                     {% if forloop.counter0|divisibleby:3 %}
                         <td></td><td></td>
-                    {% elif forloop.counter0|add:-1|divisibleby:3 %}
+                    {% elif forloop.counter0 >= 1 and forloop.counter0|add:-1|divisibleby:3 %}
                         <td></td>
                     {% endif %}
                 {% endif %}
