@@ -125,13 +125,13 @@ Released   : 20140309
 <!-- </div> -->
 
 {% for mapbook in mapbooks %}
-    <span id="{{mapbook.slug}}">&nbsp;</span>
+    <!-- <span id="{{mapbook.slug}}">&nbsp;</span> -->
     {% if forloop.counter0|divisibleby:2 %}
     <div class="extra">
     {% else %}
     <div class="extra2">
     {% endif %}
-        <div class="container"> 
+        <div id="{{mapbook.slug}}" class="container"> 
             <h2 style="text-align: center">{{mapbook.title}}</h2>
             <br />
             {{mapbook.cartodb_iframe|safe}}
