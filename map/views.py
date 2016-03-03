@@ -1,19 +1,19 @@
 from django.shortcuts import render
 from .models import Config
-from .models import QueryField
+from .models import Datafield
 
 def map(request):
   config = Config.objects.order_by('-pub_date')[0]
-  query_field_data = list(QueryField.objects.all())
-  query_fields = []
-  for query_field in query_field_data:
+  datafield_data = list(Datafield.objects.all())
+  datafields = []
+  for query_field in datafield_data:
     if not query_field.enabled:
       continue
-    query_field_id = str(query_field.query_field_id)
-    query_field_type = str(query_field.query_field_type)
-    query_field_name = str(query_field.query_field_name).strip()
-    query_field_label_eng = str(query_field.query_field_label_eng)
-    query_field_label_esp = unicode(query_field.query_field_label_esp)
+    datafield_id = str(query_field.datafield_id)
+    datafield_type = str(query_field.datafield_type)
+    datafield_name = str(query_field.datafield_name).strip()
+    datafield_label_eng = str(query_field.datafield_label_eng)
+    datafield_label_esp = unicode(query_field.datafield_label_esp)
     data_sources = str(query_field.data_sources).replace('\n', ',').replace('\r', '')
     query_choices_vals = str(query_field.query_choices_vals).split('\n')#.replace('\n', ',').replace('\r', '') # name in XLS Form
     query_choices_labels_eng = str(query_field.query_choices_labels_eng).split('\n')#.replace('\n', ',').replace('\r', '') # label_english in XLS Form
@@ -28,18 +28,23 @@ def map(request):
         if len(query_choices_labels_esp) >= i + 1:
           choice_obj['label_esp'] = query_choices_labels_esp[i]
         query_choices.append(choice_obj)
-    field_obj = {
-      'id': query_field_id,
-      'type': query_field_type,
-      'name': query_field_name,
-      'label_eng': query_field_label_eng,
-      'label_esp': query_field_label_esp,
+    use_for_query_ui = query_field.use_for_query_ui
+    use_for_detail_popup = query_field.use_for_detail_popup
+    datafield_obj = {
+      'id': datafield_id,
+      'type': datafield_type,
+      'name': datafield_name,
+      'label_eng': datafield_label_eng,
+      'label_esp': datafield_label_esp,
       'data_sources': data_sources,
-      'choices': query_choices
+      'choices': query_choices,
+      'use_for_query_ui': use_for_query_ui,
+      'use_for_detail_popup': use_for_detail_popup
     }
-    query_fields.append(field_obj)
+    datafields.append(datafield_obj)
   context = {
     'config': config,
-    'query_fields': query_fields
+    'datafields': datafields,
+    'data_sources': ['central_coast_joined', 'data_point', 'data_polygon']
   }
   return render(request, 'map/map.html', context)

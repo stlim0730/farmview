@@ -7,6 +7,26 @@
       </div>
       <div class='modal-body'>
 
+        {% for data_source in data_sources %}
+          <div class='data-from-{{data_source}} wrapper-per-source collapse'>
+          {% for query_field in query_fields %}
+            {% if query_field.use_for_detail_popup and data_source in query_field.data_sources %}
+              <div class='form-group'>
+                <label for='{{query_field.name}}-field' class='control-label data-label'>{{query_field.label_eng}}</label><br />
+                <div id='{{query_field.name}}-field' class='data-field'>
+                  N/A
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+          </div>
+        {% endfor %}
+
+        <!-- TODO: input data -->
+        <!-- https://docs.google.com/document/d/1bK6pKhQRQbSd9EzEprI12aMkCbYrvqmiwgYHuaNMz38/edit -->
+
+
+<!-- 
         <div class='data-from-central_coast_joined wrapper-per-source collapse'>
           <div class='form-group'>
             <label for='apn-field' class='control-label data-label'>Assessor Parcel Number</label><br />
@@ -46,6 +66,8 @@
           </div>
         </div>
 
+
+
         <div class='data-from-data_point wrapper-per-source collapse'>
           <div class='form-group'>
             <label for='survey_ranch_address_ranch_name-field' class='control-label data-label'>Ranch Name</label><br />
@@ -84,6 +106,8 @@
             </div>
           </div>
         </div>
+ -->
+
 
       </div>
       <div class='modal-footer'>

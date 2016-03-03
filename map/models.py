@@ -8,22 +8,24 @@ class Config(models.Model):
   def __unicode__(self):
     return unicode(self.vizjson_url)
 
-class QueryField(models.Model):
-  query_field_id = models.AutoField(primary_key = True)
-  QUERY_FIELD_TYPE_CHOICES = (
+class Datafield(models.Model):
+  datafield_id = models.AutoField(primary_key = True)
+  DATAFIELD_TYPE_CHOICES = (
                               ('text', 'Text'),
                               ('range', 'Range'),
                               ('select_one', 'Select One')
                              )
-  query_field_type = models.CharField(max_length = 20, choices=QUERY_FIELD_TYPE_CHOICES)
-  query_field_name = models.CharField(max_length = 50)
-  query_field_label_eng = models.CharField(max_length = 30, blank = False)
-  query_field_label_esp = models.CharField(max_length = 30, blank = True)
+  datafield_type = models.CharField(max_length = 20, choices=DATAFIELD_TYPE_CHOICES)
+  datafield_name = models.CharField(max_length = 50)
+  datafield_label_eng = models.CharField(max_length = 30, blank = False)
+  datafield_label_esp = models.CharField(max_length = 30, blank = True)
   data_sources = models.TextField(blank = False)
   enabled = models.BooleanField(default = True)
   query_choices_vals = models.TextField(blank = True) # name in XLS Form
   query_choices_labels_eng = models.TextField(blank = True) # label_english in XLS Form
   query_choices_labels_esp = models.TextField(blank = True) # label_espanol in XLS Form
-  
+  use_for_query_ui = models.BooleanField(default = False)
+  use_for_detail_popup = models.BooleanField(default = True)
+
   def __unicode__(self):
-    return unicode(self.query_field_name)
+    return unicode(self.datafield_name)
