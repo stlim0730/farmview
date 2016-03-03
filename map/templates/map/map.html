@@ -30,10 +30,10 @@
   
 <div class='row well'>
   <div id='query-area' class='form-group col-md-12'>
-    {% for query_field in query_fields %}
-      {% if query_field.use_for_query_ui %}
-        {% with template_file_name=query_field.type|stringformat:"s"|add:"_query_ui.html" %}
-          {% include "map/partials/"|add:template_file_name with query_field=query_field %}
+    {% for datafield in datafields %}
+      {% if datafield.use_for_query_ui %}
+        {% with template_file_name=datafield.type|stringformat:"s"|add:"_query_ui.html" %}
+          {% include "map/partials/"|add:template_file_name with datafield=datafield %}
         {% endwith %}
       {% endif %}
     {% endfor %}
@@ -46,7 +46,7 @@
   </div>
 </div>
   
-{% include "map/partials/detail_page.html" with query_fields=query_fields data_sources=data_sources %}
+{% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
 
 <script>
   var PARCEL_TABLE = 'central_coast_joined';
