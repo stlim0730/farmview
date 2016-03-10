@@ -57,6 +57,25 @@ def merge_attachmentLinks(data):
 				print "audio: ", rec['audioLink']
 			count+=1
 
+		# # processing soil type
+		# rec['Soil Type'] = ""
+		# soilType = rec['soil_type']
+		# if (soilType == ""):
+		# 	rec['Soil Type'] = ""
+		# elif (soilType == ""):
+		# 	rec['Soil Type'] = ""
+		# elif (soilType == ""):
+		# 	rec['Soil Type'] = ""
+		# elif (soilType == ""):
+		# 	rec['Soil Type'] = ""
+
+		# # processing 
+		# rec['variable'] = ""
+		# variable = rec['']
+		# if (variable == ""):
+		# 	rec['variable'] = ""
+		# elif (variable == ""):
+		# 	rec['variable'] = ""
 
 # function that prints out all of the values in the dictionary (just useful to see):
 def print_records(data):
