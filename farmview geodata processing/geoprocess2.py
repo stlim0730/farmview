@@ -9,6 +9,10 @@ col3 = '_geolocation'
 col4 = 'merged_column'
 col5 = 'Survey/available_land_details/shape_available'
 
+attachmentCol = '_attachments'
+attachmentLinks = 'mergedAttachmentLinks'
+download_url='download_url'
+
 # function that prints out just the geometry columns:
 def print_geometries(data):
 	print '-'*160
@@ -32,6 +36,27 @@ def merge_geometries(data):
 		# so it would be good to get a more complete data file for testing
 		# purposes:
 		rec[col4] = rec.get(col1) or rec.get(col2)
+
+def merge_attachmentLinks(data):
+	# new column for image, new column for sound
+	for rec in data:
+		count = 0
+		rec['photoLink'] = ""
+		rec['audioLink'] = ""
+		
+		# print("NEW REC")
+
+		# processing attachments
+		for attachment in rec['_attachments']:
+			fullLink = "https://ona.io" + rec['_attachments'][count]['download_url']
+			if (fullLink.endswith(".jpg") or fullLink.endswith(".png")):
+				rec['photoLink'] = fullLink
+				print "photo: ", rec['photoLink']
+			else:
+				rec['audioLink'] = fullLink
+				print "audio: ", rec['audioLink']
+			count+=1
+
 
 # function that prints out all of the values in the dictionary (just useful to see):
 def print_records(data):
@@ -79,7 +104,8 @@ def geojson_output(data):
 if __name__ == "__main__":
 	with open('Farmland_Monitoring_beta1-2015-10-16-18-45-46.json') as data_file:
 		data = json.load(data_file)
-		#merge_geometries(data)
+		merge_attachmentLinks(data)
+		# merge_geometries(data) 
 		#print_records(data) #uncomment this to see all of the data
 		#print_geometries(data)
 		#geojson_output(data)
