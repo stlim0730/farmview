@@ -43,6 +43,60 @@ def merge_attachmentLinks(data):
 		count = 0
 		rec['photoLink'] = ""
 		rec['audioLink'] = ""
+
+		# print rec
+		# print(rec['Survey/ranch_details/WaterDetails/water_infrastructure'])
+
+		# rec['County'] = rec['Survey/ranch_address/land_county']
+		# rec['Location'] = rec['Survey/ranch_address/Location_fromweb']
+
+		rec['General description'] = rec['Survey/ranch_details/desc_general']
+		rec['Time fallow'] = rec['Survey/ranch_details/fallowtime']
+		rec['Farm size (acres)'] = rec['Survey/ranch_details/farm_size']
+		rec['Farming Practices'] = rec['Survey/ranch_details/farming_practices']
+		rec['Fence Status'] = rec['Survey/ranch_details/fence_status']
+		rec['Exisiting Infrastructure'] = rec['Survey/ranch_details/infrastructure']
+		rec['Other infrastructure'] = rec['Survey/ranch_details/infrastructure_other']
+		rec['Land Owner Location'] = rec['Survey/ranch_details/land_owner_lives_where']
+		rec['Current lease rate ($/acre)'] = rec['Survey/ranch_details/current']
+		rec['Neigboring Farm Type'] = rec['Survey/ranch_details/neighboringfarm']
+		rec['Neigboring land'] = rec['Survey/ranch_details/neighbors']
+		rec['APN or parcel ID'] = rec['Survey/ranch_details/parcelid']
+		rec['Photo filename'] = rec['Survey/ranch_details/photo1'] #NULL CASE
+		rec['Photo filename'] = rec['Survey/ranch_details/photo2'] #NULL CASE
+		rec['Previous farming activity'] = rec['Survey/ranch_details/previousfarming']
+		rec['Other previous farming'] = rec['Survey/ranch_details/previousfarming_other']
+		
+		rec['Soil description (audio)'] = rec['']
+		rec['Soil description'] = rec['']
+		rec['Soil Type (general)'] = rec['Survey/ranch_details/soil_type']
+		rec['Irrigation permit status'] = rec['Survey/ranch_details/soil_type']
+		rec['Mainline diameter (inches)'] = rec['Survey/ranch_details/soil_type']
+		# Survey/ranch_details/WaterDetails/irrigation_permit	Irrigation permit status
+		# Survey/ranch_details/WaterDetails/mainline_diam	Mainline diameter (inches)
+		rec['Soil description'] = rec['Survey/ranch_details/soil_qual_audio']
+		rec['Mainline diameter (inches)'] = rec['Survey/ranch_details/soil_qual_text']
+		rec['Water Infrastructure'] = rec['Survey/ranch_details/WaterDetails/water_infrastructure']
+		rec['Water Investment'] = rec['Survey/ranch_details/WaterDetails/water_investment']
+		rec['Water Payment Type'] = rec['Survey/ranch_details/WaterDetails/water_payment']
+		rec['Water Source'] = rec['Survey/ranch_details/WaterDetails/water_source']
+		rec['Water volume (gallons per minute)'] = rec['']
+		rec['Well Access'] = rec['Survey/ranch_details/WaterDetails/well_access']
+		rec['Well depth (feet)'] = rec['']
+		rec['Weed management practices'] = rec['']
+		rec['Growing season (months)'] = rec['Survey/ranch_details/winter_potential']
+		rec['Land description'] = rec['']
+		rec['Farm size (acres)'] = rec['']
+		rec['Availability status'] = rec['']
+		rec['Lease rate offered ($/acre)'] = rec['']
+		rec['Location'] = rec[''] #NULL CASE
+		rec['Location'] = rec[''] #NULL CASE
+		rec['Water source'] = rec['']
+
+		rec['CHANGE'] = rec['']
+
+		# rec['Water Infrastructure'] = rec['Water Infrastructure'].title()
+		# print(rec['Water Infrastructure'])
 		
 		# print("NEW REC")
 
@@ -51,10 +105,10 @@ def merge_attachmentLinks(data):
 			fullLink = "https://ona.io" + rec['_attachments'][count]['download_url']
 			if (fullLink.endswith(".jpg") or fullLink.endswith(".png")):
 				rec['photoLink'] = fullLink
-				print "photo: ", rec['photoLink']
+				# print "photo: ", rec['photoLink']
 			else:
 				rec['audioLink'] = fullLink
-				print "audio: ", rec['audioLink']
+				# print "audio: ", rec['audioLink']
 			count+=1
 
 		# # processing soil type
