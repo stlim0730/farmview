@@ -131,11 +131,6 @@
 	    min-height: 150px;*/
 	}
 
-	.image-sponsor {
-		max-width: 12%;
-		padding: 1% 1% 1% 1% ;
-	}
-
 /*********************************************************************************/
 /* List Styles                                                                   */
 /*********************************************************************************/
@@ -709,42 +704,27 @@
 /*********************************************************************************/
 
 .profile {
-	/*padding: 0 0 0 165px;  150px being the width of the thumbnail + how much space you want to put between it and your text */
+	padding: 0 0 0 165px; /* 150px being the width of the thumbnail + how much space you want to put between it and your text */
 	position: relative; /* So the thumbnail is relative to this */
-	width: 24%;
-	padding: 1% 1% 1% 1% ;
-	display: inline-block;
-	vertical-align: top;
 }
 
 	.profile img {
-		width: 100%;
-		/*left: 0;*/
-		/*padding-bottom: 5px;*/
-		/*right: 5;*/
-		position: relative;
-		float: top;
-		/*top: 0;*/
+		width: 150px;
+		left: 0;
+		right: 5;
+		position: absolute;
+		top: 0;
 	}
 
 	.profile h2 {
 		font-size: 25px;
 		text-align: left;
 		margin-left: 0px;
-		padding-bottom: 2px;
-		/*margin-bottom: 2px;*/
+		padding-bottom: 5px;
 	}
 	.profile p {
 		margin-bottom: 0px;
 	}
-	.profile a:link {
-		color: #022836;
-	}
-	.profile a:hover {
-		color: #297C48;
-	}
-
-
 
 #feedback-page{
 	text-align:center;
