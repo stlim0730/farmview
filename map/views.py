@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import simplejson as json
 from .models import Config
 from .models import Datafield
 
@@ -23,8 +22,8 @@ def map(request):
     if len(query_choices_vals) == len(query_choices_labels_eng):
       for i in range(len(query_choices_vals)):
         choice_obj = {
-          'val': query_choices_vals[i].strip().replace('\r', ''),
-          'label_eng': query_choices_labels_eng[i].replace('\r', '')
+          'val': query_choices_vals[i].strip(),
+          'label_eng': query_choices_labels_eng[i]
         }
         if len(query_choices_labels_esp) >= i + 1:
           choice_obj['label_esp'] = query_choices_labels_esp[i]
@@ -38,7 +37,7 @@ def map(request):
       'label_eng': datafield_label_eng,
       'label_esp': datafield_label_esp,
       'data_sources': data_sources,
-      'choices': json.dumps(query_choices, separators=(',', ':'), sort_keys=True),
+      'choices': query_choices,
       'use_for_query_ui': use_for_query_ui,
       'use_for_detail_popup': use_for_detail_popup
     }

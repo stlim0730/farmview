@@ -111,30 +111,41 @@
         if (data.rows.length > 0) {
 
           var record = data.rows[0];
-          var popup = $('#detail-page .wrapper-per-source.data-from-' + table);
+          $('#detail-page .wrapper-per-source.data-from-' + table).show();
 
-          for (var key in record) {
-            var label_replace_flag = false; // SET TRUE IF RAW VALUE OF SQL RESULT HAS BEEN REPLACED WITH HUMAN READABLE LABELS
-            var target_field_selector = '#' + key + '-field.data-field'
-            var if_show = popup.has(target_field_selector).length == 1;
-            if (if_show && record[key]) {
-              // START TRANSLATE VALUES INTO HUMAN-READABLE LABELS
-              var choices = $(target_field_selector).data('choices');
-              for (var i = 0; i < choices.length; i++) {
-                var choice = choices[i];
-                if (choice.val == record[key]) {
-                  label_replace_flag = true;
-                  $(target_field_selector).html(choice.label_eng);
-                  break;
-                }
-              }
-              // END TRANSLATE VALUES INTO HUMAN-READABLE LABELS
-              if (!label_replace_flag)
-                $(target_field_selector).html(record[key]);
-            }
+          if (table == PARCEL_TABLE) {
+            var apn = record.apn || 'N/A';
+            var acres = record.acres || 'N/A';
+            var site_full = record.site_full || 'N/A';
+            var county = record.county || 'N/A';
+            var soil_type = record.soil_type || 'N/A';
+            var zone_type = record.zone_type || 'N/A';
+
+            $('#apn-field').html(apn);
+            $('#acres-field').html(acres);
+            $('#site_full-field').html(site_full);
+            $('#county-field').html(county);
+            $('#soil_type-field').html(soil_type);
+            $('#zone_type-field').html(zone_type);
           }
+          else if (table == POINT_TABLE) {
+            var survey_ranch_address_ranch_name = record.survey_ranch_address_ranch_name || 'N/A';
+            var survey_ranch_details_lease_rate_current = record.survey_ranch_details_lease_rate_current || 'N/A';
+            var survey_land_availability = record.survey_land_availability || 'N/A';
+            var survey_ranch_details_waterdetails_water_source = record.survey_ranch_details_waterdetails_water_source || 'N/A';
+            var survey_session_desc = record.survey_session_desc || 'N/A';
+            var survey_farmer_details_yearsfarming = record.survey_farmer_details_yearsfarming || 'N/A';
 
-          popup.show();
+            $('#survey_ranch_address_ranch_name-field').html(survey_ranch_address_ranch_name);
+            $('#survey_ranch_details_lease_rate_current-field').html(survey_ranch_details_lease_rate_current);
+            $('#survey_land_availability-field').html(survey_land_availability);
+            $('#survey_ranch_details_waterdetails_water_source-field').html(survey_ranch_details_waterdetails_water_source);
+            $('#survey_session_desc-field').html(survey_session_desc);
+            $('#survey_farmer_details_yearsfarming-field').html(survey_farmer_details_yearsfarming);
+          }
+          else if (table == POLYGON_TABLE) {
+
+          }
         }
 
         // SHOW THE POPUP
