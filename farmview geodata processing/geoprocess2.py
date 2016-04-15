@@ -41,17 +41,16 @@ def merge_attachmentLinks(data):
     # new column for image, new column for sound
     for rec in data:
         count = 0
-        rec['photoLink'] = ""
-        rec['audioLink'] = ""
+        rec['photoLink'] = None
+        rec['audioLink'] = None
+
         # processing attachments
         for attachment in rec['_attachments']:
             fullLink = "https://ona.io" + rec['_attachments'][count]['download_url']
             if (fullLink.endswith(".jpg") or fullLink.endswith(".png")):
                 rec['photoLink'] = fullLink
-                # print "photo: ", rec['photoLink']
             else:
                 rec['audioLink'] = fullLink
-                # print "audio: ", rec['audioLink']
 
         renameField(rec, 'survey_available_land_details_acres_avail', 'Acres available')
         renameField(rec, 'survey_available_land_details_ageasment', 'Agricultural easement status')
@@ -72,11 +71,8 @@ def merge_attachmentLinks(data):
         renameField(rec, 'survey_farmer_details_orgs', 'Organizations')
         renameField(rec, 'survey_farmer_details_yearsfarming', 'Years farming')
         renameField(rec, 'survey_land_availability', 'Land availability')
-
         renameField(rec, 'Survey/ranch_address/land_county', 'County')
-        # REQUIRES ONE OR THE OTHER
-        # renameField(rec, 'survey_ranch_address_location_gps', 'Location')
-        # renameField(rec, 'Survey/ranch_address/Location_fromweb', 'Location')
+        renameFieldOneOrTheOther(rec, 'survey_ranch_address_location_gps', 'Survey/ranch_address/Location_fromweb', 'Location')
         renameField(rec, 'survey_ranch_address_city', 'City')
         renameField(rec, 'survey_ranch_address_number', 'Number')
         renameField(rec, 'survey_ranch_address_ranch_name', 'Ranch name')
@@ -86,19 +82,16 @@ def merge_attachmentLinks(data):
         renameField(rec, 'Survey/ranch_details/desc_general', 'General description')
         renameField(rec, 'Survey/ranch_details/fallowtime', 'Time fallow')
         renameField(rec, 'Survey/ranch_details/farm_size', 'Farm size (acres)')
-        renameField(rec, 'Survey/ranch_details/farming_practices', 'Farming Practices')
-        renameField(rec, 'Survey/ranch_details/fence_status', 'Fence Status')
-        renameField(rec, 'Survey/ranch_details/infrastructure', 'Existing Infrastructure')
+        renameField(rec, 'Survey/ranch_details/farming_practices', 'Farming practices')
+        renameField(rec, 'Survey/ranch_details/fence_status', 'Fence status')
+        renameField(rec, 'Survey/ranch_details/infrastructure', 'Existing infrastructure')
         renameField(rec, 'Survey/ranch_details/infrastructure_other', 'Other infrastructure')
-        renameField(rec, 'Survey/ranch_details/land_owner_lives_where', 'Land Owner Location')
+        renameField(rec, 'Survey/ranch_details/land_owner_lives_where', 'Land owner location')
         renameField(rec, 'Survey/ranch_details/current', 'Current lease rate ($/acre)')
         renameField(rec, 'Survey/ranch_details/neighboringfarm', 'Neighboring farm type')
         renameField(rec, 'Survey/ranch_details/neighbors', 'Neighboring land')
         renameField(rec, 'Survey/ranch_details/parcelid', 'APN or parcel ID')
-        # renameField(rec, 'Survey/ranch_details/', '')
-        # renameField(rec, 'Survey/ranch_details/', '')
-        # rec['Photo filename'] = rec['Survey/ranch_details/photo1'] #NULL CASE
-        # rec['Photo filename'] = rec['Survey/ranch_details/photo2'] #NULL CASE
+        renameFieldOneOrTheOther(rec, 'Survey/ranch_details/photo1', 'Survey/ranch_details/photo2', 'Photo filename')
         renameField(rec, 'Survey/ranch_details/previousfarming', 'Previous farming activity')
         renameField(rec, 'Survey/ranch_details/previousfarming_other', 'Other previous farming')
         renameField(rec, 'Survey/ranch_details/soil_type', 'Soil type (general)')
@@ -118,20 +111,17 @@ def merge_attachmentLinks(data):
         renameField(rec, 'Survey/ranch_details/weed_mgmt', 'Weed management practices')
         renameField(rec, 'Survey/ranch_details/winter_potential', 'Growing season (months)')
 
-        #REQUIRES SOME SORT OF ERROR CHECKING 
-        renameField(rec, 'survey_rapid_survey_desc_short', 'Land description')
-        renameField(rec, 'survey_rapid_survey_farm_size_short', 'Farm size (acres)')
-        renameField(rec, 'survey_rapid_survey_land_status_short', 'Availability status')
-        renameField(rec, 'survey_rapid_survey_lease_rate_short', 'Lease rate offered ($/acre)')     
-        renameField(rec, 'survey_rapid_survey_location_fromweb_short', 'Location')
-        renameField(rec, 'survey_rapid_survey_location_gps_short', 'Location')
-        renameField(rec, 'survey_rapid_survey_water_short', 'Water source')
-
+        renameFieldRapid(rec, 'survey_rapid_survey_desc_short', 'Land description')
+        renameFieldRapid(rec, 'survey_rapid_survey_farm_size_short', 'Farm size (acres)')
+        renameFieldRapid(rec, 'survey_rapid_survey_land_status_short', 'Availability status')
+        renameFieldRapid(rec, 'survey_rapid_survey_lease_rate_short', 'Lease rate offered ($/acre)')     
+        renameFieldRapid(rec, 'survey_rapid_survey_location_fromweb_short', 'Location')
+        renameFieldRapid(rec, 'survey_rapid_survey_location_gps_short', 'Location')
+        renameFieldRapid(rec, 'survey_rapid_survey_water_short', 'Water source')
 
         renameField(rec, 'survey_session_desc', 'Data entry type')
         
         #Renaming values
-        
         oldLivestock = ['cows', 'chickens', 'goats', 'sheep', 'any', 'none']
         newLivestock = ['Cows', 'Chickens', 'Goats', 'Sheep', 'Any of the above', 'None']
         renameValues(rec, 'Livestock allowed', oldLivestock, newLivestock)
@@ -154,31 +144,32 @@ def merge_attachmentLinks(data):
 
         oldPractices = ['organic', 'conventional', 'nospray', 'mixed', 'transitioning', 'livestock_only', 'fallow', 'livestock_and_crops']
         newPractices = ['Certified Organic', 'Conventional', 'Organic, but without certification', 'Some organic, some conventional', 'Transitioning to organic', 'Just livestock', 'Fallow', 'Some livestock, some crops']
-        renameValues(rec, 'Farming Practices', oldPractices, newPractices)
+        renameValues(rec, 'Farming practices', oldPractices, newPractices)
 
         oldInfrastructure = ['housing','greenhouse','garage','barn','cooler']
         newInfrastructure = ['Housing','Greenhouse','Garage','Barn','Cooler']
-        renameValues(rec, 'Existing Infrastructure', oldInfrastructure, newInfrastructure)
+        renameValues(rec, 'Existing infrastructure', oldInfrastructure, newInfrastructure)
 
         oldOwner = ['lives_on_property', 'lives_elsewhere', 'unknown']
         newOwner = ['The land owner lives on this property', 'The land owner lives somewhere else', 'Unknown']
-        renameValues(rec, 'Land Owner Location', oldOwner, newOwner)
+        renameValues(rec, 'Land owner location', oldOwner, newOwner)
 
         oldNeigboringFarm = ['conventional', 'certified_organic', 'fallow', 'unknown']
         newNeigboringFarm = ['Conventional', 'Certified organic', 'Fallow', 'Not sure']
         renameValues(rec, 'Neighboring farm type', oldNeigboringFarm, newNeigboringFarm)
 
         oldNeigbors = ['farming', 'residential', 'commerical', 'public', 'habitat', 'unknown']
-        newNeigbors = ['Farming', 'rRsidential', 'Commerical', 'Public', 'Habitat', 'Not sure']
+        newNeigbors = ['Farming', 'Residential', 'Commerical', 'Public', 'Habitat', 'Not sure']
         renameValues(rec, 'Neighboring land', oldNeigbors, newNeigbors)
 
         oldPrevFarming = ['rowcrops', 'strawberries', 'raspberries', 'tomatoes', 'potatoes', 'flowers', 'no_farming', 'unknown']
         newPrevFarming = ['Row crops, vegetables', 'Strawberries', 'Raspberries', 'Tomatoes', 'Potatoes', 'Flowers', 'No farming history', 'Unknown']
         renameValues(rec, 'Previous farming activity', oldPrevFarming, newPrevFarming)
 
-        oldSoilType = ['sand', 'sandloam', 'loam', 'clayloam', 'clay']
-        newSoilType = ['Very light (sand)', 'Somewhat light (sandy loam)', 'Medium (loam)', 'Somewhat heavy (clay loam)', 'Heavy (clay)']
-        renameValues(rec,'Soil type (general)', oldSoilType, newSoilType)
+        #LOAM PROBLEMS.
+        # oldSoilType = ['sand', 'sandyloam','loam', 'calyloam', 'clay']
+        # newSoilType = ['Very light (sand)', 'Somewhat light (sandy loam)', 'Medium (loam)', 'Somewhat heavy (clay loam)', 'Heavy (clay)']
+        renameValuesSoil(rec,'Soil type (general)')
 
         oldWaterInfrastructure = ['sprinklers', 'tape', 'mainline', 'investment_needed']
         newWaterInfrastructure = ['Sprinklers', 'Tape', 'Mainline', 'Infrastructure needed']
@@ -214,11 +205,45 @@ def renameField(arr, oldName, newName):
     if oldName in arr.keys():
         arr[newName] = arr[oldName]
     else:
-        arr[newName] = ""
+        arr[newName] = None
+
+def renameFieldRapid(arr, oldName, newName):
+    if oldName in arr.keys():
+        if newName in arr.keys() and arr[newName] == "":
+            arr[newName] = arr[oldName]
+    else:
+        arr[newName] = None
+
+
+def renameFieldOneOrTheOther(arr, oldName1, oldName2, newName):
+    if oldName1 in arr.keys():
+        arr[newName] = arr[oldName1]
+    elif oldName2 in arr.keys():
+        arr[newName] = arr[oldName2]
+    else:
+        arr[newName] = None
 
 def renameValues(arr, field, oldVals, newVals):
-    for old, new in map(None, oldVals, newVals):
-        arr[field] = arr[field].replace(old, new)
+    if (arr[field]) != None:
+        for old, new in map(None, oldVals, newVals):
+            arr[field] = arr[field].replace(old, new)
+
+def renameValuesSoil(arr, field):
+
+ 
+    if (arr[field]) != None:
+        if arr[field] == 'sand':
+            arr[field] = 'Very light (sand)'
+        elif arr[field] == 'sandyloam':
+            arr[field] = 'Somewhat light (sandy loam)'
+        elif arr[field] == 'loam':
+            arr[field] = 'Medium (loam)'
+        elif arr[field] == 'calyloam':
+            arr[field] = 'Somewhat heavy (clay loam)'
+        elif arr[field] == 'clay':
+            arr[field] = 'Heavy (clay)'
+    print arr[field]
+
 
 
 # function that prints out all of the values in the dictionary (just useful to see):
