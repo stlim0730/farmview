@@ -6,19 +6,30 @@
         <h4 class='modal-title'>Details on the Parcel</h4>
       </div>
       <div class='modal-body'>
-
+      
         {% for data_source in data_sources %}
           <div class='data-from-{{data_source}} wrapper-per-source collapse'>
-          {% for datafield in datafields %}
-            {% if datafield.use_for_detail_popup and data_source in datafield.data_sources %}
-              <div class='form-group'>
-                <label for='{{datafield.name}}-field' class='control-label data-label'>{{datafield.label_eng}}</label><br />
-                <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices}}'>
-                  N/A
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
+            <!-- <div class='container'> -->
+              <!-- <div class='row'> -->
+
+                <!-- <div class='col-md-3 thumbnail-area'></div> -->
+                <div class='thumbnail-area'></div>
+                
+                <!-- <div class='col-md-5'> -->
+                  {% for datafield in datafields %}
+                    {% if datafield.use_for_detail_popup and data_source in datafield.data_sources %}
+                      <div class='form-group'>
+                        <label for='{{datafield.name}}-field' class='control-label data-label'>{{datafield.label_eng}}</label><br />
+                        <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices}}'>
+                          N/A
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                <!-- </div> -->
+
+              <!-- </div> -->
+            <!-- </div> -->
           </div>
         {% endfor %}
 

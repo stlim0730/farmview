@@ -46,6 +46,15 @@ p.info-window-custom-paragraph {
   margin-left: 45px;
 }
 
+#detail-page .thumbnail-area img {
+  margin-left: 50px;
+  margin-bottom: 30px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
 .min-max-text-input {
   width: 50%;
   display: inline-block;
