@@ -46,9 +46,12 @@ p.info-window-custom-paragraph {
   margin-left: 45px;
 }
 
-#detail-page .thumbnail-area img {
-  margin-left: 50px;
-  margin-bottom: 30px;
+#detail-page .thumbnail-area {
+  margin-right: 15px;
+  margin-top: 15px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
 }
 
 .pointer {
