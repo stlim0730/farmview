@@ -44,7 +44,8 @@ def merge_attachmentLinks(data):
         rec['photoLink'] = None
         rec['audioLink'] = None
 
-        # processing attachments
+        # processing attachments - turning them into full links 
+        # so that they can be displayed on the popup window
         for attachment in rec['_attachments']:
             fullLink = "https://ona.io" + rec['_attachments'][count]['download_url']
             if (fullLink.endswith(".jpg") or fullLink.endswith(".png")):
@@ -166,9 +167,6 @@ def merge_attachmentLinks(data):
         newPrevFarming = ['Row crops, vegetables', 'Strawberries', 'Raspberries', 'Tomatoes', 'Potatoes', 'Flowers', 'No farming history', 'Unknown']
         renameValues(rec, 'Previous farming activity', oldPrevFarming, newPrevFarming)
 
-        #LOAM PROBLEMS.
-        # oldSoilType = ['sand', 'sandyloam','loam', 'calyloam', 'clay']
-        # newSoilType = ['Very light (sand)', 'Somewhat light (sandy loam)', 'Medium (loam)', 'Somewhat heavy (clay loam)', 'Heavy (clay)']
         renameValuesSoil(rec,'Soil type (general)')
 
         oldWaterInfrastructure = ['sprinklers', 'tape', 'mainline', 'investment_needed']
@@ -207,6 +205,7 @@ def renameField(arr, oldName, newName):
     else:
         arr[newName] = None
 
+# For fields that were in the rapid version of the survey
 def renameFieldRapid(arr, oldName, newName):
     if oldName in arr.keys():
         if newName in arr.keys() and arr[newName] == "":
@@ -214,7 +213,8 @@ def renameFieldRapid(arr, oldName, newName):
     else:
         arr[newName] = None
 
-
+# There might be various fields which map to the same new field name 
+# because of the different survey types
 def renameFieldOneOrTheOther(arr, oldName1, oldName2, newName):
     if oldName1 in arr.keys():
         arr[newName] = arr[oldName1]
@@ -228,9 +228,9 @@ def renameValues(arr, field, oldVals, newVals):
         for old, new in map(None, oldVals, newVals):
             arr[field] = arr[field].replace(old, new)
 
-def renameValuesSoil(arr, field):
-
- 
+# Requires its own special function because of how the word 'loam' 
+# appears in lots of places and keeps getting overwritten
+def renameValuesSoil(arr, field): 
     if (arr[field]) != None:
         if arr[field] == 'sand':
             arr[field] = 'Very light (sand)'
