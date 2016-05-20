@@ -1,0 +1,81 @@
+<div id='{{datafield.name}}-query' class='checkbox query-ui col-md-3'>
+  <label>
+    <input id='{{datafield.name}}-checkbox' type='checkbox' class='query-group' data-query-type='{{datafield.type}}' data-table='{{datafield.data_sources}}' data-field='{{datafield.name}}' data-toggle='collapse' data-target='#{{datafield.name}}-choices' />{{datafield.label_eng}}
+  </label>
+  <input id='{{datafield.name}}-input' type='text' class='form-control operand-ui col-md-2 output-only' placeholder='No values selected' disabled />
+  <div id='{{datafield.name}}-choices' class='collapse bottom-fixed-popup'>
+    <ul class='list-group'>
+
+      {% for choice in datafield.choices %}
+        <li class='list-group-item'>
+          <label>
+            <input id='{{choice.val}}-checkbox' type='checkbox' class='query-group' data-val='{{choice.val}}'/>
+            {{choice.label_eng}}
+          </label>
+        </li>
+      {% endfor %}
+      
+      <li class='list-group-item'>
+        <script>
+
+          function resetChoices(choices_id) {
+            var checkboxes = $('#' + choices_id).find('input');
+            var vals = [];
+            for (var i = 0; i < checkboxes.length; i++) {
+              var checkbox = $(checkboxes[i]);
+              checkbox.prop('checked', false)
+            }
+            $('#{{datafield.name}}-input').val('No values selected');
+          }
+
+          function cancelChoices(choices_id, checkbox_id) {
+            var current = $('#' + checkbox_id).prop('checked');
+            $('#' + checkbox_id).prop('checked', !current);
+
+            var vals = $('#{{datafield.name}}-input').val().split(',');
+
+            var checkboxes = $('#' + choices_id).find('input');
+            for (var i = 0; i < checkboxes.length; i++) {
+              var checkbox = $(checkboxes[i]);
+              checkbox.prop('checked', false)
+            }
+
+            for (var i = 0; i < vals.length; i++) {
+              $('#' + choices_id).find('input[data-val="' + vals[i] + '"]').prop('checked', true);
+            }
+          }
+
+          function applyChoices(choices_id, checkbox_id) {
+            var checkboxes = $('#' + choices_id).find('input');
+            var vals = [];
+            for (var i = 0; i < checkboxes.length; i++) {
+              var checkbox = $(checkboxes[i]);
+              if (checkbox.prop('checked')) {
+                var val = checkbox.data('val');
+                vals.push(val);
+              }
+            }
+
+            if (vals.length == 0) {
+              resetChoices();
+              $('#' + checkbox_id).prop('checked', false);
+            }
+            else {
+              $('#{{datafield.name}}-input').val(vals.join());
+              $('#' + checkbox_id).prop('checked', true);
+            }
+          }
+
+        </script>
+        <div class='btn-toolbar'>
+          <div class='btn-group'>
+            <div type='button' class='btn btn-default' data-toggle='collapse' data-target='#{{datafield.name}}-choices' onclick='cancelChoices("{{datafield.name}}-choices", "{{datafield.name}}-checkbox")'>Cancel</div>
+            <div type='button' class='btn btn-default' onclick='resetChoices("{{datafield.name}}-choices")'>Reset</div>
+            <div type='button' class='btn btn-primary' data-toggle='collapse' data-target='#{{datafield.name}}-choices' onclick='applyChoices("{{datafield.name}}-choices", "{{datafield.name}}-checkbox")'>Apply</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</div>
