@@ -38,7 +38,7 @@ def map(request):
       'label_eng': datafield_label_eng,
       'label_esp': datafield_label_esp,
       'data_sources': data_sources,
-      'choices': json.dumps(query_choices, separators=(',', ':'), sort_keys=True),
+      'choices': query_choices,#json.dumps(query_choices, separators=(',', ':'), sort_keys=True),
       'use_for_query_ui': use_for_query_ui,
       'use_for_detail_popup': use_for_detail_popup
     }

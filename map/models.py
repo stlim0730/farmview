@@ -13,10 +13,11 @@ class Datafield(models.Model):
   DATAFIELD_TYPE_CHOICES = (
                               ('text', 'Text'),
                               ('range', 'Range'),
-                              ('select_one', 'Select One')
+                              ('select_one', 'Select One'),
+                              ('select_multiple', 'Select Multiple')
                              )
   datafield_type = models.CharField(max_length = 20, choices=DATAFIELD_TYPE_CHOICES)
-  datafield_name = models.CharField(max_length = 50)
+  datafield_name = models.CharField(max_length = 60)
   datafield_label_eng = models.CharField(max_length = 30, blank = False)
   datafield_label_esp = models.CharField(max_length = 30, blank = True)
   data_sources = models.TextField(blank = False)

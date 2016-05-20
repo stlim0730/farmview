@@ -21,8 +21,10 @@ html, body {
   z-index: 10000000;
 }
 
-.query-ui {
-  
+.query-ui div.bottom-fixed-popup {
+  position: absolute;
+  bottom: -30px;
+  margin: inherit;
 }
 
 .radio+.radio.query-ui, .checkbox+.checkbox.query-ui {
