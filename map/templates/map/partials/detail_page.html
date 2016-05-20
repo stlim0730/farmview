@@ -9,116 +9,22 @@
       
         {% for data_source in data_sources %}
           <div class='data-from-{{data_source}} wrapper-per-source collapse'>
-            <!-- <div class='container'> -->
-              <!-- <div class='row'> -->
+            
+            <div class='thumbnail-area'></div>
 
-                <!-- <div class='col-md-3 thumbnail-area'></div> -->
-                <div class='thumbnail-area'></div>
-                
-                <!-- <div class='col-md-5'> -->
-                  {% for datafield in datafields %}
-                    {% if datafield.use_for_detail_popup and data_source in datafield.data_sources %}
-                      <div class='form-group'>
-                        <label for='{{datafield.name}}-field' class='control-label data-label'>{{datafield.label_eng}}</label><br />
-                        <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices}}'>
-                          N/A
-                        </div>
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                <!-- </div> -->
+            {% for datafield in datafields %}
+              {% if datafield.use_for_detail_popup and data_source in datafield.data_sources %}
+                <div class='form-group'>
+                  <label for='{{datafield.name}}-field' class='control-label data-label'>{{datafield.label_eng}}</label><br />
+                  <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices}}' data-type='{{datafield.type}}'>
+                    N/A
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
 
-              <!-- </div> -->
-            <!-- </div> -->
           </div>
         {% endfor %}
-
-        <!-- TODO: input more data -->
-        <!-- https://docs.google.com/document/d/1bK6pKhQRQbSd9EzEprI12aMkCbYrvqmiwgYHuaNMz38/edit -->
-
-
-<!-- 
-        <div class='data-from-central_coast_joined wrapper-per-source collapse'>
-          <div class='form-group'>
-            <label for='apn-field' class='control-label data-label'>Assessor Parcel Number</label><br />
-            <div id='apn-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='acres-field' class='control-label data-label'>Acres</label><br />
-            <div id='acres-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='site_full-field' class='control-label data-label'>Full Site address</label><br />
-            <div id='site_full-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='county-field' class='control-label data-label'>County</label><br />
-            <div id='county-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='soil_type-field' class='control-label data-label'>Dominant Soil type</label><br />
-            <div id='soil_type-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='zone_type-field' class='control-label data-label'>Dominant Zoning Type</label><br />
-            <div id='zone_type-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-        </div>
-
-
-
-        <div class='data-from-data_point wrapper-per-source collapse'>
-          <div class='form-group'>
-            <label for='survey_ranch_address_ranch_name-field' class='control-label data-label'>Ranch Name</label><br />
-            <div id='survey_ranch_address_ranch_name-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='survey_ranch_details_lease_rate_current-field' class='control-label data-label'>Current Lease Rate</label><br />
-            <div id='survey_ranch_details_lease_rate_current-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='survey_land_availability-field' class='control-label data-label'>Land Availability</label><br />
-            <div id='survey_land_availability-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='survey_ranch_details_waterdetails_water_source-field' class='control-label data-label'>Water Source</label><br />
-            <div id='survey_ranch_details_waterdetails_water_source-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='survey_session_desc-field' class='control-label data-label'>Session Description</label><br />
-            <div id='survey_session_desc-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-          <div class='form-group'>
-            <label for='survey_farmer_details_yearsfarming-field' class='control-label data-label'>Years of Farming</label><br />
-            <div id='survey_farmer_details_yearsfarming-field' class='data-field'>
-              N/A
-            </div>
-          </div>
-        </div>
- -->
-
 
       </div>
       <div class='modal-footer'>
@@ -126,4 +32,91 @@
       </div>
     </div>
   </div>
+
+
+  <script>
+
+    var NO_DATA_PLACEHOLDER = 'N/A';
+
+    function resetDetailsPage() {
+      $('.data-field').html(NO_DATA_PLACEHOLDER);
+      $('div.thumbnail-area').html('');
+      $('#detail-page .wrapper-per-source').hide(); // COLLAPSE ALL
+    }
+
+    function getLabelWithVal(val, choices) {
+      var values = val.split(' ');
+      var res = [];
+
+      for (var j = 0; j < values.length; j++) {
+        var value = values[j];
+
+        for (var i = 0; i < choices.length; i++) {
+          var choice = choices[i];
+
+          if (choice.val == value) {
+            res.push(choice.label_eng);
+          }
+        }
+      }
+
+      return res.join(', ');
+    }
+
+    function renderDetailsPage(result, table) {
+
+      var record = result.rows[0];
+      var per_data_source = $('#detail-page .wrapper-per-source.data-from-' + table); // div FOR THE RELEVANT TABLE
+
+      for (var key in record) {
+        var target_field_selector = '#' + key + '-field.data-field';
+        var field = $(target_field_selector);
+        // is_relevant_field IS SET TO TRUE IF THE div WRAPPER HAS THE FIELD
+        var is_relevant_field = per_data_source.has(target_field_selector).length == 1;
+
+        if (is_relevant_field && record[key]) {
+          if ($.inArray(field.data('type'), ['select_one', 'select_multiple']) >= 0) {
+            // REPLACE RAW VALUE WITH HUMAN-READABLE LABEL
+            var choices = $(target_field_selector).data('choices');
+            var label = getLabelWithVal(record[key], choices);
+            if (label.trim() == '') {
+              field.html(record[key]);
+              console.log(key, record[key], 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
+            }
+            else field.html(label);
+          }
+          else {
+            field.html(record[key]);
+          }
+        }
+      }
+
+      // SHOW PARCEL IMAGE IF APPLICABLE
+      if ('_attachments' in record) {
+        var attachments = JSON.parse(record['_attachments']);
+        // console.log(attachments);
+
+        for (var i = 0; i < attachments.length; i++) {
+          var attachment = attachments[i];
+          // console.log(attachment);
+          if (attachment.mimetype.startsWith('image/')) {
+            var thumbmail_url = 'https://ona.io' + attachment['small_download_url'];
+            var original_img_url = 'https://ona.io' + attachment['download_url'];
+            
+            var thumbnail_area = $(per_data_source.find('div.thumbnail-area')[0]);
+            var original_img_area = $('#img-per_data_source-layer');
+
+            thumbnail_area.html('<a href="' + original_img_url + '" target="_blank"><img title="Click for original size" src="' + thumbmail_url + '"/></a>');
+          }
+        }
+      }
+
+      // DISPLAY THE RELEVANT WRAPPER
+      per_data_source.show();
+    }
+
+  </script>
+
+
+
 </div>
