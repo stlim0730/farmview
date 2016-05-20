@@ -91,77 +91,39 @@
     layers = _layers; // layers[0] is a torque layer where we don't have much control.
     data_layer = layers[1];
 
+    
+
     // START DYNAMIC ELEMENTS ON INFO WINDOW
     $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
       // GET DATA FROM CARTODB
+      // THESE THREE DATA ATTRIBUTES SHOULD BE DEFINED IN infowindow SECTION ON CartoDB
       var table = $(this).attr('data-source');
       var id_field = $(this).attr('data-id-field');
       var id_val = $(this).attr('data-id');
-      // NOTE: THE QUERY STRINGS HAVE TO USE SINGLE QUOTE BUT NOT DOUBLE!
+
+      // NOTE: THE QUERY STRING HAS TO USE SINGLE QUOTE BUT NOT DOUBLE!
       var query_str = 'select * from ' + table + ' where ' + id_field + ' = \'' + id_val + '\'';
-      console.log(id_val);
+      // console.log(id_field, id_val);
 
-      $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(data) {
-        console.log(data);
+      $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(result) {
+        // console.log(data);
         
-        // SET THE DETAIL PAGE WITH THE SELECTED PARCEL
-        $('.data-field').html('N/A');
-        $('#detail-page .wrapper-per-source').hide();
+        resetDetailsPage();
 
-        if (data.rows.length > 0) {
-
-          var record = data.rows[0];
-          var popup = $('#detail-page .wrapper-per-source.data-from-' + table);
-
-          for (var key in record) {
-            var label_replace_flag = false; // SET TRUE IF RAW VALUE OF SQL RESULT HAS BEEN REPLACED WITH HUMAN READABLE LABELS
-            var target_field_selector = '#' + key + '-field.data-field'
-            var if_show = popup.has(target_field_selector).length == 1;
-            if (if_show && record[key]) {
-              // START TRANSLATE VALUES INTO HUMAN-READABLE LABELS
-              var choices = $(target_field_selector).data('choices');
-              for (var i = 0; i < choices.length; i++) {
-                var choice = choices[i];
-                if (choice.val == record[key]) {
-                  label_replace_flag = true;
-                  $(target_field_selector).html(choice.label_eng);
-                  break;
-                }
-              }
-              // END TRANSLATE VALUES INTO HUMAN-READABLE LABELS
-              if (!label_replace_flag)
-                $(target_field_selector).html(record[key]);
-            }
-          }
-
-          // SHOW PARCEL IMAGE IF APPLICABLE
-          if ('_attachments' in record) {
-            var attachments = JSON.parse(record['_attachments']);
-            console.log(attachments);
-
-            for (var i = 0; i < attachments.length; i++) {
-              var attachment = attachments[i];
-              console.log(attachment);
-              if (attachment.mimetype.startsWith('image/')) {
-                var thumbmail_url = 'https://ona.io' + attachment['small_download_url'];
-                var original_img_url = 'https://ona.io' + attachment['download_url'];
-                
-                var thumbnail_area = $(popup.find('div.thumbnail-area')[0]);
-                var original_img_area = $('#img-popup-layer');
-
-                thumbnail_area.html('<a href="' + original_img_url + '" target="_blank"><img title="Click for original size" src="' + thumbmail_url + '"/></a>');
-              }
-            }
-          }
-
-          popup.show();
+        if (result.rows.length == 1) {
+          renderDetailsPage(result, table);
+        }
+        else if (result.rows.length > 1) {
+          // TODO: DISPLAY AN ERROR MESSAGE
         }
 
-        // SHOW THE POPUP
+        // SHOW THE POPUP MODAL
         $('#detail-page').modal('show');
       });
     });
     // END DYNAMIC ELEMENTS ON INFO WINDOW
+
+
   });
   // END SETTING CartoDB
 

@@ -18,7 +18,7 @@ def map(request):
     data_sources = str(query_field.data_sources).replace('\n', ',').replace('\r', '')
     query_choices_vals = str(query_field.query_choices_vals).split('\n')#.replace('\n', ',').replace('\r', '') # name in XLS Form
     query_choices_labels_eng = str(query_field.query_choices_labels_eng).split('\n')#.replace('\n', ',').replace('\r', '') # label_english in XLS Form
-    query_choices_labels_esp = unicode(query_field.query_choices_labels_esp).split('\n')#.replace('\n', ',').replace('\r', '') # label_espanol in XLS Form
+    # query_choices_labels_esp = unicode(query_field.query_choices_labels_esp).split('\n')#.replace('\n', ',').replace('\r', '') # label_espanol in XLS Form
     query_choices = []
     if len(query_choices_vals) == len(query_choices_labels_eng):
       for i in range(len(query_choices_vals)):
@@ -26,8 +26,8 @@ def map(request):
           'val': query_choices_vals[i].strip().replace('\r', ''),
           'label_eng': query_choices_labels_eng[i].replace('\r', '')
         }
-        if len(query_choices_labels_esp) >= i + 1:
-          choice_obj['label_esp'] = query_choices_labels_esp[i]
+        # if len(query_choices_labels_esp) >= i + 1:
+        #   choice_obj['label_esp'] = query_choices_labels_esp[i]
         query_choices.append(choice_obj)
     use_for_query_ui = query_field.use_for_query_ui
     use_for_detail_popup = query_field.use_for_detail_popup
@@ -38,7 +38,8 @@ def map(request):
       'label_eng': datafield_label_eng,
       'label_esp': datafield_label_esp,
       'data_sources': data_sources,
-      'choices': query_choices,#json.dumps(query_choices, separators=(',', ':'), sort_keys=True),
+      # 'choices': query_choices,
+      'choices': json.dumps(query_choices),# separators=(',', ':'), sort_keys=True),
       'use_for_query_ui': use_for_query_ui,
       'use_for_detail_popup': use_for_detail_popup
     }
