@@ -39,7 +39,7 @@ def process_data(data):
         rec['photoLink'] = None
         rec['audioLink'] = None
 
-        # Processing attachment links
+        # Processing attachment links 
         for attachment in rec['_attachments']:
             fullLink = "https://ona.io" + attachment['download_url']
             # WILL NEED TO ADD IN MORE LOGIC HERE FOR DIFFERENT IMAGE AND AUDIO FORMATS
