@@ -11,6 +11,7 @@
 ##Instructions
 - If you don't have the prerequisites, follow the installations below.
 - Install Django using Python package management system
+- (Running from a virtualenv may be helpful with djangotool box and simplejson installed with pip)
 ```
 pip install Django
 ```
@@ -26,7 +27,7 @@ git clone https://github.com/stlim0730/farmview.git
 ##Running the Server
 - Run a server instance.
 ```
-python manage.py runserver
+python manage.py runserver (this may be preferable to ./run if you are having installation issues)
 ```
 - If you're using a UNIX system including Mac OS X, you may use this shortcut.
 ```
