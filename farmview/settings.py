@@ -10,6 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
+from django.http import HttpResponse
+from django.utils.translation import ugettext as _
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -91,7 +95,17 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
+
+LANGUAGES = (
+    ('en-us', _('English')),
+    ('es', _('Spanish')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'conf/locale'),
+)
 
 TIME_ZONE = 'US/Pacific'
 
