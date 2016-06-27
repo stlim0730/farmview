@@ -38,8 +38,10 @@ def map(request):
       'label_eng': datafield_label_eng,
       # 'label_esp': datafield_label_esp,
       'data_sources': data_sources,
+      # this is object type representation of choices for query ui
       'choices': query_choices,
-      # 'choices': json.dumps(query_choices),# separators=(',', ':'), sort_keys=True),
+      # this is stringified representation of choices for human readable values on detailed page
+      'choices_str': json.dumps(query_choices),# separators=(',', ':'), sort_keys=True),
       'use_for_query_ui': use_for_query_ui,
       'use_for_detail_popup': use_for_detail_popup
     }
