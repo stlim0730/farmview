@@ -16,7 +16,7 @@
               {% if datafield.use_for_detail_popup and data_source in datafield.data_sources %}
                 <div class='form-group'>
                   <label for='{{datafield.name}}-field' class='control-label data-label'>{{datafield.label_eng}}</label><br />
-                  <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices}}' data-type='{{datafield.type}}'>
+                  <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices_str}}' data-type='{{datafield.type}}'>
                     N/A
                   </div>
                 </div>
