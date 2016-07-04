@@ -9,7 +9,9 @@
       {% for choice in datafield.choices %}
         <li class='list-group-item'>
           <label>
-            <input id='{{choice.val}}-checkbox' type='checkbox' class='query-group' data-val='{{choice.val}}'/>
+            <input id='{{choice.val}}-checkbox' type='checkbox' data-val='{{choice.val}}'/>
+            <!-- query-group makes trouble as the submit button uses it as the selctor for the whole group of query ui -->
+            <!-- <input id='{{choice.val}}-checkbox' type='checkbox' class='query-group' data-val='{{choice.val}}'/> -->
             {{choice.label_eng}}
           </label>
         </li>
