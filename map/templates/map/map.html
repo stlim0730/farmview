@@ -1,4 +1,10 @@
 {% extends "map/base.html" %}
+{% load i18n %}
+
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+
 
 {% block map %}
 
@@ -6,15 +12,15 @@
     <div id="header-wrapper">
       <div id="header" class="container">
           <div id="logo">
-              <h1><a href="#">Farmview</a></h1>
+              <h1><a href="#">{% trans "Farmview" %}</a></h1>
           </div>
           <div id="menu">
               <ul>
-                  <li><a href="/" accesskey="1" title="">Homepage</a></li>
-                  <li class="current_page_item"><a href="/map" accesskey="2" title="">Map</a></li>
-                  <li><a href="/about" accesskey="3" title="About">About</a></li>
-                  <li><a href="/mapbook" accesskey="4" title="Mapbook">Mapbook</a></li>
-                  <li><a href="/contact" accesskey="5" title="Contact Us">Contact Us</a></li>
+                  <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
+                  <li class="current_page_item"><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
+                  <li><a href="/about" accesskey="3" title="About">{% trans "About" %}</a></li>
+                  <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
+                  <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
               </ul>
           </div>
       </div>
@@ -41,8 +47,8 @@
 </div>
 <div class='row'>
   <div class='form-group col-md-offset-10 col-md-2'>
-    <button id='query-reset' class='btn btn-default'>Reset</button>
-    <button id='query-submit' class='btn btn-primary'>Submit</button>
+    <button id='query-reset' class='btn btn-default'>{% trans "Reset" %}</button>
+    <button id='query-submit' class='btn btn-primary'>{% trans "Submit" %}</button>
   </div>
 </div>
   

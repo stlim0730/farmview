@@ -16,6 +16,15 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+##
+import os
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "farmview.settings")
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+##
+
 urlpatterns = [
   url(r'^admin/', include(admin.site.urls)),
   url(r'^map/', include('map.urls')),

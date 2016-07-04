@@ -10,14 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-from django.http import HttpResponse
-from django.utils.translation import ugettext as _
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# LOCALE_PATHS = (
+#     os.path.join(BASE_DIR, '../pages/locale'),
+
+# )
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,7 +43,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages',
-    'map'
+    'map',
+    'autotranslate'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -54,6 +56,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+
+    # 'django.middleware.locale.LocaleMiddleware',
+
 )
 
 ROOT_URLCONF = 'farmview.urls'
@@ -95,21 +100,24 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-# LANGUAGE_CODE = 'en-us'
+##
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'es'
 
-LANGUAGES = (
-    ('en-us', _('English')),
-    ('es', _('Spanish')),
-)
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'conf/locale'),
-)
+
+# LANGUAGES = [
+#   ('es', _('Spanish')),
+#   ('en-us', _('English')),
+# ]
+##
+
+
 
 TIME_ZONE = 'US/Pacific'
 
-USE_I18N = True
+USE_I18N = True #specifies whether Django’s translation system should be enabled
 
 USE_L10N = True
 

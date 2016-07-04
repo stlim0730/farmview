@@ -1,4 +1,10 @@
 {% extends "pages/base.html" %}
+{% load i18n %}
+
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+
 
 {% block content %}
 
@@ -25,15 +31,15 @@ Released   : 20140309
     <div id="header-wrapper">
     <div id="header" class="container">
         <div id="logo">
-            <h1><a href="#">Farmview</a></h1>
+            <h1><a href="#">{% trans "Farmview" %}</a></h1>
         </div>
         <div id="menu">
             <ul>
-                <li><a href="/" accesskey="1" title="">Homepage</a></li>
-                <li><a href="/map" accesskey="2" title="">Map</a></li>
-                <li><a href="/about" accesskey="3" title="">About</a></li>
-                <li class="current_page_item"><a href="/mapbook" accesskey="4" title="">Mapbook</a></li>
-                <li><a href="/contact" accesskey="5" title="Contact Us">Contact Us</a></li>
+                <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
+                <li><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
+                <li><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
+                <li class="current_page_item"><a href="/mapbook" accesskey="4" title="">{% trans "Mapbook" %}</a></li>
+                <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
             </ul>
         </div>
     </div>
@@ -42,11 +48,11 @@ Released   : 20140309
 <div id="banner">
     <div class="container">
         <div class="title">
-            <h1>Mapbook</h1>  
-            <span class="byline">Map stories about farmland access</span> 
+            <h1>{% trans "Mapbook" %}</h1>  
+            <span class="byline">{% trans "Map stories about farmland access" %}</span> 
             <br>
             <br>
-            <p><em>Click on each map to visit an interactive dataset</em></p>
+            <p><em>{% trans "Click on each map to visit an interactive dataset" %}</em></p>
         </div>
 
     </div>
@@ -96,7 +102,7 @@ Released   : 20140309
         </div>
         <div class = "container">
             <ul class="actions">
-                <li><a href="#" class="button">Return</a></li>
+                <li><a href="#" class="button">{% trans "Return" %}</a></li>
             </ul>
         </div>
     </div>
@@ -104,7 +110,7 @@ Released   : 20140309
 
 <div id="copyright">
     <div class="container">
-       <p>&copy; Farmview. All rights reserved. | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+       <p>&copy; {% trans "Farmview. All rights reserved. | Design by" %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
     </div>
 </div>
 <script src="../static/lightbox2-master/dist/js/lightbox-plus-jquery.js"></script>

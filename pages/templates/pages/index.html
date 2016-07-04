@@ -1,4 +1,10 @@
 {% extends "pages/base.html" %}
+{% load i18n %}
+
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+
 
 {% block content %}
 
@@ -32,15 +38,15 @@ Released   : 20140309
   <div id="header-wrapper">
   <div id="header" class="container">
     <div id="logo">
-      <h1><a href="#">Farmview</a></h1>
+      <h1><a href="#">{% trans "Farmview" %}</a></h1>
     </div>
     <div id="menu">
       <ul>
-        <li class="current_page_item"><a href="/" accesskey="1" title="">Homepage</a></li>
-        <li><a href="/map" accesskey="2" title="Map">Map</a></li>
-        <li><a href="/about" accesskey="3" title="About Us">About</a></li>
-        <li><a href="/mapbook" accesskey="4" title="Mapbook">Mapbook</a></li>
-        <li><a href="/contact" accesskey="5" title="Contact Us">Contact Us</a></li>
+        <li class="current_page_item"><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
+        <li><a href="/map" accesskey="2" title="Map">{% trans "Map" %}</a></li>
+        <li><a href="/about" accesskey="3" title="About Us">{% trans "About" %}</a></li>
+        <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
+        <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
       </ul>
     </div>
   </div>
@@ -50,12 +56,12 @@ Released   : 20140309
 
       <div class="title">
         <a href = "/map"> <img src="static/homepage_images/map.png" style="width:100%;"> </a>
-        <h2>Farmview</h2>
-        <span class="byline">Explore public data about farmland in the California Central Coast</span> 
+        <h2>{% trans "Farmview" %}</h2>
+        <span class="byline">{% trans "Explore public data about farmland in the California Central Coast" %}</span> 
       </div>
         
       <ul class="actions">
-        <li><a href="/map" class="button">Go to Map</a></li>
+        <li><a href="/map" class="button">{% trans "Go to Map" %}</a></li>
       </ul>
     </div>
   </div>
@@ -65,13 +71,13 @@ Released   : 20140309
     <div class="title">
             <span class="byline" style="font-size:1.2em; text-align:center">
             <p>
-            <a id="top" href="http://farmview.herokuapp.com/map/">View</a> public records about land ownership, soil data, farms currently for lease, and existing ranches.  
+            <a id="top" href="http://farmview.herokuapp.com/map/">{% trans "View" %}</a> {% trans "public records about land ownership, soil data, farms currently for lease, and existing ranches.  " %}
 
             <br>
-            <a id="top" href="https://qlm81.enketo.org/webform" target="_blank">Submit</a> information about an existing farm operation, land listing, or land that has potential agricultural value.
+            <a id="top" href="https://qlm81.enketo.org/webform" target="_blank">{% trans "Submit" %}</a>{% trans " information about an existing farm operation, land listing, or land that has potential agricultural value." %}
                     
             <br>
-            <a id="top" href="/mapbook">Explore</a> maps and <a href="https://farmview.cartodb.com/">download</a> datasets concerning farmland access in the California central coast.
+            <a id="top" href="/mapbook">{% trans "Explore" %}</a>{% trans " maps and " %}<a href="https://farmview.cartodb.com/">{% trans "download" %}</a>{% trans " datasets concerning farmland access in the California central coast." %}"
             </span> 
 
             </p>
@@ -84,20 +90,20 @@ Released   : 20140309
         <div class="box">
           <center><img src="static/homepage_images/survey.png" style="width:70%;" align="middle;"></center>
           <ul class="actions">
-            <li><a href="https://qlm81.enketo.org/webform" class="button" target="_blank">Go to Survey</a></li>
+            <li><a href="https://qlm81.enketo.org/webform" class="button" target="_blank">{% trans "Go to Survey" %}</a></li>
           </ul>
         </div>
       </div>
       <div class="boxB">
         <div class="box"> 
         <center><img src="static/homepage_images/learnmore.png" style="width:70%;"></center>
-          <ul class="actions"><li><a href="/about" class="button">Learn More</a></li></ul>
+          <ul class="actions"><li><a href="/about" class="button">{% trans "Learn More" %}</a></li></ul>
         </div>
       </div>
       <div class="boxC">
         <div class="box">
           <center><img src="static/homepage_images/contact.png" style="width:70%;"></center>
-        <ul class="actions"><li><a href="/contact" class="button">Contact Us</a></li></ul>
+        <ul class="actions"><li><a href="/contact" class="button">{% trans "Contact Us" %}</a></li></ul>
         </div>
       </div>
     </div>
@@ -107,7 +113,7 @@ Released   : 20140309
 
 <div id="copyright">
   <div class="container">
-   <p>&copy; Farmview. All rights reserved. | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+   <p>&copy; {% trans "Farmview. All rights reserved. | Design by " %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
   </div>
 </div>
 </body>

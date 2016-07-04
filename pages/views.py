@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.contrib.sitemaps import Sitemap
-from django.http import HttpResponse
-from django.utils.translation import ugettext as _
+
+##
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext
+##
 
 def index(request):
   return render(request, 'pages/index.html')
