@@ -230,24 +230,7 @@
   });
   // END QUERY UI CHECKBOX
   
-  // START SELECT-MULTIPLE QUERY UI
-  $('button.apply-selection').click(function (e) {
-    var query_ui_id = $(this).closest('div.query-ui').attr('id');
-    var field_name = query_ui_id.substring(0, query_ui_id.length - '-query'.length);
-    var vals = [];
-    var modal_content = $(this).closest('div.modal-content');
-    var checkboxes = modal_content.find('input[type=checkbox].operand-ui');
-    for (var i = 0; i < checkboxes.length; i++) {
-      var checkbox = checkboxes[i];
-      if (checkbox.checked) {
-        vals.push(checkbox.value);
-      }
-    }
-    var val_str = vals.join(); // JOIN WITH COMMA BY DEFAULT
-    $('#' + field_name + '-input').val(val_str);
-    $('button.close').click();
-  });
-  // END SELECT-MULTIPLE QUERY UI
+  
   // END QUERY UI EVENT HANDLERS
 
 
