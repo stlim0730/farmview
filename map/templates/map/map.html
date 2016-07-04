@@ -230,7 +230,7 @@
   });
   // END QUERY UI CHECKBOX
   
-  // START SELECT MULTIPLE QUERY UI
+  // START SELECT-MULTIPLE QUERY UI
   $('button.apply-selection').click(function (e) {
     var query_ui_id = $(this).closest('div.query-ui').attr('id');
     var field_name = query_ui_id.substring(0, query_ui_id.length - '-query'.length);
@@ -247,7 +247,7 @@
     $('#' + field_name + '-input').val(val_str);
     $('button.close').click();
   });
-  // END SELECT MULTIPLE QUERY UI
+  // END SELECT-MULTIPLE QUERY UI
   // END QUERY UI EVENT HANDLERS
 
 
@@ -260,9 +260,10 @@
     var query_checkboxes = $('.query-group');
     for (var i = 0; i < query_checkboxes.length; i++) {
       var query_checkbox = $(query_checkboxes[i]);
+
       if (query_checkbox.prop('checked')) { // ONLY FOR SELECTED QUERY UIS
         var type = query_checkbox.data('query-type');
-        var table = query_checkbox.data('table').split(',');
+        var table = query_checkbox.data('table')/*.split(',')*/;
         var field = query_checkbox.data('field');
         var clause = '';
 
@@ -270,34 +271,40 @@
         switch (type) {
           
           case 'text':
-          var input = $('#' + field + '-input');
-          var val = input.val().trim();
-          clause = ' ' + field + ' LIKE \'' + val + '\'';
-          break;
-          
+            var input = $('#' + field + '-input');
+            var val = input.val().trim();
+            clause = ' ' + field + ' LIKE \'' + val + '\'';
+            break;
+
           case 'range':
-          var input_min = $('#' + field + '-min-input');
-          var input_max = $('#' + field + '-max-input');
-          var val_min = parseInt(input_min.val().trim());
-          var val_max = parseFloat(input_max.val().trim());
-          if (val_min && !isNaN(val_min)) {
-            clause += ' ' + field + ' >= ' + val_min;
-          }
-          if (val_max && !isNaN(val_max)) {
-            if (clause != '') clause += ' and';
-            clause += ' ' + field + ' <= ' + val_max;
-          }
-          break;
+            var input_min = $('#' + field + '-min-input');
+            var input_max = $('#' + field + '-max-input');
+            var val_min = parseInt(input_min.val().trim());
+            var val_max = parseFloat(input_max.val().trim());
+            if (val_min && !isNaN(val_min)) {
+              clause += ' ' + field + ' >= ' + val_min;
+            }
+            if (val_max && !isNaN(val_max)) {
+              if (clause != '') clause += ' and';
+              clause += ' ' + field + ' <= ' + val_max;
+            }
+            break;
 
           case 'select_one':
-          var input = $('#' + field + '-input');
-          var val = input.val().trim();
-          clause = ' ' + field + ' LIKE \'' + val + '\'';
-          break;
+            var input = $('#' + field + '-input');
+            var val = input.val().trim();
+            clause = ' ' + field + ' LIKE \'' + val + '\'';
+            break;
+
+          case 'select_multiple':
+            var input = $('#' + field + '-input');
+            var vals = input.val().split(',');
+            clause = field + ' = ' + vals.join(' or ' + field + ' = ');
+            break;
 
           default:
-          console.log('error - unexpected query type');
-          return;
+            console.error(type, ': unexpected query type');
+            return;
         }
         $.merge(tables_needed, table);
         $.unique(tables_needed);
@@ -349,15 +356,15 @@
     console.log(query_str_obj);
 
     // START APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
-    for (table in SUBLAYER_INDICES) {
-      var sublayer_index = SUBLAYER_INDICES[table];
+    // for (table in SUBLAYER_INDICES) {
+    //   var sublayer_index = SUBLAYER_INDICES[table];
 
-      if (table in query_str_obj) {
-        var query_str = query_str_obj[table];
-        // COMMENT OUT THE NEXT LINE TO DISABLE QUERY
-        data_layer.getSubLayer(sublayer_index).setSQL(query_str);
-      }
-    }
+    //   if (table in query_str_obj) {
+    //     var query_str = query_str_obj[table];
+    //     // COMMENT OUT THE NEXT LINE TO DISABLE QUERY
+    //     data_layer.getSubLayer(sublayer_index).setSQL(query_str);
+    //   }
+    // }
     // END APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
 
     // EXAMPLE FOR A JOIN QUERY:

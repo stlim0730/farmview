@@ -15,7 +15,7 @@ def map(request):
     datafield_name = str(query_field.datafield_name).strip()
     datafield_label_eng = str(query_field.datafield_label_eng)
     # datafield_label_esp = unicode(query_field.datafield_label_esp)
-    data_sources = str(query_field.data_sources).replace('\n', ',').replace('\r', '')
+    data_sources = str(query_field.data_sources).split('\n')#str(query_field.data_sources).replace('\n', ',').replace('\r', '')
     query_choices_vals = str(query_field.query_choices_vals).split('\n')#.replace('\n', ',').replace('\r', '') # name in XLS Form
     query_choices_labels_eng = str(query_field.query_choices_labels_eng).split('\n')#.replace('\n', ',').replace('\r', '') # label_english in XLS Form
     # query_choices_labels_esp = unicode(query_field.query_choices_labels_esp).split('\n')#.replace('\n', ',').replace('\r', '') # label_espanol in XLS Form
@@ -37,7 +37,10 @@ def map(request):
       'name': datafield_name,
       'label_eng': datafield_label_eng,
       # 'label_esp': datafield_label_esp,
+      # this is object type representation of data_sources for detailed page
       'data_sources': data_sources,
+      # this is stringified representation of data_sources for query ui
+      'data_sources_str': json.dumps(data_sources),
       # this is object type representation of choices for query ui
       'choices': query_choices,
       # this is stringified representation of choices for human readable values on detailed page
