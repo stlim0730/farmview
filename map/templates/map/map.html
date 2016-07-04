@@ -1,6 +1,10 @@
 {% extends "map/base.html" %}
 
+{% load staticfiles %}
+
 {% block map %}
+
+<script src='{% static "map/js/cartodb/cartodb.js" %}'></script>
 
 <div id="wrapper">
     <div id="header-wrapper">
@@ -49,82 +53,165 @@
 {% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
 
 <script>
-  var PARCEL_TABLE = 'central_coast_joined';
-  var POINT_TABLE = 'data_point';
-  var POLYGON_TABLE = 'data_polygon';
+  // var PARCEL_TABLE = 'central_coast_joined';
+  // var POINT_TABLE = 'data_point';
+  // var POLYGON_TABLE = 'data_polygon';
 
-  var SUBLAYER_INDICES = {
-    central_coast_joined: 0,
-    data_point: 4,
-    data_polygon: 2
-  };
+  // var SUBLAYER_INDICES = {
+  //   central_coast_joined: 0,
+  //   data_point: 4,
+  //   data_polygon: 2
+  // };
 
-  var vis;
-  var layers;
-  var data_layer;
+  // var vis;
+  // var layers;
+  // var data_layer;
 
   // START LOADING CONFIG FROM DATABASE
-  var vizjson_url = '{{ config.vizjson_url }}';
-  var pub_date = '{{ config.pub_date }}';
-  var optional_note = '{{ config.optional_note }}';
-  console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
-  console.log(pub_date);
-  if (optional_note)
-    console.log('Note: ' + optional_note);
+  // var vizjson_url = '{{ config.vizjson_url }}';
+  // var pub_date = '{{ config.pub_date }}';
+  // var optional_note = '{{ config.optional_note }}';
+  // console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
+  // console.log(pub_date);
+  // if (optional_note)
+  //   console.log('Note: ' + optional_note);
   // END LOADING CONFIG FROM DATABASE
 
   // START SETTING CartoDB
-  var cartodb_options = {
-    layer_selector: false, shareable: false, title: false, description: false,
-    search: true, zoomControl: true, loaderControl: true, center_lat: 36.9719,
-    center_lon: -122.0264, zoom: 11, cartodb_logo: false, infowindow: true,
-    time_slider: false, layer_selector: true, legends: true, https: true,
-    scrollwheel: false, fullscreen: true, mobile_layout: true, force_mobile: false
-    // gmaps_base_type: 'roadmap',
-    // gmaps_style: null,
-    // no_cdn: false
-  };
+  // var cartodb_options = {
+  //   layer_selector: false, shareable: false, title: false, description: false,
+  //   search: true, zoomControl: true, loaderControl: true, center_lat: 36.9719,
+  //   center_lon: -122.0264, zoom: 11, cartodb_logo: false, infowindow: true,
+  //   time_slider: false, layer_selector: true, legends: true, https: true,
+  //   scrollwheel: false, fullscreen: true, mobile_layout: true, force_mobile: false
+  //   // gmaps_base_type: 'roadmap',
+  //   // gmaps_style: null,
+  //   // no_cdn: false
+  // };
 
-  cartodb.createVis('map', vizjson_url, cartodb_options)
-  .done(function (_vis, _layers) {
-    vis = _vis;
-    layers = _layers; // layers[0] is a torque layer where we don't have much control.
-    data_layer = layers[1];
+  // cartodb.createVis('map', vizjson_url, cartodb_options)
+  // .done(function (_vis, _layers) {
+  //   vis = _vis;
+  //   layers = _layers; // layers[0] is a torque layer where we don't have much control.
+  //   data_layer = layers[1];
 
     
 
-    // START DYNAMIC ELEMENTS ON INFO WINDOW
-    $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
-      // GET DATA FROM CARTODB
-      // THESE THREE DATA ATTRIBUTES SHOULD BE DEFINED IN infowindow SECTION ON CartoDB
-      var table = $(this).attr('data-source');
-      var id_field = $(this).attr('data-id-field');
-      var id_val = $(this).attr('data-id');
+  //   // START DYNAMIC ELEMENTS ON INFO WINDOW
+  //   $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
+  //     // GET DATA FROM CARTODB
+  //     // THESE THREE DATA ATTRIBUTES SHOULD BE DEFINED IN infowindow SECTION ON CartoDB
+  //     var table = $(this).attr('data-source');
+  //     var id_field = $(this).attr('data-id-field');
+  //     var id_val = $(this).attr('data-id');
 
-      // NOTE: THE QUERY STRING HAS TO USE SINGLE QUOTE BUT NOT DOUBLE!
-      var query_str = 'select * from ' + table + ' where ' + id_field + ' = \'' + id_val + '\'';
-      // console.log(id_field, id_val);
+  //     // NOTE: THE QUERY STRING HAS TO USE SINGLE QUOTE BUT NOT DOUBLE!
+  //     var query_str = 'select * from ' + table + ' where ' + id_field + ' = \'' + id_val + '\'';
+  //     // console.log(id_field, id_val);
 
-      $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(result) {
-        // console.log(data);
+  //     $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(result) {
+  //       // console.log(data);
         
-        resetDetailsPage();
+  //       resetDetailsPage();
 
-        if (result.rows.length == 1) {
-          renderDetailsPage(result, table);
-        }
-        else if (result.rows.length > 1) {
-          // TODO: DISPLAY AN ERROR MESSAGE
-        }
+  //       if (result.rows.length == 1) {
+  //         renderDetailsPage(result, table);
+  //       }
+  //       else if (result.rows.length > 1) {
+  //         // TODO: DISPLAY AN ERROR MESSAGE
+  //       }
 
-        // SHOW THE POPUP MODAL
-        $('#detail-page').modal('show');
-      });
-    });
-    // END DYNAMIC ELEMENTS ON INFO WINDOW
-  });
+  //       // SHOW THE POPUP MODAL
+  //       $('#detail-page').modal('show');
+  //     });
+  //   });
+  //   // END DYNAMIC ELEMENTS ON INFO WINDOW
+  // });
   // END SETTING CartoDB
 
+  var layers = {};
+
+  // START MAP CONSTRUCTION
+  var map_options = {
+    center: [36.5552471, -121.7361161],
+    zoom: 9
+  };
+
+  // START BASE MAP LAYER
+  var map_obj = new L.Map('map', map_options);
+  var basemap = L.tileLayer(
+    'https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZmFybXZpZXciLCJhIjoiY2lxNWRlZ2w5MDA1N2ZsbTZ1ZzNseDJxaSJ9.4-K_XMeaf_9KAdbx6gGGoA',
+    {
+      attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }
+  );
+  basemap.addTo(map_obj);
+  layers['basemap'] = basemap;
+  // END BASE MAP LAYER
+
+  // START DATA LAYER: PARCEL
+  layers['data_layers'] = {};
+  cartodb.createLayer(map_obj, {
+    user_name: 'calo1',
+    type: 'cartodb',
+    sublayers: [
+      {
+        sql: 'SELECT * FROM central_coast_joined',
+        cartocss: '#central_coast_joined {   polygon-opacity: 0.7;   line-color: #FFF;   line-width: 0.5;   line-opacity: 1;}#central_coast_joined[soil_type="d"] {   polygon-fill: #5C5C8A;}#central_coast_joined[soil_type="g"] {   polygon-fill: #FFB76E;}#central_coast_joined[soil_type="l"] {   polygon-fill: #B2DF8A;}#central_coast_joined[soil_type="mixed"] {   polygon-fill: #E1A6E1;}#central_coast_joined[soil_type="p"] {   polygon-fill: #009000;}#central_coast_joined[soil_type="s"] {   polygon-fill: #E31A1C;}#central_coast_joined[soil_type="u"] {   polygon-fill: #00ff68;}#central_coast_joined[soil_type="w"] {   polygon-fill: #82A1FF;}#central_coast_joined[soil_type="x"] {   polygon-fill: #FF6600;}'
+      }
+    ]
+  })
+  .addTo(map_obj)
+  .done(function (layer) {
+    layers['data_layers']['central_coast_joined'] = layer;
+    console.log('layer added:', 'layers["data_layers"]["central_coast_joined"]', layer);
+  })
+  .error(function (err) {
+    console.error('error occured in creating layer:', err);
+  });
+  
+  cartodb.createLayer(map_obj, {
+    user_name: 'calo1',
+    type: 'cartodb',
+    sublayers: [
+      {
+        sql: 'SELECT * FROM data_point',
+        cartocss: '#data_point{   marker-fill-opacity: 0.9;   marker-line-color: #FFFFFF;   marker-line-width: 3.5;   marker-line-opacity: 1;   marker-placement: point;   marker-type: ellipse;   marker-width: 15.5;   marker-allow-overlap: true;}#data_point[survey_session_desc="exisiting_ranch"] {   marker-fill: #58faf4;}#data_point[survey_session_desc="site_visit"] {   marker-fill: #ff0040;}#data_point[zoom >15] {   }'
+      }
+    ]
+  })
+  .addTo(map_obj)
+  .done(function (layer) {
+    layers['data_layers']['data_point'] = layer;
+    console.log('layer added:', 'layers["data_layers"]["data_point"]', layer);
+  })
+  .error(function (err) {
+    console.error('error occured in creating layer:', err);
+  });
+
+  cartodb.createLayer(map_obj, {
+    user_name: 'calo1',
+    type: 'cartodb',
+    sublayers: [
+      {
+        sql: 'SELECT * FROM data_polygon',
+        cartocss: '#data_polygon {[zoom > 12]    {   polygon-opacity: 1;   line-color: #FFFFFF;   line-width: 3.5;   line-opacity: 0.9;  }}#data_polygon{[zoom > 12]    {[survey_session_desc="site_visit"] {   polygon-fill: #ff0040;}  }}'
+      }
+    ]
+  })
+  .addTo(map_obj)
+  .done(function (layer) {
+    layers['data_layers']['data_polygon'] = layer;
+    console.log('layer added:', 'layers["data_layers"]["data_polygon"]', layer);
+  })
+  .error(function (err) {
+    console.error('error occured in creating layer:', err);
+  });
+  // END DATA LAYER
+  // END MAP CONSTRUCTION
+
+  // START QUERY UI EVENT HANDLERS
+  // START QUERY UI CHECKBOX
   $('#query-area input[type=checkbox].query-group').click(function (e) {
     var checked = $(this).prop('checked');
 
@@ -141,8 +228,9 @@
       $(this).parent('label').parent('div').find('.operand-ui').addClass('disabled');
     }
   });
+  // END QUERY UI CHECKBOX
   
-  // APPLYING MULTIPLE SELECTION
+  // START SELECT MULTIPLE QUERY UI
   $('button.apply-selection').click(function (e) {
     var query_ui_id = $(this).closest('div.query-ui').attr('id');
     var field_name = query_ui_id.substring(0, query_ui_id.length - '-query'.length);
@@ -159,6 +247,10 @@
     $('#' + field_name + '-input').val(val_str);
     $('button.close').click();
   });
+  // END SELECT MULTIPLE QUERY UI
+  // END QUERY UI EVENT HANDLERS
+
+
 
   $('#query-submit').click(function (e) {
     // COLLECT DATASOURCES, FIELD NAMES, AND OPERANDS FOR NON-EMPTY OPERAND UIS
@@ -276,7 +368,7 @@
     //   console.log(data);
     // });
   });
-  
+
   $('#query-reset').click(function (e) {
 
     // UNCHECK EVERYTHING
@@ -298,4 +390,5 @@
   });
   // END QUERY UI SETTINGS
 </script>
+
 {% endblock %}
