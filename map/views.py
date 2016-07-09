@@ -15,7 +15,7 @@ def map(request):
     datafield_name = str(query_field.datafield_name).strip()
     datafield_label_eng = str(query_field.datafield_label_eng)
     # datafield_label_esp = unicode(query_field.datafield_label_esp)
-    data_sources = str(query_field.data_sources).split('\n')#str(query_field.data_sources).replace('\n', ',').replace('\r', '')
+    data_sources = str(query_field.data_sources).replace('\r', '').split('\n')#str(query_field.data_sources).replace('\n', ',').replace('\r', '')
     query_choices_vals = str(query_field.query_choices_vals).split('\n')#.replace('\n', ',').replace('\r', '') # name in XLS Form
     query_choices_labels_eng = str(query_field.query_choices_labels_eng).split('\n')#.replace('\n', ',').replace('\r', '') # label_english in XLS Form
     # query_choices_labels_esp = unicode(query_field.query_choices_labels_esp).split('\n')#.replace('\n', ',').replace('\r', '') # label_espanol in XLS Form
