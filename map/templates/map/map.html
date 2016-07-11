@@ -45,18 +45,14 @@
 </div>
 <div class='row'>
   <div class='form-group col-md-offset-10 col-md-2'>
-    <button id='query-reset' class='btn btn-default'>Reset</button>
-    <button id='query-submit' class='btn btn-primary'>Submit</button>
+    <button id='query-reset' class='btn btn-default query-buttons'>Reset</button>
+    <button id='query-submit' class='btn btn-primary query-buttons'>Submit</button>
   </div>
 </div>
   
 {% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
 
 <script>
-  // var PARCEL_TABLE = 'PARCEL';
-  // var TABLES['POINT'] = 'data_point';
-  // var POLYGON_TABLE = 'data_polygon';
-
   var TABLES = {
     PARCEL: 'central_coast_joined',
     POINT: 'data_point',
@@ -86,7 +82,7 @@
   // };
 
   // cartodb.createVis('map', vizjson_url, cartodb_options)
-  // .done(function (_vis, _layers) {
+  // .done(function(_vis, _layers) {
   //   vis = _vis;
   //   LAYERS = _layers; // LAYERS[0] is a torque layer where we don't have much control.
   //   data_layer = LAYERS[1];
@@ -94,7 +90,7 @@
     
 
   //   // START DYNAMIC ELEMENTS ON INFO WINDOW
-  //   $('.cartodb-infowindow').on('click', '.link-to-detail', function (e) {
+  //   $('.cartodb-infowindow').on('click', '.link-to-detail', function(e) {
   //     // GET DATA FROM CARTODB
   //     // THESE THREE DATA ATTRIBUTES SHOULD BE DEFINED IN infowindow SECTION ON CartoDB
   //     var table = $(this).attr('data-source');
@@ -159,11 +155,11 @@
     ]
   })
   .addTo(map_obj, 0)
-  .done(function (layer) {
+  .done(function(layer) {
     LAYERS['DATA']['PARCEL'] = layer;
     console.log('layer added:', 'LAYERS["DATA"]["PARCEL"]', layer);
   })
-  .error(function (err) {
+  .error(function(err) {
     console.error('error occured in creating layer:', err);
   });
   
@@ -178,11 +174,11 @@
     ]
   })
   .addTo(map_obj, 1)
-  .done(function (layer) {
+  .done(function(layer) {
     LAYERS['DATA']['POINT'] = layer;
     console.log('layer added:', 'LAYERS["DATA"]["POINT"]', layer);
   })
-  .error(function (err) {
+  .error(function(err) {
     console.error('error occured in creating layer:', err);
   });
 
@@ -197,11 +193,11 @@
     ]
   })
   .addTo(map_obj, 2)
-  .done(function (layer) {
+  .done(function(layer) {
     LAYERS['DATA']['POLYGON'] = layer;
     console.log('layer added:', 'LAYERS["DATA"]["POLYGON"]', layer);
   })
-  .error(function (err) {
+  .error(function(err) {
     console.error('error occured in creating layer:', err);
   });
   // END DATA LAYER
@@ -209,7 +205,7 @@
 
   // START QUERY UI EVENT HANDLERS
   // START QUERY UI CHECKBOX
-  $('#query-area input[type=checkbox].query-group').click(function (e) {
+  $('#query-area input[type=checkbox].query-group').click(function(e) {
     var checked = $(this).prop('checked');
 
     if (checked) { // CHECK
@@ -230,7 +226,7 @@
 
 
 
-  $('#query-submit').click(function (e) {
+  $('#query-submit').click(function(e) {
     // COLLECT DATASOURCES, FIELD NAMES, AND OPERANDS FOR NON-EMPTY OPERAND UIS
     var query_elems = [];
     var tables_needed = [];
@@ -400,18 +396,6 @@
     }
     // END QUERY CASES
 
-    // START APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
-    // for (table in SUBLAYER_INDICES) {
-    //   var sublayer_index = SUBLAYER_INDICES[table];
-
-    //   if (table in query_per_table) {
-    //     var query_str = query_per_table[table];
-    //     // COMMENT OUT THE NEXT LINE TO DISABLE QUERY
-    //     data_layer.getSubLayer(sublayer_index).setSQL(query_str);
-    //   }
-    // }
-    // END APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
-
     // EXAMPLE FOR A JOIN QUERY:
       //  SELECT * FROM table1
       //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
@@ -421,7 +405,7 @@
     // });
   });
 
-  $('#query-reset').click(function (e) {
+  $('#query-reset').click(function(e) {
 
     // UNCHECK EVERYTHING
     var query_uis = $('.query-group');
@@ -433,12 +417,29 @@
     }
 
     // START APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
-    for (table in SUBLAYER_INDICES) {
-      var sublayer_index = SUBLAYER_INDICES[table];
-      var reset_str = 'SELECT * FROM ' + table;
-      data_layer.getSubLayer(sublayer_index).setSQL(reset_str);
-    }
+    var parcel_layer = LAYERS['DATA']['PARCEL'];
+    var point_layer = LAYERS['DATA']['POINT'];
+    var polygon_layer = LAYERS['DATA']['POLYGON'];
+
+    var parcel_table = TABLES['PARCEL'];
+    var point_table = TABLES['POINT'];
+    var polygon_table = TABLES['POLYGON'];
+
+    parcel_layer.setQuery('SELECT * FROM ' + parcel_table);
+    point_layer.setQuery('SELECT * FROM ' + point_table);
+    polygon_layer.setQuery('SELECT * FROM ' + polygon_table);
+    // for (table in SUBLAYER_INDICES) {
+    //   var sublayer_index = SUBLAYER_INDICES[table];
+    //   var reset_str = 'SELECT * FROM ' + table;
+    //   data_layer.getSubLayer(sublayer_index).setSQL(reset_str);
+    // }
     // END APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
+  });
+
+  $('.query-buttons').click(function(e) {
+    $('html, body').animate({
+      scrollTop: 0
+    }, 500);
   });
   // END QUERY UI SETTINGS
 </script>
