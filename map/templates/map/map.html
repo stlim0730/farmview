@@ -49,6 +49,9 @@
     <button id='query-submit' class='btn btn-primary query-buttons'>Submit</button>
   </div>
 </div>
+
+{% include "map/partials/parcel_infowindow.html" %}
+}
   
 {% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
 
@@ -130,6 +133,7 @@
     scrollWheelZoom: false
   };
 
+
   // START BASE MAP LAYER
   var map_obj = new L.Map('map', map_options);
   var basemap = L.tileLayer(
@@ -141,6 +145,8 @@
   basemap.addTo(map_obj);
   LAYERS['BASEMAP'] = basemap;
   // END BASE MAP LAYER
+
+
 
   // START DATA LAYER: PARCEL
   LAYERS['DATA'] = {};
@@ -157,6 +163,14 @@
   .addTo(map_obj, 0)
   .done(function(layer) {
     LAYERS['DATA']['PARCEL'] = layer;
+    
+    var sublayer = layer.getSubLayer(0);
+    // sublayer.infowindow.set('template', $('#parcel_infowindow').html());
+    cartodb.vis.Vis.addInfowindow(map_obj, sublayer, ['cartodb_id'], {
+      infowindowTemplate: $('parcel_infowindow').html(),
+      templateType: 'mustache'
+    });
+
     console.log('layer added:', 'LAYERS["DATA"]["PARCEL"]', layer);
   })
   .error(function(err) {
@@ -195,6 +209,9 @@
   .addTo(map_obj, 2)
   .done(function(layer) {
     LAYERS['DATA']['POLYGON'] = layer;
+    layer.on('featureOver', function(e, latlng, pos, data, subLayerIndex) {
+      console.log(e, latlng, pos, data, subLayerIndex);
+    });
     console.log('layer added:', 'LAYERS["DATA"]["POLYGON"]', layer);
   })
   .error(function(err) {
@@ -202,6 +219,8 @@
   });
   // END DATA LAYER
   // END MAP CONSTRUCTION
+
+
 
   // START QUERY UI EVENT HANDLERS
   // START QUERY UI CHECKBOX
