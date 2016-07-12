@@ -4,7 +4,7 @@ class Config(models.Model):
   vizjson_url = models.CharField(max_length=150)
   pub_date = models.DateTimeField(auto_now=True)
   optional_note = models.CharField(max_length=200, blank=True)
-  
+
   def __unicode__(self):
     return unicode(self.vizjson_url)
 
@@ -30,3 +30,12 @@ class Datafield(models.Model):
 
   def __unicode__(self):
     return unicode(self.datafield_name)
+
+class FormData(models.Model):
+    formdata_id = models.AutoField(primary_key = True)
+    import_id = models.IntegerField(blank = False) # import id from CartoDB
+    ona_id = models.IntegerField(blank = False) # connected ONA form id
+    dropbox_url = models.CharField(blank = False)
+    last_synced_date = models.DateTimeField(auto_now = True)
+    current = models.BooleanField(default = True)
+    optional_note = models.CharField(max_length=200, blank = True)
