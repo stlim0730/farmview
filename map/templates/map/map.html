@@ -56,21 +56,37 @@
 {% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
 
 <script>
+
+  //
+  // Globals
+  //
   var TABLES = {
     PARCEL: 'central_coast_joined',
     POINT: 'data_point',
     POLYGON: 'data_polygon'
   };
 
-  // START LOADING CONFIG FROM DATABASE
-  // var vizjson_url = '{{ config.vizjson_url }}';
-  // var pub_date = '{{ config.pub_date }}';
-  // var optional_note = '{{ config.optional_note }}';
-  // console.log('Loading CartoDB Viz JSON: ' + vizjson_url);
-  // console.log(pub_date);
-  // if (optional_note)
-  //   console.log('Note: ' + optional_note);
-  // END LOADING CONFIG FROM DATABASE
+  var LAYERS = {};
+
+  var map_options = {
+    center: [36.5552471, -121.7361161],
+    zoom: 9,
+    scrollWheelZoom: false
+  };
+
+
+
+  // 
+  // Load config
+  // 
+  var config = JSON.parse('{{ config_json|escapejs }}');
+  config.vizjson = JSON.parse(config.vizjson);
+  console.info('Configuration loaded: ', config);
+  console.info('Using configuration updated on', config.pub_date);
+  console.info('Using Carto publication', config.vizjson_url);
+  if(config.optional_note) console.log('Note:', config.optional_note);
+
+
 
   // START SETTING CartoDB
   // var cartodb_options = {
@@ -124,15 +140,11 @@
   // });
   // END SETTING CartoDB
 
-  var LAYERS = {};
+  
 
-  // START MAP CONSTRUCTION
-  var map_options = {
-    center: [36.5552471, -121.7361161],
-    zoom: 9,
-    scrollWheelZoom: false
-  };
-
+  // 
+  // Construct map layers
+  // 
 
   // START BASE MAP LAYER
   var map_obj = new L.Map('map', map_options);
@@ -163,11 +175,11 @@
   .addTo(map_obj, 0)
   .done(function(layer) {
     LAYERS['DATA']['PARCEL'] = layer;
-    
     var sublayer = layer.getSubLayer(0);
-    // sublayer.infowindow.set('template', $('#parcel_infowindow').html());
+    
+    // START INFOWINDOW
     cartodb.vis.Vis.addInfowindow(map_obj, sublayer, ['cartodb_id'], {
-      infowindowTemplate: $('parcel_infowindow').html(),
+      infowindowTemplate: $('#parcel_infowindow').html(),
       templateType: 'mustache'
     });
 

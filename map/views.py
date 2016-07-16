@@ -1,10 +1,18 @@
 from django.shortcuts import render
+import urllib2
 import simplejson as json
 from .models import Config
 from .models import Datafield
 
 def map(request):
-  config = Config.objects.order_by('-pub_date')[0]
+  configObj = Config.objects.order_by('-pub_date')[0]
+  vizjson = urllib2.urlopen(configObj.vizjson_url).read()
+  config = {
+    'vizjson_url': configObj.vizjson_url,
+    'vizjson': vizjson,
+    'pub_date': str(configObj.pub_date),
+    'optional_note': configObj.optional_note
+  }
   datafield_data = list(Datafield.objects.all())
   datafields = []
   for query_field in datafield_data:
@@ -50,7 +58,7 @@ def map(request):
     }
     datafields.append(datafield_obj)
   context = {
-    'config': config,
+    'config_json': json.dumps(config),
     'datafields': datafields,
     'data_sources': ['central_coast_joined', 'data_point', 'data_polygon']
   }
