@@ -193,11 +193,20 @@
         //
         // Infowindow for each sublayer
         // 
+        // TODO: duplicate infowindow
         let sublayer = layer.getSubLayer(index2);
+
         cartodb.vis.Vis.addInfowindow(mapObj, sublayer, [layerDef.options.interactivity], {
           infowindowTemplate: layerDef.infowindow.template,
           templateType: 'mustache'
         });
+
+        // sublayer.on('featureClick', function(event, latlng, pos, data, subLayerIndex) {
+        //   console.info(data);
+        // })
+        // .on('error',function(err){
+        //   console.error('Error in handling click event on the map:', err);
+        // });
       }
 
       layerDef.visible ? layer.show() : layer.hide();
