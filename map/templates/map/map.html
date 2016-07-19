@@ -58,8 +58,10 @@
   // Globals
   //
   var app = {
+    userName: null,
     tables: {},
     layers: {},
+    infowindowSrc: [],
     config: null
   };
 
@@ -169,12 +171,19 @@
 
   var layerDefinition = app.config.vizjson.layers[1].options.layer_definition;
 
+  //
+  // For each layer
+  //
   for(let index in layerDefinition.layers) {
 
     let layerDef = layerDefinition.layers[index];
 
+    let layerName = layerDef.options.layer_name;
+    let userName = app.config.vizjson.layers[1].options.user_name;
+    app.userName = userName;
+
     cartodb.createLayer(mapObj, {
-      user_name: app.config.vizjson.layers[1].options.user_name,
+      user_name: userName,
       type: layerDef.type,
       sublayers: [layerDef.options]
     })
@@ -183,35 +192,72 @@
 
     .done(function(layer) {
       
-      app.layers['data'][layerDef.options.layer_name] = layer;
+      app.layers['data'][layerName] = layer;
 
       if(layer.layers.length > 1) {
-        console.warn('Layer', layerDef.options.layer_name, 'has two or more sublayers:', layer);
+        console.warn('Layer', layerName, 'has two or more sublayers:', layer);
       }
 
-      for(let index2 in layer.layers) {
-        //
-        // Infowindow for each sublayer
-        // 
-        // TODO: duplicate infowindow
-        let sublayer = layer.getSubLayer(index2);
+      layer.setInteraction(true);
+      // layer.on('featureOver', function(e, latlng, pos, data, _layer) {
+      //   $('#map').css('cursor', 'pointer');
+      // });
+      // layer.on('featureOut', function(e, latlng, pos, data, _layer) {
+      //   // $('#map').css('cursor', 'grab');
+      //   $('#map').css('cursor', 'auto');
+      //   // $('#map').css('cursor', '-moz-grab');
+      // });
+      
+      //
+      // Click event handler for Carto feature
+      //
+      layer.on('featureClick', function(e, latlng, pos, datapoint, _layer) {
 
-        cartodb.vis.Vis.addInfowindow(mapObj, sublayer, [layerDef.options.interactivity], {
-          infowindowTemplate: layerDef.infowindow.template,
-          templateType: 'mustache'
+        let tableName = layerDef.options.sql.toLowerCase().split('from')[1].trim();
+        tableName = tableName.includes('.') ? tableName.split('.')[1] : tableName;
+
+        let clauses = [];
+        for(let key in datapoint) {
+          clauses.push(key + ' = \'' + datapoint[key] + '\''); // Carto uses single quote!
+        }
+        let sql = 'SELECT * FROM ' + tableName + ' WHERE ' + clauses.join(' and ');
+
+        //
+        // Background query for infowindow
+        //
+        $.getJSON('https://' + userName + '.cartodb.com/api/v2/sql/?q=' + sql, function(res) {
+          if(res.length > 1) {
+            console.warn('Background query resuluts has two or more rows:', sql, res);
+            return;
+          }
+          else if (res.length == 0) {
+            console.warn('Background query does not return any rows:', sql);
+            return;
+          }
+          else {
+            
+            //
+            // Render infowindow
+            //
+            res[0];
+          }
         });
 
-        // sublayer.on('featureClick', function(event, latlng, pos, data, subLayerIndex) {
-        //   console.info(data);
-        // })
-        // .on('error',function(err){
-        //   console.error('Error in handling click event on the map:', err);
-        // });
+      });
+
+      //
+      // Sublayer-specific tasks
+      //
+      for(let index2 in layer.layers) {
+        let sublayer = layer.getSubLayer(index2);
       }
 
+      //
+      // Set the layer's visibility; according to the settings on Carto
+      //
       layerDef.visible ? layer.show() : layer.hide();
 
-      console.info('A layer added:', layerDef.options.layer_name, layer);
+      console.info('A layer added:', layerName, layer);
     })
 
     .error(function(err) {
