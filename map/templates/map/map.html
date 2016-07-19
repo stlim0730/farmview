@@ -175,9 +175,9 @@
   //
   // For each layer
   //
-  for(let index in layerDefinition.layers) {
+  for(let layerIndex in layerDefinition.layers) {
 
-    let layerDef = layerDefinition.layers[index];
+    let layerDef = layerDefinition.layers[layerIndex];
 
     let layerName = layerDef.options.layer_name;
     let userName = app.config.vizjson.layers[1].options.user_name;
@@ -219,7 +219,7 @@
 
         let clauses = [];
         for(let key in datapoint) {
-          clauses.push(key + ' = \'' + datapoint[key] + '\''); // Carto uses single quote!
+          clauses.push(key + ' = ' + datapoint[key]);
         }
         let sql = 'SELECT * FROM ' + tableName + ' WHERE ' + clauses.join(' and ');
 
@@ -239,7 +239,8 @@
           else {
             
             //
-            // Render infowindow
+            // Render infowindow; use res.rows['0']
+            // Note that rows is not an array, but an object.
             //
             let infowindowHeight = $('.custom-infowindow').height();
             let popupTipHeight = $('.cartodb-popup-tip-container').height();
@@ -247,6 +248,40 @@
 
             $('.cartodb-popup').css('left', e.pageX - popupTipLeft);
             $('.cartodb-popup').css('top', e.pageY - infowindowHeight - popupTipHeight);
+
+            let template = layerDef.infowindow.template.replace('\n', '').replace('\\"', '"').replace('\\\'', '\'');
+            let templateBody = template.match(/<div\s+class=("|')cartodb-popup-content("|')>[\S\s]*?<\/div>/gi)[0];
+            let templateLabels = templateBody.match(/<h[0-9]>[\S\s]*?<\/h[0-9]>/gi);
+            let templateCols = templateBody.match(/\{\{[\S\s]*?\}\}/gi);
+            console.log(templateLabels, templateCols);
+            if(templateLabels.length < templateCols.length) {
+              console.error(layerName, 'some columns doesn\'t have lables:');
+            }
+            else {
+              for(let labelIndex in templateLabels) {
+                // Labels to uppercase
+                let label = templateLabels[labelIndex].replace('_', ' ');
+                let tagH = label.match(/<.{2}>/i);
+                let tagT = label.match(/<\/.{2}>/i);
+                let labelText = label.match(/>[\S\s]*?<\//i)[0];
+                labelText = labelText.substring(1, labelText.length - 2).toUpperCase();
+                label = tagH + labelText + tagT;
+
+                let col = templateCols[labelIndex];
+                col = col.substring(2, col.length - 2);
+                let val = res.rows['0'][col];
+                console.log(label, val);
+              }
+            }
+            // templateLabels.length < templateCols.length ?
+            //   console.warn(layerName, 'some columns doesn\'t have lables:')
+            //   : for(let labelIndex in templateLabels) {
+            //       let label = templateLabels[labelIndex];
+            //       let col = templateCols[labelIndex];
+            //       console.log(label, col);
+            //     };
+
+            // $('.custom-infowindow .cartodb-popup-content');
             $('.cartodb-popup').show();
           }
         });
@@ -254,10 +289,14 @@
       });
 
       //
+      // TODO: setup legends
+      //
+
+      //
       // Sublayer-specific tasks
       //
-      for(let index2 in layer.layers) {
-        let sublayer = layer.getSubLayer(index2);
+      for(let sublayerIndex in layer.layers) {
+        let sublayer = layer.getSubLayer(sublayerIndex);
       }
 
       //

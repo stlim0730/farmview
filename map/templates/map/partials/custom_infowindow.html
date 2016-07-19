@@ -9,6 +9,16 @@
       <p>Value</p>
     </div>
   </div>
+
+  <hr class='info-window-hr' />
+  <p class='info-window-custom-paragraph'>
+    <!-- <button data-id='{{apn}}' data-source='central_coast_joined' data-id-field='apn' href='#' class='link-to-detail btn btn-primary btn-sm btn-block'>View details on this parcel</button> -->
+    &nbsp;
+  </p>
+  <p class='info-window-custom-paragraph'>
+    <a class='link-to-detail btn btn-link btn-sm' target='_blank' href='https://qlm81.enketo.org/webform'>Enter data on this parcel</a>
+  </p>
+
   <div class='cartodb-popup-tip-container'></div>
   <script>
     (function() {
@@ -17,9 +27,7 @@
       // Globals
       //
       var resetInfowindow = function() {
-        //
-        // TODO: Reset infowindow
-        //
+        $('.custom-infowindow .cartodb-popup-content').html('');
       }
 
       var closeInfowindow = function() {
