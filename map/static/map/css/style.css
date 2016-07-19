@@ -1,4 +1,6 @@
-/* START CUSTOM DEFINITIONS */
+/**/
+/* Start custom definitions */
+/**/
 html, body {
   height: 100%;
 }
@@ -18,7 +20,7 @@ html, body {
 
 #detail-page.modal {
   margin-top: 75px;
-  z-index: 10000000;
+  z-index: 100;
 }
 
 .query-ui div.bottom-fixed-popup {
@@ -66,7 +68,15 @@ p.info-window-custom-paragraph {
   float: left;
 }
 
-/* END CUSTOM DEFINITIONS */
+.custom-infowindow {
+  z-index: 2;
+  position: fixed !important;
+  height: 250px !important;
+}
+
+/**/
+/* End custom definitions */
+/**/
 
   html, body
   {
@@ -401,6 +411,7 @@ p.info-window-custom-paragraph {
 
   #header-wrapper
   {
+    z-index: 10;
     background: #022836;
 
     position: relative;

@@ -49,6 +49,8 @@
     <button id='query-submit' class='btn btn-primary query-buttons'>Submit</button>
   </div>
 </div>
+
+{% include "map/partials/custom_infowindow.html" %}
   
 {% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
 
@@ -61,7 +63,6 @@
     userName: null,
     tables: {},
     layers: {},
-    infowindowSrc: [],
     config: null
   };
 
@@ -226,8 +227,9 @@
         // Background query for infowindow
         //
         $.getJSON('https://' + userName + '.cartodb.com/api/v2/sql/?q=' + sql, function(res) {
+
           if(res.length > 1) {
-            console.warn('Background query resuluts has two or more rows:', sql, res);
+            console.warn('Background query results have two or more rows:', sql, res);
             return;
           }
           else if (res.length == 0) {
@@ -239,7 +241,13 @@
             //
             // Render infowindow
             //
-            res[0];
+            let infowindowHeight = $('.custom-infowindow').height();
+            let popupTipHeight = $('.cartodb-popup-tip-container').height();
+            let popupTipLeft = parseInt($('.cartodb-popup-tip-container').css('margin-left'));
+
+            $('.cartodb-popup').css('left', e.pageX - popupTipLeft);
+            $('.cartodb-popup').css('top', e.pageY - infowindowHeight - popupTipHeight);
+            $('.cartodb-popup').show();
           }
         });
 

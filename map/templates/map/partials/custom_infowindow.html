@@ -1,0 +1,36 @@
+<div class='cartodb-popup v2 collapse custom-infowindow'>
+  <a href='#close' class='cartodb-popup-close-button close'>x</a>
+  <div class='cartodb-popup-content-wrapper'>
+    <div class='cartodb-popup-header'>
+      <!-- <img style='width: 100%' src='https://cartodb.com/assets/logos/logos_full_cartodb_light.png'></src> -->
+    </div>
+    <div class='cartodb-popup-content'>
+      <h4>Label:</h4>
+      <p>Value</p>
+    </div>
+  </div>
+  <div class='cartodb-popup-tip-container'></div>
+  <script>
+    (function() {
+
+      //
+      // Globals
+      //
+      var resetInfowindow = function() {
+        //
+        // TODO: Reset infowindow
+        //
+      }
+
+      var closeInfowindow = function() {
+        resetInfowindow();
+        $('.cartodb-popup').hide();
+      }
+
+      $('.cartodb-popup-close-button.close').click(function (e) {
+        closeInfowindow();
+      });
+
+    })();
+  </script>
+</div>
