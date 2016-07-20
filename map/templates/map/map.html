@@ -27,7 +27,8 @@
 
 <div class='row height-90'>
   <div class='col-md-12 full-height'>
-    <div id='map' class='col-md-12 full-height'>
+    <div id='map' class='col-md-12 full-height cursor-grab'>
+      {% include "map/partials/custom_infowindow.html" %}
     </div>
   </div>
 </div>
@@ -49,8 +50,6 @@
     <button id='query-submit' class='btn btn-primary query-buttons'>Submit</button>
   </div>
 </div>
-
-{% include "map/partials/custom_infowindow.html" %}
   
 {% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
 
@@ -200,19 +199,24 @@
       }
 
       layer.setInteraction(true);
+      
       // layer.on('featureOver', function(e, latlng, pos, data, _layer) {
-      //   $('#map').css('cursor', 'pointer');
+      
       // });
+      
       // layer.on('featureOut', function(e, latlng, pos, data, _layer) {
-      //   // $('#map').css('cursor', 'grab');
-      //   $('#map').css('cursor', 'auto');
-      //   // $('#map').css('cursor', '-moz-grab');
+      
       // });
       
       //
       // Click event handler for Carto feature
       //
       layer.on('featureClick', function(e, latlng, pos, datapoint, _layer) {
+
+        resetInfowindow();
+        closeInfowindow();
+
+        // console.log(pos);
 
         let tableName = layerDef.options.sql.toLowerCase().split('from')[1].trim();
         tableName = tableName.includes('.') ? tableName.split('.')[1] : tableName;
@@ -242,18 +246,19 @@
             // Render infowindow; use res.rows['0']
             // Note that rows is not an array, but an object.
             //
-            let infowindowHeight = parseInt($('.cartodb-popup').css('height'));
-            let popupTipHeight = parseInt($('.cartodb-popup-tip-container').css('height'));
-            let popupTipLeft = parseInt($('.cartodb-popup-tip-container').css('margin-left'));
+            // let navbarHeight = parseInt($('#header-wrapper').css('height'));
+            // let infowindowHeight = parseInt($('.cartodb-popup').css('height'));
+            // let popupTipHeight = parseInt($('.cartodb-popup-tip-container').css('height'));
+            // let popupTipLeft = parseInt($('.cartodb-popup-tip-container').css('margin-left'));
 
-            $('.cartodb-popup').css('left', e.pageX - popupTipLeft);
-            $('.cartodb-popup').css('top', e.pageY - infowindowHeight - popupTipHeight);
+            $('.cartodb-popup').css('left', (pos.x - $('.cartodb-popup').width()/2) + 'px');
+            $('.cartodb-popup').css('top', (pos.y - $('.cartodb-popup').height()/2) + 'px');
 
             let template = layerDef.infowindow.template.replace('\n', '').replace('\\"', '"').replace('\\\'', '\'');
             let templateBody = template.match(/<div\s+class=("|')cartodb-popup-content("|')>[\S\s]*?<\/div>/gi)[0];
             let templateLabels = templateBody.match(/<h[0-9]>[\S\s]*?<\/h[0-9]>/gi);
             let templateCols = templateBody.match(/\{\{[\S\s]*?\}\}/gi);
-            console.log(templateLabels, templateCols);
+            // console.log(templateLabels, templateCols);
             if(templateLabels.length < templateCols.length) {
               console.error(layerName, 'some columns doesn\'t have lables:');
             }

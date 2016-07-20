@@ -19,24 +19,23 @@
   </p>
   <div class='cartodb-popup-tip-container'></div>
   <script>
-    (function() {
+    
+    //
+    // Globals
+    //
+    var resetInfowindow = function() {
+      $('.custom-infowindow .cartodb-popup-content').html('');
+    }
 
-      //
-      // Globals
-      //
-      var resetInfowindow = function() {
-        $('.custom-infowindow .cartodb-popup-content').html('');
-      }
+    var closeInfowindow = function() {
+      resetInfowindow();
+      $('.cartodb-popup').hide();
+    }
 
-      var closeInfowindow = function() {
-        resetInfowindow();
-        $('.cartodb-popup').hide();
-      }
+    $('.cartodb-popup-close-button.close').click(function (e) {
+      closeInfowindow();
+      e.stopPropagation();
+    });
 
-      $('.cartodb-popup-close-button.close').click(function (e) {
-        closeInfowindow();
-      });
-
-    })();
   </script>
 </div>

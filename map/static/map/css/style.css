@@ -18,6 +18,10 @@ html, body {
   margin-bottom: 20px;
 }
 
+#map {
+  position: relative;
+}
+
 #detail-page.modal {
   margin-top: 75px;
   z-index: 100;
@@ -72,15 +76,21 @@ p.info-window-custom-paragraph {
 
 .custom-infowindow {
   z-index: 2;
-  position: fixed !important;
   min-height: 250px;
   max-width: 200px;
 }
 
 .info-window-custom-paragraph button {
-  margin-left: 4px;
+  margin-left: 5px;
 }
 
+.cartodb-popup::before { 
+  display: none !important;
+}
+
+.cartodb-popup-tip-container::before {
+  display: none !important;
+}
 /**/
 /* End custom definitions */
 /**/
