@@ -36,6 +36,8 @@ html, body {
 
 .info-window-hr {
   color: gray;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 p.info-window-custom-paragraph {
@@ -71,7 +73,12 @@ p.info-window-custom-paragraph {
 .custom-infowindow {
   z-index: 2;
   position: fixed !important;
-  height: 250px !important;
+  min-height: 250px;
+  max-width: 200px;
+}
+
+.info-window-custom-paragraph button {
+  margin-left: 4px;
 }
 
 /**/

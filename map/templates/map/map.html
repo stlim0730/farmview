@@ -242,8 +242,8 @@
             // Render infowindow; use res.rows['0']
             // Note that rows is not an array, but an object.
             //
-            let infowindowHeight = $('.custom-infowindow').height();
-            let popupTipHeight = $('.cartodb-popup-tip-container').height();
+            let infowindowHeight = parseInt($('.cartodb-popup').css('height'));
+            let popupTipHeight = parseInt($('.cartodb-popup-tip-container').css('height'));
             let popupTipLeft = parseInt($('.cartodb-popup-tip-container').css('margin-left'));
 
             $('.cartodb-popup').css('left', e.pageX - popupTipLeft);
@@ -269,19 +269,15 @@
 
                 let col = templateCols[labelIndex];
                 col = col.substring(2, col.length - 2);
-                let val = res.rows['0'][col];
-                console.log(label, val);
+                let val = '<p>' + res.rows['0'][col] + '</p>';
+
+                if(val) {
+                  $('.cartodb-popup-content').append(label);
+                  $('.cartodb-popup-content').append(val)
+                }
               }
             }
-            // templateLabels.length < templateCols.length ?
-            //   console.warn(layerName, 'some columns doesn\'t have lables:')
-            //   : for(let labelIndex in templateLabels) {
-            //       let label = templateLabels[labelIndex];
-            //       let col = templateCols[labelIndex];
-            //       console.log(label, col);
-            //     };
-
-            // $('.custom-infowindow .cartodb-popup-content');
+            
             $('.cartodb-popup').show();
           }
         });
