@@ -51,7 +51,7 @@
   </div>
 </div>
   
-{% include "map/partials/detail_page.html" with datafields=datafields data_sources=data_sources %}
+{% include "map/partials/detail_popup.html" with datafields=datafields data_sources=data_sources %}
 
 <script>
 
@@ -209,7 +209,7 @@
       // });
       
       //
-      // Click event handler for Carto feature
+      // Setup infowindow; click event handler
       //
       layer.on('featureClick', function(e, latlng, pos, datapoint, _layer) {
 
@@ -243,13 +243,20 @@
           else {
             
             //
-            // Render infowindow; use res.rows['0']
+            // Render infowindow; find your data in res.rows['0']
             // Note that rows is not an array, but an object.
+            // I know, this is weird. Welcome to Carto.
+            //
+            
+            //
+            // Position-related variables for infowindow; not used currently
             //
             // let navbarHeight = parseInt($('#header-wrapper').css('height'));
             // let infowindowHeight = parseInt($('.cartodb-popup').css('height'));
             // let popupTipHeight = parseInt($('.cartodb-popup-tip-container').css('height'));
             // let popupTipLeft = parseInt($('.cartodb-popup-tip-container').css('margin-left'));
+
+            // renderInfowindow(res.rows['0'], left, top);
 
             $('.cartodb-popup').css('left', (pos.x - $('.cartodb-popup').width()/2) + 'px');
             $('.cartodb-popup').css('top', (pos.y - $('.cartodb-popup').height()/2) + 'px');
@@ -277,12 +284,27 @@
                 let val = '<p>' + res.rows['0'][col] + '</p>';
 
                 if(val) {
+                  // Skip if data is null
                   $('.cartodb-popup-content').append(label);
                   $('.cartodb-popup-content').append(val)
                 }
               }
             }
-            
+
+            //
+            // Render details popup; find your data in res.rows['0']
+            // Note that rows is not an array, but an object.
+            // I know, this is weird. Welcome to Carto.
+            //
+            $('.link-to-detail').click(function(e) {
+              // Fill out the form
+              renderDetailPopup(res.rows['0'], tableName);
+
+              // Make it visible
+              $('.detail-popup').modal('show');
+              e.stopPropagation();
+            });
+
             $('.cartodb-popup').show();
           }
         });

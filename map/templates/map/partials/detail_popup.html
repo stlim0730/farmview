@@ -1,4 +1,4 @@
-<div id='detail-page' class='modal'>
+<div class='modal detail-popup'>
   <div class='modal-dialog'>
     <div class='modal-content'>
       <div class='modal-header'>
@@ -28,7 +28,7 @@
 
       </div>
       <div class='modal-footer'>
-        <button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
+        <button type='button' class='btn btn-primary close-btn' data-dismiss='modal'>Close</button>
       </div>
     </div>
   </div>
@@ -36,23 +36,31 @@
 
   <script>
 
+    //
+    // Globals
+    //
     var NO_DATA_PLACEHOLDER = 'N/A';
 
-    function resetDetailsPage() {
+    var resetDetailPopup = function() {
       $('.data-field').html(NO_DATA_PLACEHOLDER);
       $('div.thumbnail-area').html('');
       $('#detail-page .wrapper-per-source').hide(); // COLLAPSE ALL
-    }
+      // console.log('called reset');
+    };
+
+    $('.detail-popup .close-btn, .detail-popup button.close').click(function(e) {
+      resetDetailPopup();
+    });
 
     function getLabelWithVal(val, choices) {
-      var values = val.split(' ');
-      var res = [];
+      let values = val.split(' ');
+      let res = [];
 
-      for (var j = 0; j < values.length; j++) {
-        var value = values[j];
+      for (let j in values) {
+        let value = values[j];
 
-        for (var i = 0; i < choices.length; i++) {
-          var choice = choices[i];
+        for (let i in choices) {
+          let choice = choices[i];
 
           if (choice.val == value) {
             res.push(choice.label_eng);
@@ -63,25 +71,25 @@
       return res.join(', ');
     }
 
-    function renderDetailsPage(result, table) {
+    function renderDetailPopup(record, table) {
 
-      var record = result.rows[0];
-      var per_data_source = $('#detail-page .wrapper-per-source.data-from-' + table); // div FOR THE RELEVANT TABLE
+      // var record = result.rows[0];
+      let per_data_source = $('.detail-popup .wrapper-per-source.data-from-' + table); // div FOR THE RELEVANT TABLE
 
-      for (var key in record) {
-        var target_field_selector = '#' + key + '-field.data-field';
-        var field = $(target_field_selector);
+      for (let key in record) {
+        let target_field_selector = '#' + key + '-field.data-field';
+        let field = $(target_field_selector);
         // is_relevant_field IS SET TO TRUE IF THE div WRAPPER HAS THE FIELD
-        var is_relevant_field = per_data_source.has(target_field_selector).length == 1;
+        let is_relevant_field = per_data_source.has(target_field_selector).length == 1;
 
         if (is_relevant_field && record[key]) {
           if ($.inArray(field.data('type'), ['select_one', 'select_multiple']) >= 0) {
             // REPLACE RAW VALUE WITH HUMAN-READABLE LABEL
-            var choices = $(target_field_selector).data('choices');
-            var label = getLabelWithVal(record[key], choices);
+            let choices = $(target_field_selector).data('choices');
+            let label = getLabelWithVal(record[key], choices);
             if (label.trim() == '') {
               field.html(record[key]);
-              console.log(key, record[key], 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
+              // console.warn(key, record[key], 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
             }
             else field.html(label);
           }
@@ -93,18 +101,18 @@
 
       // SHOW PARCEL IMAGE IF APPLICABLE
       if ('_attachments' in record) {
-        var attachments = JSON.parse(record['_attachments']);
+        let attachments = JSON.parse(record['_attachments']);
         // console.log(attachments);
 
-        for (var i = 0; i < attachments.length; i++) {
-          var attachment = attachments[i];
+        for (let i in attachments) {
+          let attachment = attachments[i];
           // console.log(attachment);
           if (attachment.mimetype.startsWith('image/')) {
-            var thumbmail_url = 'https://ona.io' + attachment['small_download_url'];
-            var original_img_url = 'https://ona.io' + attachment['download_url'];
+            let thumbmail_url = 'https://ona.io' + attachment['small_download_url'];
+            let original_img_url = 'https://ona.io' + attachment['download_url'];
             
-            var thumbnail_area = $(per_data_source.find('div.thumbnail-area')[0]);
-            var original_img_area = $('#img-per_data_source-layer');
+            let thumbnail_area = $(per_data_source.find('div.thumbnail-area')[0]);
+            let original_img_area = $('#img-per_data_source-layer');
 
             thumbnail_area.html('<a href="' + original_img_url + '" target="_blank"><img title="Click for original size" src="' + thumbmail_url + '"/></a>');
           }

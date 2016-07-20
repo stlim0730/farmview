@@ -22,9 +22,8 @@ html, body {
   position: relative;
 }
 
-#detail-page.modal {
-  margin-top: 75px;
-  z-index: 100;
+.detail-popup.modal {
+  margin-top: 30px;
 }
 
 .query-ui div.bottom-fixed-popup {
@@ -56,7 +55,7 @@ p.info-window-custom-paragraph {
   margin-left: 45px;
 }
 
-#detail-page .thumbnail-area {
+.detail-popup .thumbnail-area {
   margin-right: 15px;
   margin-top: 15px;
   position: absolute;
@@ -75,7 +74,7 @@ p.info-window-custom-paragraph {
 }
 
 .custom-infowindow {
-  z-index: 2;
+  z-index: 1;
   min-height: 250px;
   max-width: 200px;
 }
