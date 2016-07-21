@@ -94,6 +94,10 @@ html, body {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.info-window-custom-paragraph {
+  text-align: center;
+}
 /**/
 /* End custom definitions */
 /**/

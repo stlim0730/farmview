@@ -14,7 +14,7 @@
 
             {% for datafield in datafields %}
               {% if datafield.use_for_detail_popup and data_source in datafield.data_sources %}
-                <div class='form-group'>
+                <div class='form-group collapse'>
                   <label for='{{datafield.name}}-field' class='control-label data-label'>{{datafield.label_eng}}</label><br />
                   <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices_str}}' data-type='{{datafield.type}}'>
                     N/A
@@ -91,7 +91,9 @@
               field.html(record[key]);
               // console.warn(key, record[key], 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
             }
-            else field.html(label);
+            else {
+              field.html(label);
+            }
           }
           else {
             field.html(record[key]);
