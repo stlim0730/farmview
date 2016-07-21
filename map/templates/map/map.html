@@ -27,9 +27,7 @@
 
 <div class='row height-90'>
   <div class='col-md-12 full-height'>
-    <div id='map' class='col-md-12 full-height cursor-grab'>
-      {% include "map/partials/custom_infowindow.html" %}
-    </div>
+    <div id='map' class='col-md-12 full-height cursor-grab'></div>
   </div>
 </div>
   
@@ -213,22 +211,26 @@
       //
       layer.on('featureClick', function(e, latlng, pos, datapoint, _layer) {
 
-        resetInfowindow();
-        closeInfowindow();
+        // Remove existing markers, if any
+        $('div.dummy-div-icon').remove();
 
-        // console.log(pos);
+        
 
+        //
+        // Build a background query string
+        //
         let tableName = layerDef.options.sql.toLowerCase().split('from')[1].trim();
         tableName = tableName.includes('.') ? tableName.split('.')[1] : tableName;
-
         let clauses = [];
         for(let key in datapoint) {
           clauses.push(key + ' = ' + datapoint[key]);
         }
         let sql = 'SELECT * FROM ' + tableName + ' WHERE ' + clauses.join(' and ');
 
+
+
         //
-        // Background query for infowindow
+        // Send the background query for infowindow
         //
         $.getJSON('https://' + userName + '.cartodb.com/api/v2/sql/?q=' + sql, function(res) {
 
@@ -248,26 +250,20 @@
             // I know, this is weird. Welcome to Carto.
             //
             
-            //
-            // Position-related variables for infowindow; not used currently
-            //
-            // let navbarHeight = parseInt($('#header-wrapper').css('height'));
-            // let infowindowHeight = parseInt($('.cartodb-popup').css('height'));
-            // let popupTipHeight = parseInt($('.cartodb-popup-tip-container').css('height'));
-            // let popupTipLeft = parseInt($('.cartodb-popup-tip-container').css('margin-left'));
+            // Later, I want to have renderInfowindow(res.rows['0'], left, top);
 
-            // renderInfowindow(res.rows['0'], left, top);
-
-            $('.cartodb-popup').css('left', (pos.x - $('.cartodb-popup').width()/2) + 'px');
-            $('.cartodb-popup').css('top', (pos.y - $('.cartodb-popup').height()/2) + 'px');
-
+            // 
+            // Parse Carto infowindow template
+            // 
             let template = layerDef.infowindow.template.replace('\n', '').replace('\\"', '"').replace('\\\'', '\'');
             let templateBody = template.match(/<div\s+class=("|')cartodb-popup-content("|')>[\S\s]*?<\/div>/gi)[0];
             let templateLabels = templateBody.match(/<h[0-9]>[\S\s]*?<\/h[0-9]>/gi);
             let templateCols = templateBody.match(/\{\{[\S\s]*?\}\}/gi);
+            let parseRes = '';
             // console.log(templateLabels, templateCols);
+
             if(templateLabels.length < templateCols.length) {
-              console.error(layerName, 'some columns doesn\'t have lables:');
+              console.error(layerName, 'some columns don\'t have lables:');
             }
             else {
               for(let labelIndex in templateLabels) {
@@ -285,10 +281,11 @@
 
                 if(val) {
                   // Skip if data is null
-                  $('.cartodb-popup-content').append(label);
-                  $('.cartodb-popup-content').append(val)
+                  parseRes += label + val;
                 }
               }
+
+              console.log(parseRes);
             }
 
             //
@@ -296,16 +293,45 @@
             // Note that rows is not an array, but an object.
             // I know, this is weird. Welcome to Carto.
             //
-            $('.link-to-detail').click(function(e) {
-              // Fill out the form
-              renderDetailPopup(res.rows['0'], tableName);
+            // $('.link-to-detail').click(function(e) {
+            //   // Fill out the form
+            //   renderDetailPopup(res.rows['0'], tableName);
 
-              // Make it visible
-              $('.detail-popup').modal('show');
-              e.stopPropagation();
-            });
+            //   // Make it visible
+            //   $('.detail-popup').modal('show');
+            //   e.stopPropagation();
+            // });
 
-            $('.cartodb-popup').show();
+            // $('.cartodb-popup').show();
+
+            // Check if popup exists
+            if($('.leaflet-popup-content').length == 0) {
+              // For the initial query results for the clicked featrue
+              // Dummy icon for a marker
+              let dummyDivIcon = L.divIcon({
+                className: 'dummy-div-icon',
+                iconSize: [0, 0]
+              });
+
+              // A Leaflet popup with Carto infowindow template and content
+              let popup = L.popup()
+                .setLatLng(latlng)
+                .setContent(parseRes)
+                .openOn(mapObj);
+
+              // An invisible marker to which the infowindow will be attached
+              let marker = L.marker(latlng, {
+                icon: dummyDivIcon,
+                opacity: 0
+              }).addTo(mapObj);
+
+              marker.bindPopup(popup);
+              marker.openPopup();
+            }
+            else {
+              // For the following query results for overlapped layers
+              $('.leaflet-popup-content').append(parseRes);
+            }
           }
         });
 
@@ -330,10 +356,58 @@
       console.info('A layer added:', layerName, layer);
     })
 
+    .done(function(layer) {
+
+    })
+
     .error(function(err) {
       console.error('An error occured in creating layer:', err);
     });
   }
+
+
+  //
+  // Reposition infowindow in panning the map
+  //
+  // var mapClicked = false;
+  // var mapClickP0 = {};
+  // var mouseMovingOnMap = false;
+  
+  // $('#map').mousedown(function(e) {
+  //   mapClicked = true;
+  //   mapClickP0['x'] = e.screenX;
+  //   mapClickP0['y'] = e.screenY;
+  // });
+
+  // $('#map').mousemove(function(e) {
+  //   mouseMovingOnMap = true;
+
+  //   if(infowindowActive && mapClicked && mouseMovingOnMap) {
+  //     // console.log('now we move infowindow');
+  //     let mapClickP1 = {x: e.screenX, y: e.screenY};
+  //     let dx = mapClickP1.x - mapClickP0.x;
+  //     let dy = mapClickP1.y - mapClickP1.y;
+      
+  //     let currentLeft = parseInt($('.cartodb-popup').css('left'));
+  //     let currentTop = parseInt($('.cartodb-popup').css('top'));
+
+  //     let newLeft = currentLeft + dx;
+  //     let newTop = currentTop + dy;
+
+  //     console.log(currentLeft, currentTop);
+  //     console.log(dx, dy);
+  //     console.log(newLeft, newTop);
+
+  //     $('.cartodb-popup').css('left', newLeft + 'px');
+  //     // $('.cartodb-popup').css('top', newTop + 'px');
+  //   }
+  // });
+
+  // $('#map').mouseup(function(e) {
+  //   mapClicked = false;
+  //   mouseMovingOnMap = false;
+  //   mapClickP0 = {};
+  // });
 
 
   

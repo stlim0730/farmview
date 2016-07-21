@@ -43,9 +43,9 @@ html, body {
   margin-bottom: 10px;
 }
 
-p.info-window-custom-paragraph {
+/*p.info-window-custom-paragraph {
   text-align: center;
-}
+}*/
 
 .data-label {
   margin-left: 20px;
@@ -73,22 +73,26 @@ p.info-window-custom-paragraph {
   float: left;
 }
 
-.custom-infowindow {
-  z-index: 1;
-  min-height: 250px;
-  max-width: 200px;
+.leaflet-popup-content {
+  overflow: auto;
+  max-height: 250px;
+  width: 180px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.info-window-custom-paragraph button {
-  margin-left: 5px;
+.leaflet-popup-content h4 {
+  font-size: 12px;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
-.cartodb-popup::before { 
-  display: none !important;
-}
-
-.cartodb-popup-tip-container::before {
-  display: none !important;
+.leaflet-popup-content p {
+  font-size: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 /**/
 /* End custom definitions */
