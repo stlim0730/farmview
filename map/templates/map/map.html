@@ -198,7 +198,20 @@
       }
 
       layer.setInteraction(true);
-      
+
+      // TODO: It doesn't work
+      // layer.on('mousedown', function(e, latlon, pxPos, data, l) {
+      //   $('#map').css('cursor', 'grabbing');
+      // });
+
+      layer.on('featureOver', function(e, latlon, pxPos, data, l) {
+        $('#map').css('cursor', 'pointer');
+
+        layer.on('featureOut', function(e, latlon, pxPos, data, l) {
+          $('#map').css('cursor', '-webkit-grab');
+        });
+      });
+
       //
       // Setup infowindow; click event handler
       //
@@ -355,6 +368,12 @@
       console.error('An error occured in creating layer:', err);
     });
   }
+
+  // for(let layer in app.layers.data) {
+  //   layer.on('mousedown', function(e, latlon, pxPos, data, l) {
+  //     $('#map').css('cursor', '-webkit-grabbing');
+  //   });
+  // }
 
   
   // 
