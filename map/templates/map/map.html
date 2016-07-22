@@ -389,6 +389,9 @@
           case 'select_multiple':
             var input = $('#' + field + '-input');
             var vals = input.val().split(',');
+            for(var valIndex in vals) {
+              vals[valIndex] = '\'' + vals[valIndex] + '\'';
+            }
             clause = field + ' = ' + vals.join(' or ' + field + ' = ');
             break;
 
@@ -441,7 +444,7 @@
     }
 
     // Check the query_per_table; it should contain all the information on query you want to perform
-    // console.log('query_per_table', query_per_table);
+    console.log('query_per_table', query_per_table);
 
     // 
     // Apply query per case of combination
@@ -449,14 +452,14 @@
     if (Object.keys(query_per_table).length == 1) {
       if (app.tables['Ag Parcels'] in query_per_table) {
         // Parcel-only query case
-        let parcel_layer = app.layers['data']['Ag Parcels'];
-        let point_layer = app.layers['data']['data_point'];
-        let polygon_layer = app.layers['data']['data_polygon'];
+        var parcel_layer = app.layers['data']['Ag Parcels'];
+        var point_layer = app.layers['data']['data_point'];
+        var polygon_layer = app.layers['data']['data_polygon'];
 
-        let parcel_query = query_per_table[app.tables['Ag Parcels']];
+        var parcel_query = query_per_table[app.tables['Ag Parcels']];
 
-        let point_table = app.tables['data_point'];
-        let polygon_table = app.tables['data_polygon'];
+        var point_table = app.tables['data_point'];
+        var polygon_table = app.tables['data_polygon'];
 
         parcel_layer.setQuery(parcel_query);
         point_layer.setQuery('SELECT ' + point_table + '.* FROM ' + point_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + point_table + '.the_geom, parcel.the_geom)');
@@ -474,14 +477,14 @@
     else if (Object.keys(query_per_table).length == 2) {
       if ((app.tables['data_point'] in query_per_table) && (app.tables['data_polygon'] in query_per_table)) {
         // Survey-only query case
-        let parcel_layer = app.layers['data']['Ag Parcels'];
-        let point_layer = app.layers['data']['data_point'];
-        let polygon_layer = app.layers['data']['data_polygon'];
+        var parcel_layer = app.layers['data']['Ag Parcels'];
+        var point_layer = app.layers['data']['data_point'];
+        var polygon_layer = app.layers['data']['data_polygon'];
         
-        let point_query = query_per_table[app.tables['data_point']];
-        let polygon_query = query_per_table[app.tables['data_polygon']];
+        var point_query = query_per_table[app.tables['data_point']];
+        var polygon_query = query_per_table[app.tables['data_polygon']];
         
-        let parcel_table = app.tables['Ag Parcels'];
+        var parcel_table = app.tables['Ag Parcels'];
 
         parcel_layer.setQuery(
           'SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + point_query + ') as point ON ST_Intersects(' + parcel_table + '.the_geom, point.the_geom)\
@@ -498,13 +501,13 @@
     }
     else {
       // All the app.tables are involved
-      let parcel_layer = app.layers['data']['Ag Parcels'];
-      let point_layer = app.layers['data']['data_point'];
-      let polygon_layer = app.layers['data']['data_polygon'];
+      var parcel_layer = app.layers['data']['Ag Parcels'];
+      var point_layer = app.layers['data']['data_point'];
+      var polygon_layer = app.layers['data']['data_polygon'];
       
-      let parcel_query = query_per_table[app.tables['Ag Parcels']];
-      let point_query = query_per_table[app.tables['data_point']];
-      let polygon_query = query_per_table[app.tables['data_polygon']];
+      var parcel_query = query_per_table[app.tables['Ag Parcels']];
+      var point_query = query_per_table[app.tables['data_point']];
+      var polygon_query = query_per_table[app.tables['data_polygon']];
 
       parcel_layer.setQuery(parcel_query);
       point_layer.setQuery(point_query);
