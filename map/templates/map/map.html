@@ -72,13 +72,7 @@
     }, durationMs);
   };
 
-  // var TABLES = {
-  //   PARCEL: 'central_coast_joined',
-  //   POINT: 'data_point',
-  //   POLYGON: 'data_polygon'
-  // };
-
-
+  
 
   // 
   // Load config
@@ -89,60 +83,6 @@
   console.info('Using configuration updated on', app.config.pub_date);
   console.info('Using Carto publication', app.config.vizjson_url);
   app.config.optional_note ? console.info('Note:', app.config.optional_note) : null;
-
-
-
-  // START SETTING CartoDB
-  // var cartodb_options = {
-  //   layer_selector: false, shareable: false, title: false, description: false,
-  //   search: true, zoomControl: true, loaderControl: true, center_lat: 36.9719,
-  //   center_lon: -122.0264, zoom: 11, cartodb_logo: false, infowindow: true,
-  //   time_slider: false, layer_selector: true, legends: true, https: true,
-  //   scrollwheel: false, fullscreen: true, mobile_layout: true, force_mobile: false
-  //   // gmaps_base_type: 'roadmap',
-  //   // gmaps_style: null,
-  //   // no_cdn: false
-  // };
-
-  // cartodb.createVis('map', vizjson_url, cartodb_options)
-  // .done(function(_vis, _layers) {
-  //   vis = _vis;
-  //   app.layers = _layers; // app.layers[0] is a torque layer where we don't have much control.
-  //   data_layer = app.layers[1];
-
-    
-
-  //   // START DYNAMIC ELEMENTS ON INFO WINDOW
-  //   $('.cartodb-infowindow').on('click', '.link-to-detail', function(e) {
-  //     // GET DATA FROM CARTODB
-  //     // THESE THREE DATA ATTRIBUTES SHOULD BE DEFINED IN infowindow SECTION ON CartoDB
-  //     var table = $(this).attr('data-source');
-  //     var id_field = $(this).attr('data-id-field');
-  //     var id_val = $(this).attr('data-id');
-
-  //     // NOTE: THE QUERY STRING HAS TO USE SINGLE QUOTE BUT NOT DOUBLE!
-  //     var query_str = 'select * from ' + table + ' where ' + id_field + ' = \'' + id_val + '\'';
-  //     // console.log(id_field, id_val);
-
-  //     $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=' + query_str, function(result) {
-  //       // console.log(data);
-        
-  //       resetDetailsPage();
-
-  //       if (result.rows.length == 1) {
-  //         renderDetailsPage(result, table);
-  //       }
-  //       else if (result.rows.length > 1) {
-  //         // TODO: DISPLAY AN ERROR MESSAGE
-  //       }
-
-  //       // SHOW THE POPUP MODAL
-  //       $('#detail-page').modal('show');
-  //     });
-  //   });
-  //   // END DYNAMIC ELEMENTS ON INFO WINDOW
-  // });
-  // END SETTING CartoDB
 
   
 
@@ -180,6 +120,9 @@
     let layerDef = layerDefinition.layers[layerIndex];
 
     let layerName = layerDef.options.layer_name;
+    let tableName = layerDef.options.sql.toLowerCase().split('from')[1].trim();
+    tableName = tableName.includes('.') ? tableName.split('.')[1] : tableName;
+    app.tables[layerName] = tableName;
     let userName = app.config.vizjson.layers[1].options.user_name;
     app.userName = userName;
 
@@ -225,8 +168,6 @@
         //
         // Build a background query string
         //
-        let tableName = layerDef.options.sql.toLowerCase().split('from')[1].trim();
-        tableName = tableName.includes('.') ? tableName.split('.')[1] : tableName;
         let clauses = [];
         for(let key in datapoint) {
           clauses.push(key + ' = ' + datapoint[key]);
@@ -400,223 +341,209 @@
   // 
   // Query submit button
   // 
-  // $('#query-submit').click(function(e) {
-  //   // COLLECT DATASOURCES, FIELD NAMES, AND OPERANDS FOR NON-EMPTY OPERAND UIS
-  //   var query_elems = [];
-  //   var tables_needed = [];
+  $('#query-submit').click(function(e) {
+    // COLLECT DATASOURCES, FIELD NAMES, AND OPERANDS FOR NON-EMPTY OPERAND UIS
+    var query_elems = [];
+    var tables_needed = [];
 
-  //   var query_checkboxes = $('.query-group');
-  //   for (var i = 0; i < query_checkboxes.length; i++) {
-  //     var query_checkbox = $(query_checkboxes[i]);
+    var query_checkboxes = $('.query-group');
+    for (var i = 0; i < query_checkboxes.length; i++) {
+      var query_checkbox = $(query_checkboxes[i]);
 
-  //     if (query_checkbox.prop('checked')) { // ONLY FOR SELECTED QUERY UIS
-  //       var type = query_checkbox.data('query-type');
-  //       var table = query_checkbox.data('table')/*.split(',')*/;
-  //       var field = query_checkbox.data('field');
-  //       var clause = '';
+      if (query_checkbox.prop('checked')) { // ONLY FOR SELECTED QUERY UIS
+        var type = query_checkbox.data('query-type');
+        var table = query_checkbox.data('table')/*.split(',')*/;
+        var field = query_checkbox.data('field');
+        var clause = '';
 
-  //       // GET INPUT VALUE PER TYPE AND GENERATE QUERY CLAUSE
-  //       switch (type) {
+        // Get input value per type and generate query clause
+        // NOTE: Carto uses single quote for sql but not double quote!
+        switch (type) {
           
-  //         case 'text':
-  //           var input = $('#' + field + '-input');
-  //           var val = input.val().trim();
-  //           clause = ' ' + field + ' LIKE \'' + val + '\'';
-  //           break;
+          case 'text':
+            var input = $('#' + field + '-input');
+            var val = input.val().trim();
+            clause = ' ' + field + ' LIKE \'' + val + '\'';
+            break;
 
-  //         case 'range':
-  //           var input_min = $('#' + field + '-min-input');
-  //           var input_max = $('#' + field + '-max-input');
-  //           var val_min = parseInt(input_min.val().trim());
-  //           var val_max = parseFloat(input_max.val().trim());
-  //           if (val_min && !isNaN(val_min)) {
-  //             clause += ' ' + field + ' >= ' + val_min;
-  //           }
-  //           if (val_max && !isNaN(val_max)) {
-  //             if (clause != '') clause += ' and';
-  //             clause += ' ' + field + ' <= ' + val_max;
-  //           }
-  //           break;
+          case 'range':
+            var input_min = $('#' + field + '-min-input');
+            var input_max = $('#' + field + '-max-input');
+            var val_min = parseInt(input_min.val().trim());
+            var val_max = parseFloat(input_max.val().trim());
+            if (val_min && !isNaN(val_min)) {
+              clause += ' ' + field + ' >= ' + val_min;
+            }
+            if (val_max && !isNaN(val_max)) {
+              if (clause != '') clause += ' and';
+              clause += ' ' + field + ' <= ' + val_max;
+            }
+            break;
 
-  //         case 'select_one':
-  //           var input = $('#' + field + '-input');
-  //           var val = input.val().trim();
-  //           clause = ' ' + field + ' = \'' + val + '\'';
-  //           break;
+          case 'select_one':
+            var input = $('#' + field + '-input');
+            var val = input.val().trim();
+            clause = ' ' + field + ' = \'' + val + '\'';
+            break;
 
-  //         case 'select_multiple':
-  //           var input = $('#' + field + '-input');
-  //           var vals = input.val().split(',');
-  //           clause = field + ' = ' + vals.join(' or ' + field + ' = ');
-  //           break;
+          case 'select_multiple':
+            var input = $('#' + field + '-input');
+            var vals = input.val().split(',');
+            clause = field + ' = ' + vals.join(' or ' + field + ' = ');
+            break;
 
-  //         default:
-  //           console.error(type, ': unexpected query type');
-  //           return;
-  //       }
-  //       $.merge(tables_needed, table);
-  //       $.unique(tables_needed);
-  //       var query_elem = {
-  //         type: type,
-  //         table: table,
-  //         field: field,
-  //         clause: clause
-  //       };
-  //       query_elems.push(query_elem);
-  //     }
-  //   }
+          default:
+            console.error(type, ': unexpected query type');
+            return;
+        }
+        $.merge(tables_needed, table);
+        $.unique(tables_needed);
+        var query_elem = {
+          type: type,
+          table: table,
+          field: field,
+          clause: clause
+        };
+        query_elems.push(query_elem);
+      }
+    }
 
-  //   // THIS INFORMATION SHOULD BE INCLUDED IN THE QUERY STRING BELOW.
-  //   // console.log('query_elems', query_elems);
-  //   console.log('tables_needed', tables_needed);
+    // This information should be included in the query string below.
+    // console.log('query_elems', query_elems);
+    // console.log('tables_needed', tables_needed);
 
-  //   // NOTHING TO QUERY
-  //   // TODO: ERROR MESSAGE?
-  //   if (tables_needed.length == 0 || query_elems.length == 0) return;
+    // Nothing to query; TODO: an error message?
+    if (tables_needed.length == 0 || query_elems.length == 0) return;
 
-  //   // START INITIALIZING query_per_table
-  //   var query_per_table = {};
-  //   for (var i = 0; i < tables_needed.length; i++) {
-  //     var table = tables_needed[i];
-  //     query_per_table[table] = 'SELECT * FROM ' + table + ' WHERE';
-  //   }
-  //   // END INITIALIZING query_per_table
+    // Build query string per table
+    var query_per_table = {};
+    for (var i = 0; i < tables_needed.length; i++) {
+      var table = tables_needed[i];
+      query_per_table[table] = 'SELECT * FROM ' + table + ' WHERE';
+    }
 
-  //   for (var i = 0; i < query_elems.length; i++) {
-  //     var query_elem = query_elems[i];
-  //     var tables = query_elem.table;
+    for (var i = 0; i < query_elems.length; i++) {
+      var query_elem = query_elems[i];
+      var tables = query_elem.table;
 
-  //     for (var j = 0; j < tables.length; j++) {
-  //       var table = tables[j];
-  //       query_per_table[table] += ' (' + query_elem.clause + ' )';
-  //       query_per_table[table] += ' and'
-  //     }
-  //   }
+      for (var j = 0; j < tables.length; j++) {
+        var table = tables[j];
+        query_per_table[table] += ' (' + query_elem.clause + ' )';
+        query_per_table[table] += ' and'
+      }
+    }
 
-  //   // REMOVING THE FOLLOWING ' and'
-  //   for (var i = 0; i < tables_needed.length; i++) {
-  //     var table = tables_needed[i];
-  //     var len = query_per_table[table].length;
-  //     query_per_table[table] = query_per_table[table].slice(0, len - ' and'.length);
-  //   }
+    // Removing the following ' and'
+    for (var i = 0; i < tables_needed.length; i++) {
+      var table = tables_needed[i];
+      var len = query_per_table[table].length;
+      query_per_table[table] = query_per_table[table].slice(0, len - ' and'.length);
+    }
 
-  //   // CHECK THE query_per_table; IT SHOULD CONTAIN ALL THE INFORMATION ON QUERY YOU WANT TO PERFORM
-  //   console.log('query_per_table', query_per_table);
+    // Check the query_per_table; it should contain all the information on query you want to perform
+    // console.log('query_per_table', query_per_table);
 
-  //   // START QUERY CASES
-  //   if (Object.keys(query_per_table).length == 1) {
-  //     if (TABLES['PARCEL'] in query_per_table) {
-  //       // PARCEL-ONLY QUERY CASE
-  //       var parcel_layer = app.layers['data']['PARCEL'];
-  //       var point_layer = app.layers['data']['POINT'];
-  //       var polygon_layer = app.layers['data']['POLYGON'];
+    // 
+    // Apply query per case of combination
+    // 
+    if (Object.keys(query_per_table).length == 1) {
+      if (app.tables['Ag Parcels'] in query_per_table) {
+        // Parcel-only query case
+        let parcel_layer = app.layers['data']['Ag Parcels'];
+        let point_layer = app.layers['data']['data_point'];
+        let polygon_layer = app.layers['data']['data_polygon'];
 
-  //       var parcel_query = query_per_table[TABLES['PARCEL']];
+        let parcel_query = query_per_table[app.tables['Ag Parcels']];
 
-  //       var point_table = TABLES['POINT'];
-  //       var polygon_table = TABLES['POLYGON'];
+        let point_table = app.tables['data_point'];
+        let polygon_table = app.tables['data_polygon'];
 
-  //       parcel_layer.setQuery(parcel_query);
-  //       point_layer.setQuery('SELECT ' + point_table + '.* FROM ' + point_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + point_table + '.the_geom, parcel.the_geom)');
-  //       polygon_layer.setQuery('SELECT ' + polygon_table + '.* FROM ' + polygon_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + polygon_table + '.the_geom, parcel.the_geom)');
-  //     }
-  //     else if (TABLES['POINT'] in query_per_table) {
-  //       // POINT-ONLY QUERY CASE: NOT EXPECTED
-  //       console.error('selected only data_point table');
-  //     }
-  //     else if (TABLES['POLYGON'] in query_per_table) {
-  //       // POLYGON-ONLY QUERY CASE: NOT EXPECTED
-  //       console.error('selected only data_polygon table');
-  //     }
-  //   }
-  //   else if (Object.keys(query_per_table).length == 2) {
-  //     if ((TABLES['POINT'] in query_per_table) && (TABLES['POLYGON'] in query_per_table)) {
-  //       // SURVEY-ONLY QUERY CASE
-  //       var parcel_layer = app.layers['data']['PARCEL'];
-  //       var point_layer = app.layers['data']['POINT'];
-  //       var polygon_layer = app.layers['data']['POLYGON'];
+        parcel_layer.setQuery(parcel_query);
+        point_layer.setQuery('SELECT ' + point_table + '.* FROM ' + point_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + point_table + '.the_geom, parcel.the_geom)');
+        polygon_layer.setQuery('SELECT ' + polygon_table + '.* FROM ' + polygon_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + polygon_table + '.the_geom, parcel.the_geom)');
+      }
+      else if (app.tables['data_point'] in query_per_table) {
+        // Point-only query case: not expected
+        console.error('selected only data_point table');
+      }
+      else if (app.tables['data_polygon'] in query_per_table) {
+        // Polygon-only query case: not expected
+        console.error('selected only data_polygon table');
+      }
+    }
+    else if (Object.keys(query_per_table).length == 2) {
+      if ((app.tables['data_point'] in query_per_table) && (app.tables['data_polygon'] in query_per_table)) {
+        // Survey-only query case
+        let parcel_layer = app.layers['data']['Ag Parcels'];
+        let point_layer = app.layers['data']['data_point'];
+        let polygon_layer = app.layers['data']['data_polygon'];
         
-  //       var point_query = query_per_table[TABLES['POINT']];
-  //       var polygon_query = query_per_table[TABLES['POLYGON']];
+        let point_query = query_per_table[app.tables['data_point']];
+        let polygon_query = query_per_table[app.tables['data_polygon']];
         
-  //       var parcel_table = TABLES['PARCEL'];
+        let parcel_table = app.tables['Ag Parcels'];
 
-  //       parcel_layer.setQuery(
-  //         'SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + point_query + ') as point ON ST_Intersects(' + parcel_table + '.the_geom, point.the_geom)\
-  //         UNION\
-  //         SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + polygon_query + ') as polygon ON ST_Intersects(' + parcel_table + '.the_geom, polygon.the_geom)'
-  //       );
-  //       point_layer.setQuery(point_query);
-  //       polygon_layer.setQuery(polygon_query);
-  //     }
-  //     else {
-  //       // EITHER POINT OR POLYGON AND PARCEL QUERY CASE: NOT EXPECTED
-  //       console.error('selected parcel and one survey table');
-  //     }
-  //   }
-  //   else {
-  //     // ALL THE TABLES ARE INVOLVED
-  //     var parcel_layer = app.layers['data']['PARCEL'];
-  //     var point_layer = app.layers['data']['POINT'];
-  //     var polygon_layer = app.layers['data']['POLYGON'];
+        parcel_layer.setQuery(
+          'SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + point_query + ') as point ON ST_Intersects(' + parcel_table + '.the_geom, point.the_geom)\
+          UNION\
+          SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + polygon_query + ') as polygon ON ST_Intersects(' + parcel_table + '.the_geom, polygon.the_geom)'
+        );
+        point_layer.setQuery(point_query);
+        polygon_layer.setQuery(polygon_query);
+      }
+      else {
+        // Either point or polygon and parcel query case: not expected
+        console.error('selected parcel and one survey table');
+      }
+    }
+    else {
+      // All the app.tables are involved
+      let parcel_layer = app.layers['data']['Ag Parcels'];
+      let point_layer = app.layers['data']['data_point'];
+      let polygon_layer = app.layers['data']['data_polygon'];
       
-  //     var parcel_query = query_per_table[TABLES['PARCEL']];
-  //     var point_query = query_per_table[TABLES['POINT']];
-  //     var polygon_query = query_per_table[TABLES['POLYGON']];
+      let parcel_query = query_per_table[app.tables['Ag Parcels']];
+      let point_query = query_per_table[app.tables['data_point']];
+      let polygon_query = query_per_table[app.tables['data_polygon']];
 
-  //     parcel_layer.setQuery(parcel_query);
-  //     point_layer.setQuery(point_query);
-  //     polygon_layer.setQuery(polygon_query);
-  //   }
-  //   // END QUERY CASES
+      parcel_layer.setQuery(parcel_query);
+      point_layer.setQuery(point_query);
+      polygon_layer.setQuery(polygon_query);
+    }
 
-  //   // EXAMPLE FOR A JOIN QUERY:
-  //     //  SELECT * FROM table1
-  //     //  INNER JOIN table2 ON ST_Intersects(table1.the_geom, table2.the_geom)
-  //     //  INNER JOIN table3 ON ST_Intersects(table2.the_geom, table3.the_geom)
-  //   // $.getJSON('https://calo1.cartodb.com/api/v2/sql/?q=SELECT * FROM central_coast_joined INNER JOIN data_point ON ST_Intersects(central_coast_joined.the_geom, data_point.the_geom) INNER JOIN data_polygon ON ST_Intersects(data_point.the_geom, data_polygon.the_geom)', function(data) {
-  //   //   console.log(data);
-  //   // });
+    scrollToTop(500);
+  });
 
-  //   scrollToTop(500);
-  // });
-
+  
   
   // 
   // Query reset button
   // 
-  // $('#query-reset').click(function(e) {
+  $('#query-reset').click(function(e) {
 
-  //   // Uncheck query UI checkboxes
-  //   var query_uis = $('.query-group');
-  //   for (var i = 0; i < query_uis.length; i++) {
-  //     var query_ui = $(query_uis[i]);
-  //     if (query_ui.prop('checked')) {
-  //       query_ui.click();
-  //     }
-  //   }
+    // Uncheck query UI checkboxes
+    var query_uis = $('.query-group');
+    for (var i = 0; i < query_uis.length; i++) {
+      var query_ui = $(query_uis[i]);
+      if (query_ui.prop('checked')) {
+        query_ui.click();
+      }
+    }
 
-  //   // START APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
-  //   var parcel_layer = app.layers['data']['PARCEL'];
-  //   var point_layer = app.layers['data']['POINT'];
-  //   var polygon_layer = app.layers['data']['POLYGON'];
+    let parcel_layer = app.layers['data']['Ag Parcels'];
+    let point_layer = app.layers['data']['data_point'];
+    let polygon_layer = app.layers['data']['data_polygon'];
 
-  //   var parcel_table = TABLES['PARCEL'];
-  //   var point_table = TABLES['POINT'];
-  //   var polygon_table = TABLES['POLYGON'];
+    let parcel_table = app.tables['Ag Parcels'];
+    let point_table = app.tables['data_point'];
+    let polygon_table = app.tables['data_polygon'];
 
-  //   parcel_layer.setQuery('SELECT * FROM ' + parcel_table);
-  //   point_layer.setQuery('SELECT * FROM ' + point_table);
-  //   polygon_layer.setQuery('SELECT * FROM ' + polygon_table);
-  //   // for (table in SUBLAYER_INDICES) {
-  //   //   var sublayer_index = SUBLAYER_INDICES[table];
-  //   //   var reset_str = 'SELECT * FROM ' + table;
-  //   //   data_layer.getSubLayer(sublayer_index).setSQL(reset_str);
-  //   // }
-  //   // END APPLYING QUERIES TO THE CORRESPONDING SUBLAYERS
+    parcel_layer.setQuery('SELECT * FROM ' + parcel_table);
+    point_layer.setQuery('SELECT * FROM ' + point_table);
+    polygon_layer.setQuery('SELECT * FROM ' + polygon_table);
 
-  //   scrollToTop(500);
-  // });
+    scrollToTop(500);
+  });
 
 </script>
 
