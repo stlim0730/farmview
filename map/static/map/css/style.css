@@ -18,10 +18,6 @@ html, body {
   margin-bottom: 20px;
 }
 
-#map {
-  position: relative;
-}
-
 .detail-popup.modal {
   margin-top: 30px;
 }

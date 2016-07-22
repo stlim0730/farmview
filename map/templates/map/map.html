@@ -27,7 +27,9 @@
 
 <div class='row height-90'>
   <div class='col-md-12 full-height'>
-    <div id='map' class='col-md-12 full-height cursor-grab'></div>
+    <div id='map' class='col-md-12 full-height'>
+      <div class='cartodb-legend-stack' style='display: block;'></div>
+    </div>
   </div>
 </div>
   
@@ -342,8 +344,14 @@
       });
 
       //
-      // TODO: setup legends
+      // Setup legends; TODO: interactive legend to turn on/off
       //
+      let legendDef = layerDef.legend;
+      if(legendDef.type !== 'none' && legendDef.template !== '') {
+        $('.cartodb-legend-stack').append(legendDef.template);
+      }
+
+
 
       //
       // Sublayer-specific tasks
@@ -360,20 +368,11 @@
       console.info('A layer added:', layerName, layer);
     })
 
-    .done(function(layer) {
-
-    })
-
     .error(function(err) {
       console.error('An error occured in creating layer:', err);
     });
   }
 
-  // for(let layer in app.layers.data) {
-  //   layer.on('mousedown', function(e, latlon, pxPos, data, l) {
-  //     $('#map').css('cursor', '-webkit-grabbing');
-  //   });
-  // }
 
   
   // 
