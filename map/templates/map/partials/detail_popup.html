@@ -33,7 +33,6 @@
     </div>
   </div>
 
-
   <script>
 
     //
@@ -44,7 +43,7 @@
     var resetDetailPopup = function() {
       $('.data-field').html(NO_DATA_PLACEHOLDER);
       $('div.thumbnail-area').html('');
-      $('#detail-page .wrapper-per-source').hide(); // COLLAPSE ALL
+      $('.detail-popup .wrapper-per-source').hide(); // COLLAPSE ALL
       // console.log('called reset');
     };
 
@@ -71,62 +70,59 @@
       return res.join(', ');
     }
 
-    function renderDetailPopup(record, table) {
+    var renderDetailPopup = function(record, table) {
 
-      // var record = result.rows[0];
-      let per_data_source = $('.detail-popup .wrapper-per-source.data-from-' + table); // div FOR THE RELEVANT TABLE
+      // Get the relevant section selector for the table
+      let per_data_source = $('.detail-popup .wrapper-per-source.data-from-' + table);
 
       for (let key in record) {
-        let target_field_selector = '#' + key + '-field.data-field';
-        let field = $(target_field_selector);
-        // is_relevant_field IS SET TO TRUE IF THE div WRAPPER HAS THE FIELD
-        let is_relevant_field = per_data_source.has(target_field_selector).length == 1;
+        // Get the field selector for the column from the query results
+        let targetFieldSelector = '#' + key + '-field.data-field';
+        let field = $(targetFieldSelector);
+        
+        // isRelevantField is set to true only if the selected section has the field (and only one of it)
+        let isRelevantField = per_data_source.has(targetFieldSelector).length == 1;
 
-        if (is_relevant_field && record[key]) {
+        let value = record[key];
+        if (isRelevantField && value) {
           if ($.inArray(field.data('type'), ['select_one', 'select_multiple']) >= 0) {
-            // REPLACE RAW VALUE WITH HUMAN-READABLE LABEL
-            let choices = $(target_field_selector).data('choices');
-            let label = getLabelWithVal(record[key], choices);
+            // Human-readable label translation for categorical variables
+            let choices = $(targetFieldSelector).data('choices');
+            let label = getLabelWithVal(value, choices);
             if (label.trim() == '') {
-              field.html(record[key]);
-              // console.warn(key, record[key], 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
+              field.html(value);
+              console.warn(key, value, 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
             }
             else {
               field.html(label);
             }
           }
           else {
-            field.html(record[key]);
+            // Just feed it
+            field.html(value);
           }
         }
       }
 
-      // SHOW PARCEL IMAGE IF APPLICABLE
+      // Show the image attachment if available
       if ('_attachments' in record) {
         let attachments = JSON.parse(record['_attachments']);
-        // console.log(attachments);
 
         for (let i in attachments) {
           let attachment = attachments[i];
-          // console.log(attachment);
           if (attachment.mimetype.startsWith('image/')) {
-            let thumbmail_url = 'https://ona.io' + attachment['small_download_url'];
-            let original_img_url = 'https://ona.io' + attachment['download_url'];
-            
-            let thumbnail_area = $(per_data_source.find('div.thumbnail-area')[0]);
-            let original_img_area = $('#img-per_data_source-layer');
-
-            thumbnail_area.html('<a href="' + original_img_url + '" target="_blank"><img title="Click for original size" src="' + thumbmail_url + '"/></a>');
+            let thumbmailUrl = 'https://ona.io' + attachment['small_download_url'];
+            let originalImgUrl = 'https://ona.io' + attachment['download_url'];
+            let thumbnailArea = $(per_data_source.find('div.thumbnail-area')[0]);
+            thumbnailArea.html('<a href="' + originalImgUrl + '" target="_blank"><img title="Click for original size" src="' + thumbmailUrl + '"/></a>');
           }
         }
       }
 
-      // DISPLAY THE RELEVANT WRAPPER
+      // Display the relevant section
       per_data_source.show();
     }
 
   </script>
-
-
 
 </div>

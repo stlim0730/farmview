@@ -234,12 +234,10 @@
           else {
             
             //
-            // Render infowindow; find your data in res.rows['0']
-            // Note that rows is not an array, but an object.
-            // I know, this is weird. Welcome to Carto.
+            // Prepare infowindow; find your data in res.rows[0]
             //
             
-            // TODO: Later, I want to just call renderInfowindow(res.rows['0'], left, top);
+            // TODO: Later, I want to just call renderInfowindow(data);
 
             // 
             // Parse Carto infowindow template
@@ -266,7 +264,7 @@
 
                 let col = templateCols[labelIndex];
                 col = col.substring(2, col.length - 2);
-                let val = '<p>' + res.rows['0'][col] + '</p>';
+                let val = '<p>' + res.rows[0][col] + '</p>';
 
                 if(val) {
                   // Skip if data is null
@@ -276,9 +274,7 @@
             }
 
             //
-            // Render details popup; find your data in res.rows['0']
-            // Note that rows is not an array, but an object.
-            // I know, this is weird. Welcome to Carto.
+            // Render Leaflet popup; find your data in res.rows[0]
             //
             
             // Check if popup exists
@@ -291,7 +287,9 @@
               });
 
               // A Leaflet popup with Carto infowindow template and content
-              let popup = L.popup()
+              let popup = L.popup({
+                keepInView: true
+              })
                 .setLatLng(latlng)
                 .setContent(parseRes)
                 .openOn(mapObj);
@@ -302,13 +300,13 @@
                 opacity: 0
               }).addTo(mapObj);
 
-              // Append custom paragraphs
+              // Append custom paragraphs; containing buttons
               let infowindowCustomParagraphs = $('#infowindow-custom-paragraph-template').html();
               $('.leaflet-popup-content-wrapper').append(infowindowCustomParagraphs);
 
               $('.link-to-detail').click(function(e) {
                 // Fill out the form
-                renderDetailPopup(res.rows['0'], tableName);
+                // renderDetailPopup(res.rows[0], tableName);
 
                 // Make it visible
                 $('.detail-popup').modal('show');
@@ -322,6 +320,9 @@
               // For the following query results for overlapped layers
               $('.leaflet-popup-content').append(parseRes);
             }
+
+            // Render detail popup
+            renderDetailPopup(res.rows[0], tableName);
           }
         });
 
