@@ -3,7 +3,6 @@
 
 
 {% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
 
 
 {% block content %}
@@ -40,6 +39,18 @@ Released   : 20140309
                 <li class="current_page_item"><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
                 <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
                 <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
+        
+        <li>
+        {% get_available_languages as languages %}
+        {% for lang_code, lang_name in languages %}
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                <input name="language" type="hidden" value="{{ lang_code }}" />
+                <button type="submit">{{ lang_name }}</button>
+            </form>
+        {% endfor %}
+        </li>
             </ul>
         </div>
     </div>
@@ -92,7 +103,7 @@ Released   : 20140309
             <div class="box" style="padding: 0em 0em 0em 0em"> 
                <h3>{% trans "Public data" %}</h3>
                 <!-- <img src="publicdataimage"/> -->
-                <p>{% trans "The question of who owns the land is public information, accessed through the county assessor.  We combine this to create a picture of the agricultural parcels in the region and some relevant agricultural attributes like zoning, soil classification, and ownership details.  We also aggregate other public land listings, like data from ag listservs and real estate agencies.  All these data are available on the " %}<a href="https://www.farmview.herokuapp.com/map" target="_blank">'{$ trans "map" %}'</a> {% trans "page for exploration and searching.  Detailed information about land parcels and existing or available land can be viewed " %}</p>
+                <p>{% trans "The question of who owns the land is public information, accessed through the county assessor.  We combine this to create a picture of the agricultural parcels in the region and some relevant agricultural attributes like zoning, soil classification, and ownership details.  We also aggregate other public land listings, like data from ag listservs and real estate agencies.  All these data are available on the " %}<a href="https://www.farmview.herokuapp.com/map" target="_blank">'{% trans "map" %}'</a> {% trans "page for exploration and searching.  Detailed information about land parcels and existing or available land can be viewed " %}</p>
             </div>
         </div>
         <div class="tbox2">

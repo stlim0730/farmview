@@ -37,9 +37,21 @@ Released   : 20140309
             <ul>
                 <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
                 <li><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
-                <li><a href="/about" accesskey="3" title="">{% trans "About" }</a></li>
+                <li><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
                 <li><a href="/mapbook" accesskey="4" title="">{% trans "Mapbook" %}</a></li>
                 <li class="current_page_item"><a href="#" accesskey="5" title="">{% trans "Contact Us" %}</a></li>
+        
+        <li>
+        {% get_available_languages as languages %}
+        {% for lang_code, lang_name in languages %}
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                <input name="language" type="hidden" value="{{ lang_code }}" />
+                <button type="submit">{{ lang_name }}</button>
+            </form>
+        {% endfor %}
+        </li>
             </ul>
         </div>
     </div>
@@ -48,6 +60,8 @@ Released   : 20140309
         <p></p>
         <p style = "text-align: center"> <strong>What data would you like to see represented? Any errors that we can correct?  Have other ideas?  </strong> </p>
     </div> -->
+
+
     <div id="page">
         <div class="container">
         <div class="title"><h1>{% trans "Contact Us" %}</h1></div>
@@ -102,10 +116,25 @@ Released   : 20140309
         <h2>Bofan Chen</h2>
         <p>{% trans "3rd year Computer Science, " %}<br> UC Berkeley</p>
     </div>
-<div class = "profile">
+    <div class = "profile">
         <img src="http://i.imgur.com/Du5ERvV.png">
         <a href="http://karingoh.me"><h2>Karin Goh</h2></a>
-        <p>{% trans "2nd year Computer Science," %} <br> UC Berkeley</p>
+        <p>{% trans "3rd year Computer Science," %} <br> UC Berkeley</p>
+    </div>
+    <div class = "profile">
+        <img src="https://scontent.fsnc1-1.fna.fbcdn.net/t31.0-8/12291101_10205195566397589_8854882318934001834_o.jpg">
+        <h2>Kimberly Bourque</h2>
+        <p>{% trans "3rd year Computer Science," %} <br> UC Berkeley</p>
+    </div>
+    <div class = "profile">
+        <img src="https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/425219_10201323601560870_1295658545_n.jpg?oh=a43b728de5d88a91f06071ccc37dd3f3&oe=582B05F1">
+        <h2>Irene Sohyeon Lee</h2>
+        <p>{% trans "Computer Science Major," %} <br> UC Berkeley</p>
+    </div>
+    <div class = "profile">
+        <img src="http://i.imgur.com/6g6YYXV.png">
+        <h2>Natalia Layson</h2>
+        <p>{% trans "2nd year Computer Science and Engineering," %} <br> UC Berkeley</p>
     </div>
     </div>
 

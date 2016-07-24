@@ -3,7 +3,6 @@
 
 
 {% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
 
 
 {% block map %}
@@ -21,6 +20,18 @@
                   <li><a href="/about" accesskey="3" title="About">{% trans "About" %}</a></li>
                   <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
                   <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
+        
+        <li>
+        {% get_available_languages as languages %}
+        {% for lang_code, lang_name in languages %}
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                <input name="language" type="hidden" value="{{ lang_code }}" />
+                <button type="submit">{{ lang_name }}</button>
+            </form>
+        {% endfor %}
+        </li>
               </ul>
           </div>
       </div>

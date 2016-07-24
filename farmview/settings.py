@@ -13,12 +13,14 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+
+##
+from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
+##
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# LOCALE_PATHS = (
-#     os.path.join(BASE_DIR, '../pages/locale'),
-
-# )
 
 
 # Quick-start development settings - unsuitable for production
@@ -47,18 +49,28 @@ INSTALLED_APPS = (
     'autotranslate'
 )
 
+#
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
+)
+#
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-
-    # 'django.middleware.locale.LocaleMiddleware',
-
 )
 
 ROOT_URLCONF = 'farmview.urls'
@@ -103,17 +115,12 @@ DATABASES = {
 ##
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'en'
 
-
-
-# LANGUAGES = [
-#   ('es', _('Spanish')),
-#   ('en-us', _('English')),
-# ]
-##
-
-
+LANGUAGES = [
+  ('en', _('English')),
+  ('es', _('Spanish')),
+]
 
 TIME_ZONE = 'US/Pacific'
 
