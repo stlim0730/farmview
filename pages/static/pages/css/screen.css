@@ -97,7 +97,8 @@ table {
   .zinnia ol {
     list-style-type: decimal; }
   .zinnia li {
-    list-style-image: url("../img/bullet.png"); }
+    list-style-image: url("../img/bullet.png");
+    font-size: 15px; }
   .zinnia dl {
     margin: 0 0 1.5em 0; }
     .zinnia dl dt {
@@ -175,11 +176,11 @@ table {
   .zinnia .container {
     max-width: 85em; }
   .zinnia #content, .zinnia.right-sidebar #content {
-    width: 50%;
+    width: 70%;
     float: left;
     margin-left: 40px; }
   .zinnia #sidebar, .zinnia.right-sidebar #sidebar {
-    width: 32.94574%;
+    width: 25%;
     float: right;
     margin-right: 0; }
   .zinnia.left-sidebar #content {
@@ -329,7 +330,15 @@ table {
         content: ""; } }
 
 .zinnia .hentry {
-  margin-bottom: 1em; }
+    margin-bottom: 1em;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    border: 1px solid rgba(0,0,0,.09);
+    padding-right: 100px;
+    padding-left: 15px;
+    margin-top: 40px;
+    padding-bottom: 15px;
+  }
 
 .zinnia h2.entry-title {
     font-weight: bold;
@@ -337,14 +346,15 @@ table {
     text-align: left;
     margin-top: 30px;
     margin-left: 22px;
-    font-size: 35px;
+    font-size: 28px;
 }
 
 .zinnia .entry-info {
-    padding-left: 22px;
-    background: transparent url("../img/category.png") no-repeat scroll 0.5em;
-    font-size: 20px;
-    margin: 0px;
+  padding-left: 22px;
+  background: transparent url("../img/category.png") no-repeat scroll 0.5em;
+  font-size: 15px;
+  margin-top: 10px;
+
 }
 
 .zinnia .entry-last-update {
@@ -364,7 +374,8 @@ table {
 
 .zinnia .entry-content {
   text-align: justify;
-  margin-left: 3px; }
+  margin-left: 3px;
+  font-size: 15px; }
   .zinnia .entry-content p {
     font-size: 1.2em; }
   .zinnia .entry-content img {
@@ -386,7 +397,7 @@ table {
 
 .zinnia .continue-reading {
   clear: both;
-  font-size: 1.2em; }
+  font-size: 18px; }
   .zinnia .continue-reading a:after {
     content: "\21d2"; }
 
@@ -412,7 +423,8 @@ table {
   padding-left: 1.5em; }
 
 .zinnia .entry-widgets, .zinnia #comments, .zinnia #pingbacks, .zinnia #trackbacks {
-  padding-top: 1em; }
+  padding-top: 1em;
+  display: none; }
 
 .zinnia #comment-list li, .zinnia #pingback-list li, .zinnia #trackback-list li {
   list-style: none;
@@ -470,7 +482,8 @@ table {
   padding-top: 1em; }
 
 .zinnia #sidebar h3 {
-  padding: 0.5em; }
+  padding: 0.5em;
+  text-align: left; }
 
 .zinnia #sidebar p {
   padding-left: 1em; }
@@ -627,10 +640,12 @@ table {
   .zinnia.light abbr, .zinnia.light acronym {
     border-bottom: 1px dotted #839496; }
   .zinnia.light h2.entry-title {
-    border-bottom: 1px solid #93a1a1;
-    text-shadow: 1px 1px 0 #93a1a1;
+     font-weight: bold;
+    margin-bottom: 0;
     text-align: left;
-    margin-top: 30px; }
+    margin-top: 30px;
+    margin-left: 22px;
+    font-size: 28px; }
   .zinnia.light .entry-info {
     color: #586e75; }
   .zinnia.light .entry-content {

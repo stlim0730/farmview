@@ -361,18 +361,12 @@
 /* Logo                                                                          */
 /*********************************************************************************/
 
-	#logo {
-	    position: absolute;
-	    top: .4em;
-	    left: 0;
-	}
 
-	#bloglogo {
-	    position: absolute;
-	    top: -17px;
-	    left: -10px;
-	    font-size: 18px;
-	    font-weight: 800;
+	#logo
+	{
+		position: absolute;
+		top: .4em;
+		left: 0;
 	}
 	
 	#logo h1
@@ -919,13 +913,11 @@ input:focus, textarea:focus {
 /*********************************************************************************/
 
 
-.widgets {
-    background: #EEEEEE;
-}
 
 .widgettext {
-	color: #022836;
-	font-weight: 600;
+    color: rgba(0,0,0,.44);
+    /* font-weight: 600; */
+    font-size: 16px;
 }
 
 a {
@@ -934,4 +926,28 @@ a {
 
 .entry-body {
 	margin-left: 20px;
+}
+
+#bloglogo {
+	    position: absolute;
+	    top: -17px;
+	    left: -10px;
+	    font-size: 18px;
+	    font-weight: 800;
+}
+
+#bloglogo h1 {
+	color: #FFF;
+}
+
+#bloglogo a {
+    text-decoration: none;
+    /* text-transform: uppercase; */
+    color: #FFF;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+#blogwrapper {
+	background: #fafafa;
 }
