@@ -51,9 +51,10 @@ python manage.py runserver
 
 ###Translating
 - Make edits in the .html or .py file
+- if adding text but 
 - in the command line run:
 `django-admin.py makemessages -l es -e html,py`
-- go into pages > locale > es > LC_MESSAGES and download the django.po file (Note: can directly edit .po file directly)
+- go into pages > locale > es > LC_MESSAGES and download the django.po file (Note: can directly edit .po file)
 - upload file into https://translate.google.com/toolkit/list?hl=en#translations/active
 - make changes
 - redownload file
