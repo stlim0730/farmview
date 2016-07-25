@@ -1,0 +1,18 @@
+import random 
+min = 1
+max = 6
+
+print("Welcome to dice roll! Type the number of dice you want to roll, or type quit to exit the program.")
+
+num_dice=raw_input("")
+
+while num_dice != "quit":
+	if num_dice == 0: 
+		print("You've rolled 0 dice!")
+	else: 
+		print("Rolling the dice...")
+		print("The values are:")
+	while num_dice > 0:
+		print random.randint(min,max)
+		num_dice -= 1
+	num_dice = raw_input("Roll the dice again?")

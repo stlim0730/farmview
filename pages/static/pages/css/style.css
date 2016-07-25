@@ -69,7 +69,7 @@
 	{
 		overflow: hidden;
 		margin: 0em auto;
-		width: 1000px;
+		width: 100%;
 	}
 
 	td {
@@ -361,11 +361,18 @@
 /* Logo                                                                          */
 /*********************************************************************************/
 
-	#logo
-	{
-		position: absolute;
-		top: .4em;
-		left: 0;
+	#logo {
+	    position: absolute;
+	    top: .4em;
+	    left: 0;
+	}
+
+	#bloglogo {
+	    position: absolute;
+	    top: -17px;
+	    left: -10px;
+	    font-size: 18px;
+	    font-weight: 800;
 	}
 	
 	#logo h1
@@ -373,12 +380,15 @@
 		color: #FFF;
 	}
 	
-	#logo a
-	{
-		text-decoration: none;
-		/*text-transform: uppercase;*/
-		color: #FFF;
+	#logo a {
+	    text-decoration: none;
+	    /* text-transform: uppercase; */
+	    color: #FFF;
+	    font-size: 36px;
+	    font-weight: 700;
 	}
+
+
 
 /*********************************************************************************/
 /* Menu                                                                          */
@@ -517,6 +527,8 @@
 
 	#sidebar
 	{
+		float: right;
+		margin-top: 15px;
 	}
 
 /*********************************************************************************/
@@ -902,3 +914,24 @@ input:focus, textarea:focus {
 	}
 }
 
+/*********************************************************************************/
+/* Weblog                                                                     */
+/*********************************************************************************/
+
+
+.widgets {
+    background: #EEEEEE;
+}
+
+.widgettext {
+	color: #022836;
+	font-weight: 600;
+}
+
+a {
+	color: #2699BC;
+}
+
+.entry-body {
+	margin-left: 20px;
+}
