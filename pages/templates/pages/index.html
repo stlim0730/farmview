@@ -2,7 +2,6 @@
 {% load i18n %}
 
 
-{% get_current_language as LANGUAGE_CODE %}
 
 
 {% block content %}
@@ -47,16 +46,19 @@ Released   : 20140309
         <li><a href="/about" accesskey="3" title="About Us">{% trans "About" %}</a></li>
         <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
         <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
-        
+
         <li>
         {% get_available_languages as languages %}
+        {% get_current_language as LANGUAGE_CODE %}
         {% for lang_code, lang_name in languages %}
+          {% if lang_code != LANGUAGE_CODE %}
             <form action="{% url 'set_language' %}" method="post">
                 {% csrf_token %}
-                <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+                <input name="next" type="hidden" value="{{ redirect_to }}" />
                 <input name="language" type="hidden" value="{{ lang_code }}" />
                 <button type="submit">{{ lang_name }}</button>
             </form>
+          {% endif %}
         {% endfor %}
         </li>
 
@@ -71,9 +73,6 @@ Released   : 20140309
         <a href = "/map"> <img src="static/homepage_images/map.png" style="width:100%;"> </a>
         <h2>{% trans "Farmview" %}</h2>
         <span class="byline">{% trans "Explore public data about farmland in the California Central Coast" %}</span> 
-
-
-
       </div>
         
       <ul class="actions">

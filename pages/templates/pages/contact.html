@@ -40,16 +40,19 @@ Released   : 20140309
                 <li><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
                 <li><a href="/mapbook" accesskey="4" title="">{% trans "Mapbook" %}</a></li>
                 <li class="current_page_item"><a href="#" accesskey="5" title="">{% trans "Contact Us" %}</a></li>
-        
+
         <li>
         {% get_available_languages as languages %}
+        {% get_current_language as LANGUAGE_CODE %}
         {% for lang_code, lang_name in languages %}
+          {% if lang_code != LANGUAGE_CODE %}
             <form action="{% url 'set_language' %}" method="post">
                 {% csrf_token %}
                 <input name="next" type="hidden" value="{{ redirect_to }}" />
                 <input name="language" type="hidden" value="{{ lang_code }}" />
                 <button type="submit">{{ lang_name }}</button>
             </form>
+          {% endif %}
         {% endfor %}
         </li>
             </ul>
@@ -121,7 +124,7 @@ Released   : 20140309
         <a href="http://karingoh.me"><h2>Karin Goh</h2></a>
         <p>{% trans "3rd year Computer Science," %} <br> UC Berkeley</p>
     </div>
-    <div class = "profile">
+    <div class = "profile" style="margin-left:12%">
         <img src="https://scontent.fsnc1-1.fna.fbcdn.net/t31.0-8/12291101_10205195566397589_8854882318934001834_o.jpg">
         <h2>Kimberly Bourque</h2>
         <p>{% trans "3rd year Computer Science," %} <br> UC Berkeley</p>

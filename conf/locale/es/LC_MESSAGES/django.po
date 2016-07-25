@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-24 14:02-0700\n"
+"POT-Creation-Date: 2016-07-24 15:26-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,42 +25,34 @@ msgstr ""
 msgid "Spanish"
 msgstr ""
 
-#: farmview/urls.py:36
-msgid "^map/"
-msgstr ""
-
-#: farmview/urls.py:37
-msgid "^"
-msgstr ""
-
-#: map/templates/map/map.html:15
+#: map/templates/map/map.html:14
 msgid "Farmview"
 msgstr ""
 
-#: map/templates/map/map.html:19
+#: map/templates/map/map.html:18
 msgid "Homepage"
 msgstr ""
 
-#: map/templates/map/map.html:20
+#: map/templates/map/map.html:19
 msgid "Map"
 msgstr ""
 
-#: map/templates/map/map.html:21
+#: map/templates/map/map.html:20
 msgid "About"
 msgstr ""
 
-#: map/templates/map/map.html:22
+#: map/templates/map/map.html:21
 msgid "Mapbook"
 msgstr ""
 
-#: map/templates/map/map.html:23
+#: map/templates/map/map.html:22
 msgid "Contact Us"
 msgstr ""
 
-#: map/templates/map/map.html:50
+#: map/templates/map/map.html:61
 msgid "Reset"
 msgstr ""
 
-#: map/templates/map/map.html:51
+#: map/templates/map/map.html:62
 msgid "Submit"
 msgstr ""

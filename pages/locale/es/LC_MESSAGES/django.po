@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-24 14:02-0700\n"
+"POT-Creation-Date: 2016-07-24 15:26-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,44 +17,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
-#: pages/templates/pages/about.html:34 pages/templates/pages/contact.html:34
-#: pages/templates/pages/index.html:41 pages/templates/pages/index.html:59
-#: pages/templates/pages/mapbook.html:34
+#: pages/templates/pages/about.html:33 pages/templates/pages/contact.html:34
+#: pages/templates/pages/index.html:40 pages/templates/pages/index.html:72
+#: pages/templates/pages/mapbook.html:33
 msgid "Farmview"
 msgstr "Farmview"
 
-#: pages/templates/pages/about.html:38 pages/templates/pages/contact.html:38
-#: pages/templates/pages/index.html:45 pages/templates/pages/mapbook.html:38
+#: pages/templates/pages/about.html:37 pages/templates/pages/contact.html:38
+#: pages/templates/pages/index.html:45 pages/templates/pages/mapbook.html:37
 msgid "Homepage"
 msgstr "Pagina Principal"
 
-#: pages/templates/pages/about.html:39 pages/templates/pages/contact.html:39
-#: pages/templates/pages/index.html:46 pages/templates/pages/mapbook.html:39
+#: pages/templates/pages/about.html:38 pages/templates/pages/contact.html:39
+#: pages/templates/pages/index.html:46 pages/templates/pages/mapbook.html:38
 msgid "Map"
 msgstr "Mapa"
 
-#: pages/templates/pages/about.html:40 pages/templates/pages/contact.html:40
-#: pages/templates/pages/index.html:47 pages/templates/pages/mapbook.html:40
+#: pages/templates/pages/about.html:39 pages/templates/pages/contact.html:40
+#: pages/templates/pages/index.html:47 pages/templates/pages/mapbook.html:39
 msgid "About"
 msgstr "Info"
 
-#: pages/templates/pages/about.html:41 pages/templates/pages/contact.html:41
-#: pages/templates/pages/index.html:48 pages/templates/pages/mapbook.html:41
-#: pages/templates/pages/mapbook.html:51
+#: pages/templates/pages/about.html:40 pages/templates/pages/contact.html:41
+#: pages/templates/pages/index.html:48 pages/templates/pages/mapbook.html:40
+#: pages/templates/pages/mapbook.html:62
 msgid "Mapbook"
 msgstr "Mapalibro"
 
-#: pages/templates/pages/about.html:42 pages/templates/pages/contact.html:42
-#: pages/templates/pages/contact.html:53 pages/templates/pages/index.html:49
-#: pages/templates/pages/index.html:120 pages/templates/pages/mapbook.html:42
+#: pages/templates/pages/about.html:41 pages/templates/pages/contact.html:42
+#: pages/templates/pages/contact.html:67 pages/templates/pages/index.html:49
+#: pages/templates/pages/index.html:122 pages/templates/pages/mapbook.html:41
 msgid "Contact Us"
 msgstr "Contáctenos"
 
-#: pages/templates/pages/about.html:55
+#: pages/templates/pages/about.html:66
 msgid " Access to Farmland"
 msgstr " El acceso a las tierras de labrantío"
 
-#: pages/templates/pages/about.html:57
+#: pages/templates/pages/about.html:68
 msgid ""
 "\"Farmers should be able to own the land they farm, or at least have "
 "reliable access to it”"
@@ -62,21 +62,21 @@ msgstr ""
 "Los agricultores deben ser capaces de poseer la tierra que cultivan, o al "
 "menos tener un acceso fiable a él"
 
-#: pages/templates/pages/about.html:59
+#: pages/templates/pages/about.html:70
 msgid "- Organic farmer near Hollister, CA"
 msgstr "- Agricultor orgánico cerca de Hollister, CA"
 
-#: pages/templates/pages/about.html:62
+#: pages/templates/pages/about.html:73
 msgid "Alternative food system advocates often argue that a"
 msgstr ""
 "los defensores del sistema de alimentos alternativos a menudo argumentan que "
 "una"
 
-#: pages/templates/pages/about.html:62
+#: pages/templates/pages/about.html:73
 msgid "next generation of farmers"
 msgstr "próxima generación de agricultores"
 
-#: pages/templates/pages/about.html:62
+#: pages/templates/pages/about.html:73
 msgid ""
 "is needed to reverse the trend of an aging farmer population and re-orient "
 "the structure of agriculture from consolidated mega-farms to a revitalized "
@@ -94,7 +94,7 @@ msgstr ""
 "agricultores principiantes, el acceso a las tierras agrícolas de calidad y "
 "asequible sigue siendo un importante obstáculo para el éxito."
 
-#: pages/templates/pages/about.html:65
+#: pages/templates/pages/about.html:76
 #, python-format
 msgid ""
 "Nationally, 40%% of all farmland is rented out and 80%% of those 353 million "
@@ -114,19 +114,19 @@ msgstr ""
 "cultivo y operan con márgenes muy estrechos. Las tierras agrícolas a menudo "
 "se valora por su potencial valor de la producción a gran escala"
 
-#: pages/templates/pages/about.html:65
+#: pages/templates/pages/about.html:76
 msgid "as well as"
 msgstr "tanto como"
 
-#: pages/templates/pages/about.html:65
+#: pages/templates/pages/about.html:76
 msgid "potential residential value as wealthy buyers seek out"
 msgstr "potencial de valor residencial como compradores ricos buscan"
 
-#: pages/templates/pages/about.html:65
+#: pages/templates/pages/about.html:76
 msgid "ranchettes"
 msgstr "ranchettes"
 
-#: pages/templates/pages/about.html:65
+#: pages/templates/pages/about.html:76
 msgid ""
 "in rural areas near to urban areas.  Furthermore, the history of property "
 "arrangements in California has created a dominant trend of large plots of "
@@ -141,7 +141,7 @@ msgstr ""
 "alquiler. Más allá de estas barreras estructurales, la competencia por las "
 "tierras agrícolas es feroz."
 
-#: pages/templates/pages/about.html:68
+#: pages/templates/pages/about.html:79
 msgid ""
 "Agribusiness companies, real estate agents, and increasingly institutional "
 "investment firms dedicate staff and resources for land identification and "
@@ -162,7 +162,7 @@ msgstr ""
 "pequeña escala y los datos públicos para ayudar a explorar el estado del "
 "acceso a la tierra en la costa central de California."
 
-#: pages/templates/pages/about.html:72
+#: pages/templates/pages/about.html:83
 msgid ""
 "A wealth of information about land ownership and land access is available on "
 "the "
@@ -170,11 +170,11 @@ msgstr ""
 "Una gran cantidad de información acerca de la propiedad de la tierra y el "
 "acceso a la tierra está disponible en el "
 
-#: pages/templates/pages/about.html:72
+#: pages/templates/pages/about.html:83
 msgid "mapbook"
 msgstr "mapalibro"
 
-#: pages/templates/pages/about.html:72
+#: pages/templates/pages/about.html:83
 msgid ""
 "page.  These maps tell stories about farming in the central coast.  The "
 "datasets provided are also easy to download or reference for future use.  "
@@ -185,14 +185,14 @@ msgstr ""
 "descargar o referencia para su uso futuro. Los objetivos del proyecto y las "
 "herramientas que se proporcionan son:"
 
-#: pages/templates/pages/about.html:78
+#: pages/templates/pages/about.html:89
 msgid ""
 "1. Help facilitate land linking by aggregating listings of potential farmland"
 msgstr ""
 "1. Ayuda a facilitar la vinculación de la tierra mediante la agregación de "
 "los listados de tierras de cultivo potencial"
 
-#: pages/templates/pages/about.html:79
+#: pages/templates/pages/about.html:90
 msgid ""
 "2. Visualize the problems of land access for a variety of regional actors "
 "and policy argumentation"
@@ -200,15 +200,15 @@ msgstr ""
 "2. Visualizar los problemas de acceso a la tierra para una variedad de "
 "actores regionales y la argumentación política"
 
-#: pages/templates/pages/about.html:88
+#: pages/templates/pages/about.html:99
 msgid "How It Works"
 msgstr "¿Cómo Funciona?"
 
-#: pages/templates/pages/about.html:93
+#: pages/templates/pages/about.html:104
 msgid "Public data"
 msgstr "Los datos públicos"
 
-#: pages/templates/pages/about.html:95
+#: pages/templates/pages/about.html:106
 msgid ""
 "The question of who owns the land is public information, accessed through "
 "the county assessor.  We combine this to create a picture of the "
@@ -225,7 +225,13 @@ msgstr ""
 "de los servidores de listas AG y agencias inmobiliarias. están disponibles "
 "en el Todos estos datos "
 
-#: pages/templates/pages/about.html:95
+#: pages/templates/pages/about.html:106
+#, fuzzy
+#| msgid "Map"
+msgid "map"
+msgstr "Mapa"
+
+#: pages/templates/pages/about.html:106
 msgid ""
 "page for exploration and searching.  Detailed information about land parcels "
 "and existing or available land can be viewed "
@@ -233,11 +239,11 @@ msgstr ""
 "página para exploración y búsqueda. Toda la información sobre las parcelas "
 "de tierra y la tierra existente o disponible se puede ver "
 
-#: pages/templates/pages/about.html:100
+#: pages/templates/pages/about.html:111
 msgid "Local knowledge"
 msgstr "Conocimiento local"
 
-#: pages/templates/pages/about.html:102
+#: pages/templates/pages/about.html:113
 msgid ""
 "We solicit information from all members of the agricultural community in the "
 "region.  A landowner, farmer, or other actor in the food system can submit "
@@ -252,7 +258,7 @@ msgstr ""
 "recolección de datos se puede realizar desde un dispositivo móvil o un "
 "ordenador de sobremesa, en o fuera de línea."
 
-#: pages/templates/pages/about.html:104
+#: pages/templates/pages/about.html:115
 msgid ""
 "Anyone with the link to the survey can collect data.  Please feel free to "
 "share the link to the "
@@ -260,11 +266,11 @@ msgstr ""
 "Cualquier persona con el enlace de la encuesta puede recoger datos. No dude "
 "en compartir el enlace a la libre "
 
-#: pages/templates/pages/about.html:104
+#: pages/templates/pages/about.html:115
 msgid "survey"
 msgstr "encuesta"
 
-#: pages/templates/pages/about.html:104
+#: pages/templates/pages/about.html:115
 msgid ""
 "and bookmark the link for repeat observations.  Please note that if you "
 "share information about your farm to this application it will be available "
@@ -274,15 +280,15 @@ msgstr ""
 "comparte información sobre su granja para esta aplicación estará disponible "
 "para ver por otros."
 
-#: pages/templates/pages/about.html:112 pages/templates/pages/index.html:107
+#: pages/templates/pages/about.html:123 pages/templates/pages/index.html:109
 msgid "Go to Survey"
 msgstr "Ir a la encuesta"
 
-#: pages/templates/pages/about.html:120
+#: pages/templates/pages/about.html:131
 msgid "Resources on land access"
 msgstr "Recursos de acceso a la tierra"
 
-#: pages/templates/pages/about.html:122
+#: pages/templates/pages/about.html:133
 msgid ""
 "Overcoming barriers to farmland access is much greater than finding suitable "
 "land. Beginning farmers must be able to create ag friendly lease "
@@ -303,11 +309,11 @@ msgstr ""
 "granjas de puesta en marcha con éxito. Aquí están algunos recursos "
 "regionales que trabajan con temas de acceso a tierras de cultivo."
 
-#: pages/templates/pages/about.html:124
+#: pages/templates/pages/about.html:135
 msgid "Farmlink"
 msgstr "FarmLink"
 
-#: pages/templates/pages/about.html:126
+#: pages/templates/pages/about.html:137
 msgid ""
 "California Farmlink is a local non-profit CDFI (Community Development "
 "Financial Institution) linking small to mid-size farmers statewide to the "
@@ -322,19 +328,19 @@ msgstr ""
 "tipo dedicado a la ayuda al desarrollo económico de inicio, recurso "
 "limitado, los inmigrantes, los agricultores y necesitadas de California"
 
-#: pages/templates/pages/about.html:128
+#: pages/templates/pages/about.html:139
 msgid "California Farmlink website"
 msgstr "Sitio Web de California FarmLink"
 
-#: pages/templates/pages/about.html:130
+#: pages/templates/pages/about.html:141
 msgid "Farmlink's template for an agricultural lease"
 msgstr "plantilla de FarmLink para un contrato de arrendamiento rústico"
 
-#: pages/templates/pages/about.html:138
+#: pages/templates/pages/about.html:149
 msgid "Support"
 msgstr "Soporte"
 
-#: pages/templates/pages/about.html:140
+#: pages/templates/pages/about.html:151
 msgid ""
 "The Farmland Monitoring Project is a transdisciplinary research initiative "
 "of UC Berkeley.  Generous support comes from the Berkeley Food Institute, "
@@ -351,12 +357,12 @@ msgstr ""
 "experiencia provienen de los agricultores y el personal de la Agricultura y "
 "la Asociación de Capacitación con base en tierra, y California FarmLink.  "
 
-#: pages/templates/pages/about.html:154 pages/templates/pages/contact.html:133
-#: pages/templates/pages/index.html:130
+#: pages/templates/pages/about.html:165 pages/templates/pages/contact.html:147
+#: pages/templates/pages/index.html:132
 msgid "Farmview. All rights reserved. | Design by "
 msgstr "Farmview. Todos los derechos reservados. | Diseñado por "
 
-#: pages/templates/pages/contact.html:54
+#: pages/templates/pages/contact.html:68
 msgid ""
 "What data would you like to see represented? Any errors that we can "
 "correct?  Have other ideas? "
@@ -364,80 +370,76 @@ msgstr ""
 "¿Qué datos le gustaría hablar en el seminario? Cualquier error que se puede "
 "corregir? Tener otras ideas? "
 
-#: pages/templates/pages/contact.html:60
+#: pages/templates/pages/contact.html:74
 msgid "Name"
 msgstr "Nombre"
 
-#: pages/templates/pages/contact.html:64
+#: pages/templates/pages/contact.html:78
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: pages/templates/pages/contact.html:68
+#: pages/templates/pages/contact.html:82
 msgid "Comment"
 msgstr "Comentario"
 
-#: pages/templates/pages/contact.html:76
+#: pages/templates/pages/contact.html:90
 msgid "Send Message"
 msgstr "Enviar Mensaje"
 
-#: pages/templates/pages/contact.html:89
+#: pages/templates/pages/contact.html:103
 msgid "Who We Are"
 msgstr "Quiénes somos"
 
-#: pages/templates/pages/contact.html:93
+#: pages/templates/pages/contact.html:107
 msgid "Graduate Student Researcher"
 msgstr "Investigador Estudiante de tercer ciclo"
 
-#: pages/templates/pages/contact.html:98
+#: pages/templates/pages/contact.html:112
 msgid "PhD Student, UC Berkeley School of Information"
 msgstr ""
 "Estudiante de doctorado, Universidad de California en Berkeley Escuela de "
 "Información"
 
-#: pages/templates/pages/contact.html:103
+#: pages/templates/pages/contact.html:117
 #, fuzzy
 #| msgid "2nd year Computer Science,"
 msgid "3rd year Computer Science, "
 msgstr "segundo curso de informática,"
 
-#: pages/templates/pages/contact.html:108
-#: pages/templates/pages/contact.html:113
+#: pages/templates/pages/contact.html:122
+#: pages/templates/pages/contact.html:127
 #, fuzzy
 #| msgid "2nd year Computer Science,"
 msgid "3rd year Computer Science,"
 msgstr "segundo curso de informática,"
 
-#: pages/templates/pages/contact.html:118
+#: pages/templates/pages/contact.html:132
 #, fuzzy
 #| msgid "2nd year Computer Science,"
 msgid "Computer Science Major,"
 msgstr "segundo curso de informática,"
 
-#: pages/templates/pages/contact.html:123
+#: pages/templates/pages/contact.html:137
 #, fuzzy
 #| msgid "2nd year Computer Science,"
 msgid "2nd year Computer Science and Engineering,"
 msgstr "segundo curso de informática,"
 
-#: pages/templates/pages/index.html:60
+#: pages/templates/pages/index.html:73
 msgid "Explore public data about farmland in the California Central Coast"
 msgstr ""
 "Explora pública de datos sobre tierras agrícolas en la costa central de "
 "California"
 
-#: pages/templates/pages/index.html:66
-msgid "View this category in:"
-msgstr ""
-
-#: pages/templates/pages/index.html:78
+#: pages/templates/pages/index.html:80
 msgid "Go to Map"
 msgstr "Ir al Mapa"
 
-#: pages/templates/pages/index.html:88
+#: pages/templates/pages/index.html:90
 msgid "View"
 msgstr "Visitas"
 
-#: pages/templates/pages/index.html:88
+#: pages/templates/pages/index.html:90
 msgid ""
 "public records about land ownership, soil data, farms currently for lease, "
 "and existing ranches.  "
@@ -445,11 +447,11 @@ msgstr ""
 "un registro público de la propiedad de tierras, datos sobre el suelo, "
 "granjas actualmente para arrendar y ranchos existentes.  "
 
-#: pages/templates/pages/index.html:91
+#: pages/templates/pages/index.html:93
 msgid "Submit"
 msgstr "Enviar"
 
-#: pages/templates/pages/index.html:91
+#: pages/templates/pages/index.html:93
 msgid ""
 " information about an existing farm operation, land listing, or land that "
 "has potential agricultural value."
@@ -457,43 +459,48 @@ msgstr ""
 " información acerca de una operación existente granja, el listado de la "
 "tierra, o tierra que tiene un potencial de valor agrícola."
 
-#: pages/templates/pages/index.html:94
+#: pages/templates/pages/index.html:96
 msgid "Explore"
 msgstr "Explorar"
 
-#: pages/templates/pages/index.html:94
+#: pages/templates/pages/index.html:96
 msgid " maps and "
 msgstr " mapas y "
 
-#: pages/templates/pages/index.html:94
+#: pages/templates/pages/index.html:96
 msgid "download"
 msgstr "descargar"
 
-#: pages/templates/pages/index.html:94
+#: pages/templates/pages/index.html:96
 msgid " datasets concerning farmland access in the California central coast."
 msgstr ""
 " conjuntos de datos relativos al acceso tierras de cultivo en la costa "
 "central de California."
 
-#: pages/templates/pages/index.html:114
+#: pages/templates/pages/index.html:116
 msgid "Learn More"
 msgstr "Aprenda más"
 
-#: pages/templates/pages/mapbook.html:52
+#: pages/templates/pages/mapbook.html:63
 #, fuzzy
 #| msgid "Resources on land access"
 msgid "Map stories about farmland access"
 msgstr "Recursos de acceso a la tierra"
 
-#: pages/templates/pages/mapbook.html:55
+#: pages/templates/pages/mapbook.html:66
 msgid "Click on each map to visit an interactive dataset"
 msgstr "Haga clic en cada mapa para visitar un conjunto de datos interactiva"
 
-#: pages/templates/pages/mapbook.html:105
+#: pages/templates/pages/mapbook.html:82
+#, python-format
+msgid "%(ts)s"
+msgstr ""
+
+#: pages/templates/pages/mapbook.html:116
 msgid "Return"
 msgstr "Regreso"
 
-#: pages/templates/pages/mapbook.html:113
+#: pages/templates/pages/mapbook.html:124
 #, fuzzy
 #| msgid "Farmview. All rights reserved. | Design by "
 msgid "Farmview. All rights reserved. | Design by"
