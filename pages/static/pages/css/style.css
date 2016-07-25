@@ -437,7 +437,7 @@
 		text-decoration: none;
 		text-transform: uppercase;
 		font-size: 0.65em;
-		border: none;
+		border: 1px solid #FFF;
 	}
 
 /*********************************************************************************/
