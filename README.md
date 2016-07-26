@@ -6,7 +6,7 @@
 ##Requirements
 - Git command line tools (https://git-scm.com/downloads)
 - Python 2.7.10 or later (https://www.python.org/) including pip
-- Django 1.8 or later (https://www.djangoproject.com/)
+- Django 1.9 or later (https://www.djangoproject.com/)
 - 
 ##Instructions
 - If you don't have the prerequisites, follow the installations below.
