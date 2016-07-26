@@ -27,3 +27,4 @@ mots-vides >= 2015.2.6
 regex >= 2016.3.2
 django-contrib-comments >= 1.6
 django-blog-zinnia==0.16
+Pillow==2.0.0
