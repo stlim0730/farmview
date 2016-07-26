@@ -1,4 +1,5 @@
 from django.db import models
+from farmview_geodata_processing.api_process import create_sync_table
 
 class Config(models.Model):
   vizjson_url = models.CharField(max_length=150)
@@ -33,9 +34,9 @@ class Datafield(models.Model):
 
 class FormData(models.Model):
   formdata_id = models.AutoField(primary_key = True)
-  import_id = models.IntegerField(blank = False) # import id from CartoDB
+  import_id = models.CharField(blank = False, max_length = 200) # import id from CartoDB
   ona_id = models.IntegerField(blank = False) # connected ONA form id
-  dropbox_url = models.CharField(blank = False, max_length = 100)
+  dropbox_url = models.CharField(blank = False, max_length = 200)
   last_synced_date = models.DateTimeField(auto_now = True)
   current = models.BooleanField(default = True)
   optional_note = models.CharField(max_length=200, blank = True)
@@ -45,6 +46,5 @@ class FormData(models.Model):
 
 #  Whenever saving a new model, call create_sync_table to make new data set in CartoDB.
   def save(self, *args, **kwargs):
+    self.import_id, self.dropbox_url = create_sync_table(self.ona_id)
     super(FormData, self).save(*args, **kwargs)
-    f = FormData.objects.latest('formdata_id')
-    create_sync_table(f)

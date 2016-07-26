@@ -3,8 +3,7 @@ from django.utils.safestring import mark_safe
 from .models import Config
 from .models import Datafield
 from .models import FormData
-import sys
-sys.path.insert(0, '/farmview/farmview_geodata_processing')
+import os, requests
 
 class ConfigAdmin(admin.ModelAdmin):
   list_display = ('pub_date', 'vizjson_url', 'optional_note')
@@ -17,8 +16,15 @@ class DatafieldAdmin(admin.ModelAdmin):
 admin.site.register(Datafield, DatafieldAdmin)
 
 class FormDataAdmin(admin.ModelAdmin):
-  list_display = ('formdata_id', 'ona_id', 'dropbox_url', 'last_synced_date', 'optional_note', 'button')
-  def button(self, obj):
-    return mark_safe('<input type="button" value="Force Sync">')
+  list_display = ('formdata_id', 'import_id', 'ona_id', 'dropbox_url', 'last_synced_date', 'optional_note')
+  # call force sync on updated datasets
+  def make_force_sync(modeladmin, request, queryset):
+      for formdatas in queryset.all():
+          import_ids = filter(None, formdatas.import_id.split(","))
+          for import_id in import_ids:
+              url = 'https://calo1.cartodb.com/api/v1/synchronizations/' + import_id + '/sync_now?api_key=' + os.environ.get('CARTODB_API_KEY')
+              header = {'Content-Length':0}
+              res = requests.put(url, headers=header)
+  actions = [make_force_sync]
 
 admin.site.register(FormData, FormDataAdmin)
