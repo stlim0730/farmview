@@ -442,6 +442,7 @@
 		text-transform: uppercase;
 		font-size: 0.65em;
 		border: 1px solid #FFF;
+		cursor: pointer;
 	}
 
 /*********************************************************************************/

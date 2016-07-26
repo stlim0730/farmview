@@ -130,7 +130,7 @@ LANGUAGES = [
 
 TIME_ZONE = 'US/Pacific'
 
-USE_I18N = True #specifies whether Django’s translation system should be enabled
+USE_I18N = True #specifies whether Django's translation system should be enabled
 
 USE_L10N = True
 
