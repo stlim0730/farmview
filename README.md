@@ -7,7 +7,7 @@
 - Git command line tools (https://git-scm.com/downloads)
 - Python 2.7.10 or later (https://www.python.org/) including pip
 - Django 1.9 or later (https://www.djangoproject.com/)
-- 
+-
 ##Instructions
 - If you don't have the prerequisites, follow the installations below.
 - Install Django using Python package management system
@@ -51,12 +51,6 @@ python manage.py runserver (this may be preferable to ./run if you are having in
 - Documentation for current settings is here (this documentation is now under extensive revision): https://docs.google.com/document/d/1bK6pKhQRQbSd9EzEprI12aMkCbYrvqmiwgYHuaNMz38/edit
 
 ###Translating
-<<<<<<< HEAD
-- Make edits in the .html or .py file
-- if adding text but 
-=======
-- Make edits in the .html or .py file (if inserting new text, wrap text with `{% trans "new text here" %}`)
->>>>>>> 77cd4ca97211f68858814362c1eca9d515ac6c30
 - in the command line run:
 `django-admin.py makemessages -l es -e html,py`
 - go into pages > locale > es > LC_MESSAGES and download the django.po file (Note: can directly edit .po file)
@@ -65,8 +59,4 @@ python manage.py runserver (this may be preferable to ./run if you are having in
 - redownload file
 - replace old django.po file
 - in the command line run:
-<<<<<<< HEAD
 `django-admin.py compilemessages`
-=======
-`django-admin.py compilemessages`
->>>>>>> 77cd4ca97211f68858814362c1eca9d515ac6c30
