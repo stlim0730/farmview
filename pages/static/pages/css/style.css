@@ -69,7 +69,7 @@
 	{
 		overflow: hidden;
 		margin: 0em auto;
-		width: 1000px;
+		width: 100%;
 	}
 
 	td {
@@ -361,6 +361,7 @@
 /* Logo                                                                          */
 /*********************************************************************************/
 
+
 	#logo
 	{
 		position: absolute;
@@ -373,12 +374,15 @@
 		color: #FFF;
 	}
 	
-	#logo a
-	{
-		text-decoration: none;
-		/*text-transform: uppercase;*/
-		color: #FFF;
+	#logo a {
+	    text-decoration: none;
+	    /* text-transform: uppercase; */
+	    color: #FFF;
+	    font-size: 36px;
+	    font-weight: 700;
 	}
+
+
 
 /*********************************************************************************/
 /* Menu                                                                          */
@@ -427,6 +431,18 @@
 	
 	#menu .icon
 	{
+	}
+
+	#menu button
+	{
+		background: #022836;
+		color: #FFF;
+		letter-spacing: 1px;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-size: 0.65em;
+		border: 1px solid #FFF;
+		cursor: pointer;
 	}
 
 /*********************************************************************************/
@@ -517,6 +533,8 @@
 
 	#sidebar
 	{
+		float: right;
+		margin-top: 15px;
 	}
 
 /*********************************************************************************/
@@ -902,3 +920,46 @@ input:focus, textarea:focus {
 	}
 }
 
+/*********************************************************************************/
+/* Weblog                                                                     */
+/*********************************************************************************/
+
+
+
+.widgettext {
+    color: rgba(0,0,0,.44);
+    /* font-weight: 600; */
+    font-size: 16px;
+}
+
+a {
+	color: #2699BC;
+}
+
+.entry-body {
+	margin-left: 20px;
+}
+
+#bloglogo {
+	    position: absolute;
+	    top: -17px;
+	    left: -10px;
+	    font-size: 18px;
+	    font-weight: 800;
+}
+
+#bloglogo h1 {
+	color: #FFF;
+}
+
+#bloglogo a {
+    text-decoration: none;
+    /* text-transform: uppercase; */
+    color: #FFF;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+#blogwrapper {
+	background: #fafafa;
+}
