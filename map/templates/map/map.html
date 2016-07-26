@@ -1,4 +1,9 @@
 {% extends "map/base.html" %}
+{% load i18n %}
+
+
+{% get_current_language as LANGUAGE_CODE %}
+
 
 {% load staticfiles %}
 
@@ -10,16 +15,30 @@
     <div id="header-wrapper">
       <div id="header" class="container">
           <div id="logo">
-              <h1><a href="#">Farmview</a></h1>
+              <h1><a href="#">{% trans "Farmview" %}</a></h1>
           </div>
           <div id="menu">
               <ul>
-                  <li><a href="/" accesskey="1" title="">Homepage</a></li>
-                  <li class="current_page_item"><a href="/map" accesskey="2" title="">Map</a></li>
-                  <li><a href="/about" accesskey="3" title="About">About</a></li>
-                  <li><a href="/mapbook" accesskey="4" title="Mapbook">Mapbook</a></li>
-                  <li><a href="/weblog" accesskey="6" title="Blog">Blog</a></li>
-                  <li><a href="/contact" accesskey="5" title="Contact Us">Contact Us</a></li>
+                  <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
+                  <li class="current_page_item"><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
+                  <li><a href="/about" accesskey="3" title="About">{% trans "About" %}</a></li>
+                  <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
+                  <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
+
+        <li>
+        {% get_available_languages as languages %}
+        {% get_current_language as LANGUAGE_CODE %}
+        {% for lang_code, lang_name in languages %}
+          {% if lang_code != LANGUAGE_CODE %}
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                <input name="language" type="hidden" value="{{ lang_code }}" />
+                <button type="submit">{{ lang_name }}</button>
+            </form>
+          {% endif %}
+        {% endfor %}
+        </li>
               </ul>
           </div>
       </div>
@@ -47,8 +66,13 @@
 </div>
 <div class='row'>
   <div class='form-group col-md-offset-10 col-md-2'>
+<<<<<<< HEAD
+    <button id='query-reset' class='btn btn-default'>{% trans "Reset" %}</button>
+    <button id='query-submit' class='btn btn-primary'>{% trans "Submit" %}</button>
+=======
     <button id='query-reset' class='btn btn-default query-buttons'>Reset</button>
     <button id='query-submit' class='btn btn-primary query-buttons'>Submit</button>
+>>>>>>> 77cd4ca97211f68858814362c1eca9d515ac6c30
   </div>
 </div>
 

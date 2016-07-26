@@ -433,6 +433,17 @@
 	{
 	}
 
+	#menu button
+	{
+		background: #022836;
+		color: #FFF;
+		letter-spacing: 1px;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-size: 0.65em;
+		border: 1px solid #FFF;
+	}
+
 /*********************************************************************************/
 /* Banner                                                                        */
 /*********************************************************************************/

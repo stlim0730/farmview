@@ -1,5 +1,8 @@
 from django.shortcuts import render
-import urllib2
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
 import simplejson as json
 from .models import Config
 from .models import Datafield
