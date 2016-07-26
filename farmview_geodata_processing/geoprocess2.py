@@ -27,7 +27,7 @@ def print_geometries(data):
             rec.get(col5)
         )
 
-# function that merges col1 and col2 together and 
+# function that merges col1 and col2 together and
 # adds a new column to each entry of the dictionary:
 def merge_geometries(data):
     for rec in data:
@@ -107,25 +107,25 @@ def merge_attachmentLinks(data):
         renameField(rec, 'Survey/ranch_details/WaterDetails/water_source', 'Water source')
         renameField(rec, 'Survey/ranch_details/WaterDetails/water_volume', 'Water volume (gallons per minute)')
         renameField(rec, 'Survey/ranch_details/WaterDetails/well_access', 'Well access')
-        renameField(rec, 'Survey/ranch_details/WaterDetails/well_depth', 'Well depth (feet)')       
+        renameField(rec, 'Survey/ranch_details/WaterDetails/well_depth', 'Well depth (feet)')
         renameField(rec, 'Survey/ranch_details/weed_mgmt', 'Weed management practices')
         renameField(rec, 'Survey/ranch_details/winter_potential', 'Growing season (months)')
 
         renameFieldRapid(rec, 'survey_rapid_survey_desc_short', 'Land description')
         renameFieldRapid(rec, 'survey_rapid_survey_farm_size_short', 'Farm size (acres)')
         renameFieldRapid(rec, 'survey_rapid_survey_land_status_short', 'Availability status')
-        renameFieldRapid(rec, 'survey_rapid_survey_lease_rate_short', 'Lease rate offered ($/acre)')     
+        renameFieldRapid(rec, 'survey_rapid_survey_lease_rate_short', 'Lease rate offered ($/acre)')
         renameFieldRapid(rec, 'survey_rapid_survey_location_fromweb_short', 'Location')
         renameFieldRapid(rec, 'survey_rapid_survey_location_gps_short', 'Location')
         renameFieldRapid(rec, 'survey_rapid_survey_water_short', 'Water source')
 
         renameField(rec, 'survey_session_desc', 'Data entry type')
-        
+
         #Renaming values
         oldLivestock = ['cows', 'chickens', 'goats', 'sheep', 'any', 'none']
         newLivestock = ['Cows', 'Chickens', 'Goats', 'Sheep', 'Any of the above', 'None']
         renameValues(rec, 'Livestock allowed', oldLivestock, newLivestock)
-        
+
         oldArrangements = ['short_term', 'long_term', 'crop_share', 'partnership', 'worktoown', 'farmmanage']
         newArrangements = ['Short term lease', 'Long term lease', 'Crop Share', 'Partnership', 'Work to own', 'Farm manage']
         renameValues(rec, 'Lease offered', oldArrangements, newArrangements)
@@ -137,7 +137,7 @@ def merge_attachmentLinks(data):
         oldCounty = ['monterey', 'santa_cruz', 'san_benito']
         newCounty = ['Monterey', 'Santa Cruz', 'San Benito']
         renameValues(rec, 'County', oldCounty, newCounty)
-        
+
         oldFallowTime = ['1', '2', '3']
         newFallowTime = ['Less than 1 year', '1 to 3 years', 'Greater than 3 years']
         renameValues(rec, 'Time fallow', oldFallowTime, newFallowTime)
@@ -174,7 +174,7 @@ def merge_attachmentLinks(data):
         oldWaterInfrastructure = ['sprinklers', 'tape', 'mainline', 'investment_needed']
         newWaterInfrastructure = ['Sprinklers', 'Tape', 'Mainline', 'Infrastructure needed']
         renameValues(rec,'Water infrastructure', oldWaterInfrastructure, newWaterInfrastructure)
-        
+
         oldWaterInvestment = ['Low', 'Medium', 'High']
         newWaterInvestment = ['Low Investment, infrastructure present ', 'Medium, some investment needed', 'High, lots of investment needed']
         renameValues(rec, 'Water investment', oldWaterInvestment, newWaterInvestment)
@@ -230,7 +230,7 @@ def renameValues(arr, field, oldVals, newVals):
 
 def renameValuesSoil(arr, field):
 
- 
+
     if (arr[field]) != None:
         if arr[field] == 'sand':
             arr[field] = 'Very light (sand)'
@@ -293,14 +293,13 @@ if __name__ == "__main__":
     with open('Farmland_Monitoring_beta1-2015-10-16-18-45-46.json') as data_file:
         data = json.load(data_file)
         merge_attachmentLinks(data)
-        # merge_geometries(data) 
+        # merge_geometries(data)
         #print_records(data) #uncomment this to see all of the data
         #print_geometries(data)
         #geojson_output(data)
-    
+
     #save out new file:
     with open('data_point.geojson', 'w') as fp:
         json.dump(geojson_output(data)[0], fp)
     with open('data_polygon.geojson', 'w') as fp:
         json.dump(geojson_output(data)[1], fp)
-    
