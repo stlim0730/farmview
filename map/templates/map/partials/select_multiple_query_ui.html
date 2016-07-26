@@ -1,6 +1,6 @@
 <div id='{{datafield.name}}-query' class='checkbox query-ui col-md-3'>
   <label>
-    <input id='{{datafield.name}}-checkbox' type='checkbox' class='query-group' data-query-type='{{datafield.type}}' data-table='{{datafield.data_sources}}' data-field='{{datafield.name}}' data-toggle='collapse' data-target='#{{datafield.name}}-choices' />{{datafield.label_eng}}
+    <input id='{{datafield.name}}-checkbox' type='checkbox' class='query-group' data-query-type='{{datafield.type}}' data-table='{{datafield.data_sources_str}}' data-field='{{datafield.name}}' data-toggle='collapse' data-target='#{{datafield.name}}-choices' />{{datafield.label_eng}}
   </label>
   <input id='{{datafield.name}}-input' type='text' class='form-control operand-ui col-md-2 output-only' placeholder='No values selected' disabled />
   <div id='{{datafield.name}}-choices' class='collapse bottom-fixed-popup'>
@@ -9,7 +9,9 @@
       {% for choice in datafield.choices %}
         <li class='list-group-item'>
           <label>
-            <input id='{{choice.val}}-checkbox' type='checkbox' class='query-group' data-val='{{choice.val}}'/>
+            <input id='{{choice.val}}-checkbox' type='checkbox' data-val='{{choice.val}}'/>
+            <!-- query-group makes trouble as the submit button uses it as the selctor for the whole group of query ui -->
+            <!-- <input id='{{choice.val}}-checkbox' type='checkbox' class='query-group' data-val='{{choice.val}}'/> -->
             {{choice.label_eng}}
           </label>
         </li>
@@ -65,6 +67,25 @@
               $('#' + checkbox_id).prop('checked', true);
             }
           }
+
+          // START SELECT-MULTIPLE QUERY UI
+          $('button.apply-selection').click(function (e) {
+            var query_ui_id = $(this).closest('div.query-ui').attr('id');
+            var field_name = query_ui_id.substring(0, query_ui_id.length - '-query'.length);
+            var vals = [];
+            var modal_content = $(this).closest('div.modal-content');
+            var checkboxes = modal_content.find('input[type=checkbox].operand-ui');
+            for (var i = 0; i < checkboxes.length; i++) {
+              var checkbox = checkboxes[i];
+              if (checkbox.checked) {
+                vals.push(checkbox.value);
+              }
+            }
+            var val_str = vals.join(); // JOIN WITH COMMA BY DEFAULT
+            $('#' + field_name + '-input').val(val_str);
+            $('button.close').click();
+          });
+          // END SELECT-MULTIPLE QUERY UI
 
         </script>
         <div class='btn-toolbar'>

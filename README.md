@@ -11,6 +11,7 @@
 ##Instructions
 - If you don't have the prerequisites, follow the installations below.
 - Install Django using Python package management system
+- (Running from a virtualenv may be helpful with djangotool box and simplejson installed with pip)
 ```
 pip install Django
 ```
@@ -26,7 +27,7 @@ git clone https://github.com/stlim0730/farmview.git
 ##Running the Server
 - Run a server instance.
 ```
-python manage.py runserver
+python manage.py runserver (this may be preferable to ./run if you are having installation issues)
 ```
 - If you're using a UNIX system including Mac OS X, you may use this shortcut.
 ```
@@ -50,8 +51,12 @@ python manage.py runserver
 - Documentation for current settings is here (this documentation is now under extensive revision): https://docs.google.com/document/d/1bK6pKhQRQbSd9EzEprI12aMkCbYrvqmiwgYHuaNMz38/edit
 
 ###Translating
+<<<<<<< HEAD
 - Make edits in the .html or .py file
 - if adding text but 
+=======
+- Make edits in the .html or .py file (if inserting new text, wrap text with `{% trans "new text here" %}`)
+>>>>>>> 77cd4ca97211f68858814362c1eca9d515ac6c30
 - in the command line run:
 `django-admin.py makemessages -l es -e html,py`
 - go into pages > locale > es > LC_MESSAGES and download the django.po file (Note: can directly edit .po file)
@@ -60,4 +65,8 @@ python manage.py runserver
 - redownload file
 - replace old django.po file
 - in the command line run:
+<<<<<<< HEAD
 `django-admin.py compilemessages`
+=======
+`django-admin.py compilemessages`
+>>>>>>> 77cd4ca97211f68858814362c1eca9d515ac6c30
