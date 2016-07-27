@@ -16,7 +16,8 @@ class DatafieldAdmin(admin.ModelAdmin):
 admin.site.register(Datafield, DatafieldAdmin)
 
 class FormDataAdmin(admin.ModelAdmin):
-  list_display = ('formdata_id', 'import_id', 'ona_id', 'dropbox_url', 'last_synced_date', 'optional_note')
+  list_display = ('formdata_id', 'import_id', 'ona_id', 'current', 'dropbox_url', 'last_synced_date', 'optional_note')
+  exclude = ('import_id', 'dropbox_url')
   # call force sync on updated datasets
   def make_force_sync(modeladmin, request, queryset):
       for formdatas in queryset.all():

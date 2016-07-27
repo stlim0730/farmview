@@ -1,0 +1,128 @@
+<div class='modal detail-popup'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
+        <h4 class='modal-title'>Details on the Parcel</h4>
+      </div>
+      <div class='modal-body'>
+      
+        {% for data_source in data_sources %}
+          <div class='data-from-{{data_source}} wrapper-per-source collapse'>
+            
+            <div class='thumbnail-area'></div>
+
+            {% for datafield in datafields %}
+              {% if datafield.use_for_detail_popup and data_source in datafield.data_sources %}
+                <div class='form-group'>
+                  <label for='{{datafield.name}}-field' class='control-label data-label'>{{datafield.label_eng}}</label><br />
+                  <div id='{{datafield.name}}-field' class='data-field' data-choices='{{datafield.choices_str}}' data-type='{{datafield.type}}'>
+                    N/A
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+        {% endfor %}
+
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-primary close-btn' data-dismiss='modal'>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    //
+    // Globals
+    //
+    var NO_DATA_PLACEHOLDER = 'N/A';
+
+    var resetDetailPopup = function() {
+      $('.data-field').html(NO_DATA_PLACEHOLDER);
+      $('div.thumbnail-area').html('');
+      $('.detail-popup .wrapper-per-source').hide(); // COLLAPSE ALL
+      // console.log('called reset');
+    };
+
+    $('.detail-popup .close-btn, .detail-popup button.close').click(function(e) {
+      resetDetailPopup();
+    });
+
+    function getLabelWithVal(val, choices) {
+      let values = val.split(' ');
+      let res = [];
+
+      for (let j in values) {
+        let value = values[j];
+
+        for (let i in choices) {
+          let choice = choices[i];
+
+          if (choice.val == value) {
+            res.push(choice.label_eng);
+          }
+        }
+      }
+
+      return res.join(', ');
+    }
+
+    var renderDetailPopup = function(record, table) {
+
+      // Get the relevant section selector for the table
+      let per_data_source = $('.detail-popup .wrapper-per-source.data-from-' + table);
+
+      for (let key in record) {
+        // Get the field selector for the column from the query results
+        let targetFieldSelector = '#' + key + '-field.data-field';
+        let field = $(targetFieldSelector);
+        
+        // isRelevantField is set to true only if the selected section has the field (and only one of it)
+        let isRelevantField = per_data_source.has(targetFieldSelector).length == 1;
+
+        let value = record[key];
+        if (isRelevantField && value) {
+          if ($.inArray(field.data('type'), ['select_one', 'select_multiple']) >= 0) {
+            // Human-readable label translation for categorical variables
+            let choices = $(targetFieldSelector).data('choices');
+            let label = getLabelWithVal(value, choices);
+            if (label.trim() == '') {
+              field.html(value);
+              console.warn(key, value, 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
+            }
+            else {
+              field.html(label);
+            }
+          }
+          else {
+            // Just feed it
+            field.html(value);
+          }
+        }
+      }
+
+      // Show the image attachment if available
+      if ('_attachments' in record) {
+        let attachments = JSON.parse(record['_attachments']);
+
+        for (let i in attachments) {
+          let attachment = attachments[i];
+          if (attachment.mimetype.startsWith('image/')) {
+            let thumbmailUrl = 'https://ona.io' + attachment['small_download_url'];
+            let originalImgUrl = 'https://ona.io' + attachment['download_url'];
+            let thumbnailArea = $(per_data_source.find('div.thumbnail-area')[0]);
+            thumbnailArea.html('<a href="' + originalImgUrl + '" target="_blank"><img title="Click for original size" src="' + thumbmailUrl + '"/></a>');
+          }
+        }
+      }
+
+      // Display the relevant section
+      per_data_source.show();
+    }
+
+  </script>
+
+</div>

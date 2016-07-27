@@ -1,0 +1,64 @@
+{% extends "zinnia/skeleton.html" %}
+{% load i18n %}
+{% load zinnia %}
+
+{% block meta-keywords %}{% get_tags as entry_tags %}{{ entry_tags|join:", "}}{% endblock meta-keywords %}
+
+{% block meta %}
+    <meta name="generator" content="Zinnia {{ ZINNIA_VERSION }}" />
+{% endblock meta %}
+
+{% block link %}
+    <link rel="index" href="{% url 'zinnia:entry_archive_index' %}" />
+    <link rel="author" type="text/plain" href="{% url 'zinnia:humans' %}" />
+    <link rel="EditURI" type="application/rsd+xml" href="{% url 'zinnia:rsd' %}" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{% url 'zinnia:wlwmanifest' %}" />
+    <link rel="search" type="application/opensearchdescription+xml" title="Zinnia's Weblog" href="{% url 'zinnia:opensearch' %}" />
+    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last entries" %}" href="{% url 'zinnia:entry_feed' %}" />
+    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last discussions" %}" href="{% url 'zinnia:discussion_feed' %}" />
+    {% get_archives_entries "zinnia/tags/entries_archives_link.html" %}
+{% endblock link %}
+
+{% block breadcrumbs %}
+  {% trans "Blog" as root_name %}
+  {% zinnia_breadcrumbs root_name %}
+{% endblock breadcrumbs %}
+
+{% block sidebar %}
+<aside id="widget-categories" class="widget">
+  <h3 class = "widgets">
+    <a href="{% url 'zinnia:category_list' %}" class="widgettext">{% trans "Categories" %}</a>
+  </h3>
+  {% get_categories %}
+</aside>
+<aside id="widget-authors" class="widget">
+  <h3 class = "widgets">
+    <a href="{% url 'zinnia:author_list' %}" class="widgettext">{% trans "Authors" %}</a>
+  </h3>
+  {% get_authors %}
+</aside>
+<aside id="widget-tags" class="widget">
+  <h3 class = "widgets">
+    <a href="{% url 'zinnia:tag_list' %}" class="widgettext">{% trans "Tags" %}</a>
+  </h3>
+  {% get_tag_cloud %}
+</aside>
+<aside id="widget-recents" class="widget">
+  <h3 class = "widgets">
+    <a class="widgettext">{% trans "Recent entries" %}</a>
+  </h3>
+  {% get_recent_entries %}
+</aside>
+<aside id="widget-comments" class="widget">
+  <h3 class = "widgets">
+    <a class="widgettext">{% trans "Recent comments" %}</a>
+  </h3>
+  {% get_recent_comments %}
+</aside>
+<aside id="widget-archives" class="widget">
+  <h3 class = "widgets">
+    <a class="widgettext">{% trans "Archives" %}</a>
+  </h3>
+  {% get_archives_entries_tree %}
+</aside>
+{% endblock sidebar %}

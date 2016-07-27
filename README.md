@@ -6,8 +6,8 @@
 ##Requirements
 - Git command line tools (https://git-scm.com/downloads)
 - Python 2.7.10 or later (https://www.python.org/) including pip
-- Django 1.8 or later (https://www.djangoproject.com/)
-- 
+- Django 1.9 or later (https://www.djangoproject.com/)
+-
 ##Instructions
 - If you don't have the prerequisites, follow the installations below.
 - Install Django using Python package management system
@@ -49,3 +49,14 @@ python manage.py runserver (this may be preferable to ./run if you are having in
 - In this panel, you may config datafields to query about or display on the popup window when clicked.
 - If the panel is empty, you can't make query to the database.
 - Documentation for current settings is here (this documentation is now under extensive revision): https://docs.google.com/document/d/1bK6pKhQRQbSd9EzEprI12aMkCbYrvqmiwgYHuaNMz38/edit
+
+###Translating
+- in the command line run:
+`django-admin.py makemessages -l es -e html,py`
+- go into pages > locale > es > LC_MESSAGES and download the django.po file (Note: can directly edit .po file)
+- upload file into https://translate.google.com/toolkit/list?hl=en#translations/active
+- make changes
+- redownload file
+- replace old django.po file
+- in the command line run:
+`django-admin.py compilemessages`
