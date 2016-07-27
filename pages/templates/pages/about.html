@@ -12,12 +12,10 @@
 Design by TEMPLATED
 http://templated.co
 Released for free under the Creative Commons Attribution License
-
-Name       : PlainDisplay 
+Name       : PlainDisplay
 Description: A two-column, fixed-width design with dark color scheme.
 Version    : 1.0
 Released   : 20140309
-
 -->
 
 <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
@@ -66,26 +64,29 @@ Released   : 20140309
     <div class="container">
 
          <iframe width="100%" height="450" frameborder="0" class="iframe-right" src="https://berkeley-dlab.cartodb.com/u/calo1/viz/d784298c-7e60-11e5-9a26-0e674067d321/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen ></iframe>
-            
 
         <h1> {% trans "The Farmland Monitoring Project" %}</h1>
 
         <p style = "font-size:1.5em" >
-        <em>"{% trans '"Farmers should be able to own the land they farm, or at least have reliable access to it”' %}"</em> 
+
+        <em>"{% trans '"Farmers should be able to own the land they farm, or at least have reliable access to it”' %}"</em>
+
         <br>
 
         {% trans "- Organic farmer near Hollister, CA" %}</p>
 
         <img src="../static/about_images/Cannery_Berries-2.jpg" width = 20% class="image-left">
-        <p style = "text-align: left">{% trans 'Alternative food system advocates often argue that a' %} "{% trans "next generation of farmers" %}" {% trans 'is needed to reverse the trend of an aging farmer population and re-orient the structure of agriculture from consolidated mega-farms to a revitalized rural landscape.  If creating new farmers is a regional or even national goal, it follows that land use policy should facilitate the establishment of startup farm operations.  However, for small scale and beginning farmers, access to quality and affordable farmland remains a major barrier to success.' %}</p>   
+
+        <p style = "text-align: left">{% trans 'Alternative food system advocates often argue that a' %} "{% trans "next generation of farmers" %}" {% trans 'is needed to reverse the trend of an aging farmer population and re-orient the structure of agriculture from consolidated mega-farms to a revitalized rural landscape.  If creating new farmers is a regional or even national goal, it follows that land use policy should facilitate the establishment of startup farm operations.  However, for small scale and beginning farmers, access to quality and affordable farmland remains a major barrier to success.' %}</p>
 
 
-                
-        <p style = "text-align: left">{% trans "Nationally, 40% of all farmland is rented out and 80% of those 353 million acres is managed by a non-farming landlord.  In the three counties of Santa Cruz, Monterey, and San Benito which roughly comprise the agricultural region of the California Central Coast farming on renting land is common.  Almost half of all farmland is rented out to tenant farmers, who lease farmland and operate on tight margins.  Agricultural land is often valued by its potential large scale production value" %} <em>{% trans "as well as" %}</em> {% trans "potential residential value as wealthy buyers seek out" %} “{% trans "ranchettes" %}” {% trans "in rural areas near to urban areas.  Furthermore, the history of property arrangements in California has created a dominant trend of large plots of agricultural land in which owners are less willing to break up into smaller rental lots.  Beyond these structural barriers, competition for farmland is fierce." %}</p>   
+
+        <p style = "text-align: left">{% trans "Nationally, 40% of all farmland is rented out and 80% of those 353 million acres is managed by a non-farming landlord.  In the three counties of Santa Cruz, Monterey, and San Benito which roughly comprise the agricultural region of the California Central Coast farming on renting land is common.  Almost half of all farmland is rented out to tenant farmers, who lease farmland and operate on tight margins.  Agricultural land is often valued by its potential large scale production value" %} <em>{% trans "as well as" %}</em> {% trans "potential residential value as wealthy buyers seek out" %} “{% trans "ranchettes" %}” {% trans "in rural areas near to urban areas.  Furthermore, the history of property arrangements in California has created a dominant trend of large plots of agricultural land in which owners are less willing to break up into smaller rental lots.  Beyond these structural barriers, competition for farmland is fierce." %}</p>
 
         <img src="../static/about_images/berries-2.jpg" width = 30% class="image-right">
 
-        <p style = "text-align: left">{% trans "Agribusiness companies, real estate agents, and increasingly institutional investment firms dedicate staff and resources for land identification and acquisition.  One tool these actors use to seek out properties are commercial services that aggregate public data on land ownership, land quality, and other agricultural data.  Farmview is participatory farmland monitoring project that combines the local knowledge of small scale farmers and public data to help explore the status of land access in the California Central Coast." %}   
+        <p style = "text-align: left">{% trans "Agribusiness companies, real estate agents, and increasingly institutional investment firms dedicate staff and resources for land identification and acquisition.  One tool these actors use to seek out properties are commercial services that aggregate public data on land ownership, land quality, and other agricultural data.  Farmview is participatory farmland monitoring project that combines the local knowledge of small scale farmers and public data to help explore the status of land access in the California Central Coast." %}
+
         <br>
         <br>
         </p>
@@ -94,8 +95,8 @@ Released   : 20140309
         </p>
         <br>
 
-       
-        <ol>   
+
+        <ol>
             <li style = "font-size:1.5em"> {% trans "1. Help facilitate land linking by aggregating listings of potential farmland" %}</li>
             <li style = "font-size:1.5em"> {% trans "2. Visualize the problems of land access for a variety of regional actors and policy argumentation" %}</li>
         </ol>
@@ -110,14 +111,14 @@ Released   : 20140309
         <br>
        <div id="two-column">
         <div class="tbox1">
-            <div class="box" style="padding: 0em 0em 0em 0em"> 
+            <div class="box" style="padding: 0em 0em 0em 0em">
                <h3>{% trans "Public data" %}</h3>
                 <!-- <img src="publicdataimage"/> -->
                 <p>{% trans "The question of who owns the land is public information, accessed through the county assessor.  We combine this to create a picture of the agricultural parcels in the region and some relevant agricultural attributes like zoning, soil classification, and ownership details.  We also aggregate other public land listings, like data from ag listservs and real estate agencies.  All these data are available on the " %}<a href="https://www.farmview.herokuapp.com/map" target="_blank">'{% trans "map" %}'</a> {% trans "page for exploration and searching.  Detailed information about land parcels and existing or available land can be viewed " %}</p>
             </div>
         </div>
         <div class="tbox2">
-            <div class="box" style="padding: 0em 0em 0em 0em"> 
+            <div class="box" style="padding: 0em 0em 0em 0em">
             <h3>{% trans "Local knowledge" %}</h3>
             <!-- <img class= "image-left" height="60%" width="400" src="Cannery_Berries.jpg"/> -->
             <p>{% trans "We solicit information from all members of the agricultural community in the region.  A landowner, farmer, or other actor in the food system can submit data about farmland.  They can describe a land listing, a vacant parcel, or an existing operation.  The data collection tool can be done from a mobile device or a desktop computer, on or off-line." %}
@@ -140,7 +141,7 @@ Released   : 20140309
 
 <h2>{% trans "Resources on land access" %}</h2>
 
-        <p style>{% trans "Overcoming barriers to farmland access is much greater than finding suitable land. Beginning farmers must be able to create ag friendly lease arrangements, acquire start-up loans, secure markets, overcome language barriers, and negotiate with landowners who often do not have any agriculture experience.  This requires a collaborative effort, and ultimately regional policies that support and incentivize the creation of successful start-up farms. Here are some regional resources that work with farmland access issues." %}</p> 
+        <p style>{% trans "Overcoming barriers to farmland access is much greater than finding suitable land. Beginning farmers must be able to create ag friendly lease arrangements, acquire start-up loans, secure markets, overcome language barriers, and negotiate with landowners who often do not have any agriculture experience.  This requires a collaborative effort, and ultimately regional policies that support and incentivize the creation of successful start-up farms. Here are some regional resources that work with farmland access issues." %}</p>
 
         <h2>{% trans "Farmlink" %}</h2>
 
@@ -158,7 +159,7 @@ Released   : 20140309
 
         <h2>{% trans "Support" %}</h2>
 
-        <p style="text-align: center">{% trans "The Farmland Monitoring Project is a transdisciplinary research initiative of UC Berkeley.  Generous support comes from the Berkeley Food Institute, the Center for Information Technology Research in the Interest of Society, UC Cooperative Extension, and CartoDB.  Oversight, feedback, and expertise come from the farmers and staff of the Agriculture and Land Based Training Association, and California Farmlink.  " %}</p> 
+        <p style="text-align: center">{% trans "The Farmland Monitoring Project is a transdisciplinary research initiative of UC Berkeley.  Generous support comes from the Berkeley Food Institute, the Center for Information Technology Research in the Interest of Society, UC Cooperative Extension, and CartoDB.  Oversight, feedback, and expertise come from the farmers and staff of the Agriculture and Land Based Training Association, and California Farmlink.  " %}</p>
 
         <a href="http://food.berkeley.edu/" target="_blank"> <img class="image-sponsor" src="http://i.imgur.com/DFOJg6q.jpg"></a>
         <a href="http://citris-uc.org/" target="_blank"> <img class="image-sponsor" src="http://i.imgur.com/sfrMLk6.png"></a>
