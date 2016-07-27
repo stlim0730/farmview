@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django_comments',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -41,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'pages',
     'map',
+    'django_comments',
     'mptt',
     'tagging',
     'zinnia',
