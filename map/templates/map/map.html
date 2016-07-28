@@ -165,6 +165,15 @@
 
       layer.setInteraction(true);
 
+      // 
+      // Setup a searchbox powered by Carto
+      // 
+      if($('#map div.cartodb-searchbox').length == 0) {
+        var v = cdb.vis.Overlay.create('search', mapObj.viz, {})
+        v.show();
+        $('#map').append(v.render().el);
+      }
+
       // TODO: It doesn't work
       // layer.on('mousedown', function(e, latlon, pxPos, data, l) {
       //   $('#map').css('cursor', 'grabbing');
