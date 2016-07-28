@@ -72,6 +72,8 @@
   </div>
 </div>
 
+{% include "map/partials/layer_selector_template.html" %}
+{% include "map/partials/layer_switch_template.html" %}
 {% include "map/partials/infowindow_custom_paragraph.html" %}
 {% include "map/partials/detail_popup.html" with datafields=datafields data_sources=data_sources %}
 
@@ -173,6 +175,68 @@
         v.show();
         $('#map').append(v.render().el);
       }
+
+      
+      // 
+      // Setup a layer selector
+      // 
+      if($('#map div.cartodb-layer-selector-box').length == 0) {
+        // Setup an empty layer selector
+        let layerSelectorTemplate = $('#layer-selector-template').html();
+        $('#map').append(layerSelectorTemplate);
+        // Toggle visibility of the layer selector dropdown menu
+        $('a.layers.change-visibility').click(function(e) {
+          if($('.cartodb-dropdown').css('display') == 'none') {
+            $('.cartodb-dropdown').css('display', 'block');
+          }
+          else {
+            $('.cartodb-dropdown').css('display', 'none');
+          }
+        });
+      }
+      
+      // Fill out the layer selector
+      let layerCnt = parseInt($('#map div.cartodb-layer-selector-box div.count').text());
+      layerCnt++;
+      $('#map div.cartodb-layer-selector-box div.count').text(layerCnt);
+
+      // Setup an empty layer selector
+      let toggleLayer = function(targetLayer) {
+        app.layers.data[targetLayer].visible
+        ? app.layers.data[targetLayer].hide()
+        : app.layers.data[targetLayer].show();
+
+        $.each($('a.switch.layer-switch'), function(i, o) {
+          if(targetLayer == $(o).data('layer')) {
+            if(app.layers.data[targetLayer].visible) {
+              $(o).addClass('enabled');
+            }
+            else {
+              $(o).removeClass('enabled');
+            }
+          }
+        });
+      };
+      let layerSwitchTemplate = $($('#layer-switch-template').html());
+      
+      let layerSwitchLabel = $(layerSwitchTemplate.children('a.layer')[0]);
+      layerSwitchLabel.data('layer', layerName);
+      layerSwitchLabel.html(layerName);
+      layerSwitchLabel.click(function(e) {
+        toggleLayer($(this).data('layer'));
+      });
+
+      let layerSwitch = $(layerSwitchTemplate.children('a.switch')[0]);
+      layerSwitch.data('layer', layerName);
+      layerDef.visible ? layerSwitch.addClass('enabled') : layerSwitch.removeClass('enabled');
+
+      layerSwitch.click(function(e) {
+        toggleLayer($(this).data('layer'));
+      });
+      
+      $('ul.layer-list').append(layerSwitchTemplate);
+
+      
 
       // TODO: It doesn't work
       // layer.on('mousedown', function(e, latlon, pxPos, data, l) {
