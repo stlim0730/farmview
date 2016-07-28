@@ -28,7 +28,7 @@ def upload_dropbox(*args):
 # ona_id: takes ONA survey form id
 def create_sync_table(ona_id):
     download_ona_data(ona_id)
-    db_urls = upload_dropbox('new_data_point.geojson','new_data_polygon.geojson')
+    db_urls = upload_dropbox('data_point.geojson','data_polygon.geojson')
     dropbox_url = ''
     import_ids = ''
     for db_url in db_urls:

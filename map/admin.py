@@ -24,7 +24,7 @@ class FormDataAdmin(admin.ModelAdmin):
   def make_force_sync(modeladmin, request, queryset):
       for formdatas in queryset.all():
           download_ona_data(formdatas.ona_id)
-          upload_dropbox('new_data_point.geojson','new_data_polygon.geojson')
+          upload_dropbox('data_point.geojson','data_polygon.geojson')
           import_ids = filter(None, formdatas.import_id.split(","))
           for import_id in import_ids:
               url = 'https://calo1.cartodb.com/api/v1/synchronizations/' + import_id + '/sync_now?api_key=' + os.environ.get('CARTODB_API_KEY')
