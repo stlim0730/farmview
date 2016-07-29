@@ -6,9 +6,9 @@ from geoprocess2 import merge_attachmentLinks, geojson_output
 # data: ONA survey data files in json
 def run_geoprocess(data):
     merge_attachmentLinks(data)
-    with open('new_data_point.geojson', 'w') as fp:
+    with open('data_point.geojson', 'w') as fp:
         json.dump(geojson_output(data)[0], fp)
-    with open('new_data_polygon.geojson', 'w') as fp:
+    with open('data_polygon.geojson', 'w') as fp:
         json.dump(geojson_output(data)[1], fp)
 
 # Upload files to dropbox account and retrives urls
