@@ -106,11 +106,12 @@
 
       // Show the image attachment if available
       if ('_attachments' in record) {
-        let attachments = JSON.parse(record['_attachments']);
+        console.log(record);
+        let attachments = record['_attachments'];
 
         for (let i in attachments) {
-          let attachment = attachments[i];
-          if (attachment.mimetype.startsWith('image/')) {
+          let attachment = JSON.parse(attachments[i]);
+          if (attachment.mimetype && attachment.mimetype.startsWith('image/')) {
             let thumbmailUrl = 'https://ona.io' + attachment['small_download_url'];
             let originalImgUrl = 'https://ona.io' + attachment['download_url'];
             let thumbnailArea = $(per_data_source.find('div.thumbnail-area')[0]);
