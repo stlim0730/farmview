@@ -10,6 +10,7 @@
 {% block map %}
 
 <script src='{% static "map/js/cartodb/cartodb.js" %}'></script>
+<script type='text/javascript' src='http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js' async></script>
 
 <div id="wrapper">
     <div id="header-wrapper">
@@ -89,25 +90,25 @@
     config: null
   };
 
+  app; // To avoid Javascript hoisting;
+  // http://stackoverflow.com/questions/9085839/surprised-that-global-variable-has-undefined-value-in-javascript
+
   var scrollToTop = function(durationMs) {
     $('html, body').animate({
       scrollTop: 0
     }, durationMs);
   };
 
-
+  
 
   //
-  // Loggly
+  // Loggly: https://farmview.loggly.com
   //
-  $.ajax({
-    url: '//api.hostip.info/get_json.php',
-    type: 'GET',
-    data: '',
-    dataType: 'text',
-    success: function(res) {
-      console.log(res);
-    }
+  var _LTracker = _LTracker || [];
+  _LTracker.push({
+    logglyKey: '1bcc8e6c-e83e-4cd5-8980-137af809f05e',
+    sendConsoleErrors: true,
+    tag: 'loggly-jslogger'
   });
 
   
@@ -376,6 +377,17 @@
                 // Make it visible
                 $('.detail-popup').modal('show');
                 e.stopPropagation();
+
+                //
+                // Send a query log item
+                //
+                _LTracker.push({
+                  timestamp: new Date(),
+                  querytype: 'detailpopup',
+                  sql: sql,
+                  datapoint: datapoint,
+                  table: tableName
+                });
               });
 
               marker.bindPopup(popup);
@@ -389,6 +401,17 @@
             // Render detail popup
             renderDetailPopup(res.rows[0], tableName);
           }
+        });
+
+        //
+        // Send a query log item
+        //
+        _LTracker.push({
+          timestamp: new Date(),
+          querytype: 'infowindow',
+          sql: sql,
+          datapoint: datapoint,
+          table: tableName
         });
 
       });
@@ -555,24 +578,32 @@
     // Check the query_per_table; it should contain all the information on query you want to perform
     console.log('query_per_table', query_per_table);
 
+    
+
     // 
     // Apply query per case of combination
     // 
+    var layerqueries = {};
+
+    var parcel_layer = app.layers['data']['Ag Parcels'];
+    var point_layer = app.layers['data']['data_point'];
+    var polygon_layer = app.layers['data']['data_polygon'];
+    
+    var parcel_table = app.tables['Ag Parcels'];
+    var point_table = app.tables['data_point'];
+    var polygon_table = app.tables['data_polygon'];
+    
+    var parcel_query = null;
+    var point_query = null;
+    var polygon_query = null;
+
     if (Object.keys(query_per_table).length == 1) {
       if (app.tables['Ag Parcels'] in query_per_table) {
         // Parcel-only query case
-        var parcel_layer = app.layers['data']['Ag Parcels'];
-        var point_layer = app.layers['data']['data_point'];
-        var polygon_layer = app.layers['data']['data_polygon'];
-
-        var parcel_query = query_per_table[app.tables['Ag Parcels']];
-
-        var point_table = app.tables['data_point'];
-        var polygon_table = app.tables['data_polygon'];
-
-        parcel_layer.setQuery(parcel_query);
-        point_layer.setQuery('SELECT ' + point_table + '.* FROM ' + point_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + point_table + '.the_geom, parcel.the_geom)');
-        polygon_layer.setQuery('SELECT ' + polygon_table + '.* FROM ' + polygon_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + polygon_table + '.the_geom, parcel.the_geom)');
+        
+        parcel_query = query_per_table[app.tables['Ag Parcels']];
+        point_query = 'SELECT ' + point_table + '.* FROM ' + point_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + point_table + '.the_geom, parcel.the_geom)';
+        polygon_query = 'SELECT ' + polygon_table + '.* FROM ' + polygon_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + polygon_table + '.the_geom, parcel.the_geom)';
       }
       else if (app.tables['data_point'] in query_per_table) {
         // Point-only query case: not expected
@@ -586,22 +617,11 @@
     else if (Object.keys(query_per_table).length == 2) {
       if ((app.tables['data_point'] in query_per_table) && (app.tables['data_polygon'] in query_per_table)) {
         // Survey-only query case
-        var parcel_layer = app.layers['data']['Ag Parcels'];
-        var point_layer = app.layers['data']['data_point'];
-        var polygon_layer = app.layers['data']['data_polygon'];
-        
-        var point_query = query_per_table[app.tables['data_point']];
-        var polygon_query = query_per_table[app.tables['data_polygon']];
-        
-        var parcel_table = app.tables['Ag Parcels'];
-
-        parcel_layer.setQuery(
-          'SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + point_query + ') as point ON ST_Intersects(' + parcel_table + '.the_geom, point.the_geom)\
+        parcel_query = 'SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + point_query + ') as point ON ST_Intersects(' + parcel_table + '.the_geom, point.the_geom)\
           UNION\
-          SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + polygon_query + ') as polygon ON ST_Intersects(' + parcel_table + '.the_geom, polygon.the_geom)'
-        );
-        point_layer.setQuery(point_query);
-        polygon_layer.setQuery(polygon_query);
+          SELECT ' + parcel_table + '.* FROM ' + parcel_table + ' INNER JOIN (' + polygon_query + ') as polygon ON ST_Intersects(' + parcel_table + '.the_geom, polygon.the_geom)';
+        point_query = query_per_table[app.tables['data_point']];
+        polygon_query = query_per_table[app.tables['data_polygon']];
       }
       else {
         // Either point or polygon and parcel query case: not expected
@@ -610,18 +630,31 @@
     }
     else {
       // All the app.tables are involved
-      var parcel_layer = app.layers['data']['Ag Parcels'];
-      var point_layer = app.layers['data']['data_point'];
-      var polygon_layer = app.layers['data']['data_polygon'];
-      
-      var parcel_query = query_per_table[app.tables['Ag Parcels']];
-      var point_query = query_per_table[app.tables['data_point']];
-      var polygon_query = query_per_table[app.tables['data_polygon']];
-
-      parcel_layer.setQuery(parcel_query);
-      point_layer.setQuery(point_query);
-      polygon_layer.setQuery(polygon_query);
+      parcel_query = query_per_table[app.tables['Ag Parcels']];
+      point_query = query_per_table[app.tables['data_point']];
+      polygon_query = query_per_table[app.tables['data_polygon']];
     }
+
+    //
+    // Apply queries for each layer
+    //
+    parcel_layer.setQuery(parcel_query);
+    point_layer.setQuery(point_query);
+    polygon_layer.setQuery(polygon_query);
+
+    //
+    // Send a query log item
+    //
+    layerqueries[parcel_table] = parcel_query;
+    layerqueries[point_table] = point_query;
+    layerqueries[polygon_table] = polygon_query;
+
+    _LTracker.push({
+      timestamp: new Date(),
+      querytype: 'queryui',
+      userquery: query_per_table,
+      layerqueries: layerqueries
+    });
 
     scrollToTop(500);
   });
