@@ -95,6 +95,21 @@
     }, durationMs);
   };
 
+
+
+  //
+  // Loggly
+  //
+  $.ajax({
+    url: '//api.hostip.info/get_json.php',
+    type: 'GET',
+    data: '',
+    dataType: 'text',
+    success: function(res) {
+      console.log(res);
+    }
+  });
+
   
 
   // 
