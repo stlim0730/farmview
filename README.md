@@ -60,3 +60,9 @@ python manage.py runserver (this may be preferable to ./run if you are having in
 - replace old django.po file
 - in the command line run:
 `django-admin.py compilemessages`
+
+##Blog
+- The blog uses Zinnia. For the documentation, look here: 
+- http://docs.django-blog-zinnia.com/en/develop/
+- Use the text formatting guidelines according to Textile:
+- https://txstyle.org/
