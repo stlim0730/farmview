@@ -543,6 +543,33 @@ h3 {  color: rgba(255,255,255,1) }
 /*********************************************************************************/
 /* Contact Page                                                                  */
 /*********************************************************************************/
+.profile {
+  /*padding: 0 0 0 165px;  150px being the width of the thumbnail + how much space you want to put between it and your text */
+  position: relative; /* So the thumbnail is relative to this */
+  width: 24%;
+  padding: 1% 1% 1% 1% ;
+  display: inline-block;
+  vertical-align: top;
+}
+.profile img {
+  width: 100%;
+  /*left: 0;*/
+  /*padding-bottom: 5px;*/
+  /*right: 5;*/
+  position: relative;
+  float: top;
+  /*top: 0;*/
+}
+.profile h2 {
+  font-size: 25px;
+  text-align: left;
+  margin-left: 0px;
+  padding-bottom: 2px;
+  /*margin-bottom: 2px;*/
+}
+.profile p {  margin-bottom: 0px;  }
+.profile a:link {  color: #022836;  }
+.profile a:hover {  color: #297C48;  }
 #feedback-page {  text-align: center }
 #form-main {
   width: 100%;
