@@ -15,17 +15,17 @@ download_url='download_url'
 
 # function that prints out just the geometry columns:
 def print_geometries(data):
-    print '-'*160
-    print '{:30} {:30} {:15} {:15} {:50}'.format('Location_GPS', 'Location_fromweb', 'lat', 'long', 'available_poly')
-    print '-'*160
+    print ('-'*160)
+    print ('{:30} {:30} {:15} {:15} {:50}'.format('Location_GPS', 'Location_fromweb', 'lat', 'long', 'available_poly'))
+    print ('-'*160)
     for rec in data:
-        print '{:30} {:30} {:15} {:15} {:50}'.format(
+        print ('{:30} {:30} {:15} {:15} {:50}'.format(
             rec.get(col2),
             rec.get(col1),
             str(rec.get(col3)[0]),
             str(rec.get(col3)[1]),
             rec.get(col5)
-        )
+        ))
 
 # function that merges col1 and col2 together and
 # adds a new column to each entry of the dictionary:
@@ -242,7 +242,7 @@ def renameValuesSoil(arr, field):
             arr[field] = 'Somewhat heavy (clay loam)'
         elif arr[field] == 'clay':
             arr[field] = 'Heavy (clay)'
-    print arr[field]
+    print (arr[field])
 
 
 
@@ -250,7 +250,7 @@ def renameValuesSoil(arr, field):
 def print_records(data):
     for rec in data:
         for key in rec.keys():
-            try: print '{:70}: {}'.format(key[:68], rec[key][:80])
+            try: print ('{:70}: {}'.format(key[:68], rec[key][:80]))
             except: pass
 
 
