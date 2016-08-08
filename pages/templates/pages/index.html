@@ -1,9 +1,5 @@
 {% extends "pages/base.html" %}
 {% load i18n %}
-
-
-
-
 {% block content %}
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -25,8 +21,6 @@ Released   : 20140309
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
-<!-- <link href="default.css" rel="stylesheet" type="text/css" media="all" /> -->
-<!-- <link href="fonts.css" rel="stylesheet" type="text/css" media="all" /> -->
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
@@ -71,7 +65,7 @@ Released   : 20140309
     <div class="container">
 
       <div class="title">
-        <a href = "/map"> <img src="static/homepage_images/map.png" style="width:100%;"> </a>
+        <a href = "/map"> <img src="/static/img/map.png" style="width:100%;"> </a>
         <h2>{% trans "Farmview" %}</h2>
         <span class="byline">{% trans "Explore public data about farmland in the California Central Coast" %}</span> 
       </div>
@@ -104,7 +98,7 @@ Released   : 20140309
     <div id="three-column">
       <div class="boxA">
         <div class="box">
-          <center><img src="static/homepage_images/survey.png" style="width:70%;" align="middle;"></center>
+          <center><img src="/static/img/survey.png" style="width:70%;" align="middle;"></center>
           <ul class="actions">
             <li><a href="https://qlm81.enketo.org/webform" class="button" target="_blank">{% trans "Go to Survey" %}</a></li>
           </ul>
@@ -112,13 +106,13 @@ Released   : 20140309
       </div>
       <div class="boxB">
         <div class="box"> 
-        <center><img src="static/homepage_images/learnmore.png" style="width:70%;"></center>
+        <center><img src="/static/img/learnmore.png" style="width:70%;"></center>
           <ul class="actions"><li><a href="/about" class="button">{% trans "Learn More" %}</a></li></ul>
         </div>
       </div>
       <div class="boxC">
         <div class="box">
-          <center><img src="static/homepage_images/contact.png" style="width:70%;"></center>
+          <center><img src="/static/img/contact.png" style="width:70%;"></center>
         <ul class="actions"><li><a href="/contact" class="button">{% trans "Contact Us" %}</a></li></ul>
         </div>
       </div>

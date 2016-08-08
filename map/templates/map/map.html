@@ -1,15 +1,9 @@
 {% extends "map/base.html" %}
 {% load i18n %}
-
-
 {% get_current_language as LANGUAGE_CODE %}
-
-
-{% load staticfiles %}
-
 {% block map %}
 
-<script src='{% static "map/js/cartodb/cartodb.js" %}'></script>
+<script src='/static/js/cartodb/cartodb.js'></script>
 <script type='text/javascript' src='http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js' async></script>
 
 <div id="wrapper">
