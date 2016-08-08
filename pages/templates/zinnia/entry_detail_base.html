@@ -1,0 +1,82 @@
+{% extends "zinnia/base.html" %} {% load i18n %} {% load zinnia %} {% load comments %} {% block title %}{{ object.title }}{% endblock title %} {% block meta-description %}{{ object.excerpt|safe }}{% endblock meta-description %} {% block meta-keywords %}{% if object.tags %}{{ object.tags }}{% else %}{{ block.super }}{% endif %}{% endblock meta-keywords %} {% block link %} {{ block.super }} {% with previous_entry=object.previous_entry %}{% if previous_entry %} {% endif %}{% endwith %} {% with next_entry=object.next_entry %}{% if next_entry %} {% endif %}{% endwith %} {% with year=object.publication_date|date:"Y" month=object.publication_date|date:"m" day=object.publication_date|date:"d" %} {% endwith %} {% endblock link %} {% block body-class %}entry entry-{{ object.pk }}{% if object.featured %} featured{% endif %} year-{{ object.publication_date|date:"Y" }} month-{{ object.publication_date|date:"m" }} week-{{ object.publication_date|date:"W" }} day-{{ object.publication_date|date:"d" }}{% endblock body-class %} {% block content %} {% block entry-content %} {% include object.content_template with object_content=object.html_content %} {% endblock entry-content %} {% block entry-widgets %}
+{% block entry-next-entry %} {% with next_entry=object.next_entry %} {% if next_entry %}
+{% trans "Next entry" %}
+
+{{ next_entry.title }}
+
+{% endif %} {% endwith %} {% endblock entry-next-entry %} {% block entry-previous-entry %} {% with previous_entry=object.previous_entry %} {% if previous_entry %}
+{% trans "Previous entry" %}
+
+{{ previous_entry.title }}
+
+{% endif %} {% endwith %} {% endblock entry-previous-entry %} {% block entry-related-entries %} {% with entry_related=object.related_published %} {% if entry_related %}
+{% trans "Related entries" %}
+
+{% for entry in entry_related %}
+{{ entry.title }}
+{% endfor %}
+{% endif %} {% endwith %} {% endblock entry-related-entries %} {% block entry-similar-entries %}
+{% trans "Similar entries" %}
+
+{% get_similar_entries %}
+{% endblock entry-similar-entries %}
+{% endblock entry-widgets %} {% block entry-pingbacks %}
+{% trans "Pingbacks" %}
+
+{% if object.pingback_count %} {% with pingback_list=object.pingbacks %} {% block pingbacks-loop %}
+{% for pingback in pingback_list %}
+{% block pingback-info %}
+{{ pingback.name }} {% trans "on" context "on date" %} {{ pingback.submit_date|date:"SHORT_DATETIME_FORMAT" }} #
+
+{% endblock pingback-info %} {% block pingback-content %}
+{{ pingback.comment }}
+
+{% endblock pingback-content %}
+{% endfor %}
+{% endblock pingbacks-loop %} {% endwith %} {% endif %} {% block pingbacks-status %} {% if object.pingbacks_are_open %}
+{% trans "Pingbacks are open." %}
+
+{% else %}
+{% trans "Pingbacks are closed." %}
+
+{% endif %} {% endblock pingbacks-status %}
+{% endblock entry-pingbacks %} {% block entry-trackbacks %} {% if object.trackback_count or object.trackbacks_are_open %}
+{% trans "Trackbacks" %}
+
+{% if object.trackback_count %} {% with trackback_list=object.trackbacks %} {% block trackbacks-loop %}
+{% for trackback in trackback_list %}
+{% block trackback-info %}
+{{ trackback.name }} {% trans "on" context "on date" %} {{ trackback.submit_date|date:"SHORT_DATETIME_FORMAT" }} #
+
+{% endblock trackback-info %} {% block trackback-content %}
+{{ trackback.comment }}
+
+{% endblock trackback-content %}
+{% endfor %}
+{% endblock trackbacks-loop %} {% endwith %} {% endif %} {% block trackbacks-status %} {% if object.trackbacks_are_open %}
+{% trans "Trackback URL" %}
+
+{% endif %} {% endblock trackbacks-status %}
+{% endif %} {% endblock entry-trackbacks %} <div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+/*
+var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//farmview-1.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+{% endblock content %} {% block admin-tools %} {% if perms.zinnia.change_entry %}
+{% trans "Edit the entry" %}
+{% endif %} {% endblock admin-tools %}
