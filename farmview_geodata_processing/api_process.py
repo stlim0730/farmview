@@ -1,6 +1,6 @@
 import requests, json, string
 import dropbox, os
-from geoprocess2 import merge_attachmentLinks, geojson_output
+from farmview_geodata_processing.geoprocess2 import merge_attachmentLinks, geojson_output
 
 # run geoprocess and change the files downloaded from ONA into geojsons.
 # data: ONA survey data files in json

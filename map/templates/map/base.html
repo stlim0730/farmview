@@ -1,5 +1,3 @@
-{% load staticfiles %}
-
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -13,15 +11,15 @@
     <title>Farmview</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel='stylesheet' href='{% static "map/css/bootstrap.min.css" %}' />
+    <link rel='stylesheet' href='/static/css/bootstrap/bootstrap.min.css' />
     <!-- Third-party CSS -->
-    <link rel='stylesheet' href='{% static "map/css/cartodb/cartodb.css" %}' />
+    <link rel='stylesheet' href='/static/css/cartodb/cartodb.css' />
     <!-- Custom styles for this template -->
-    <link rel='stylesheet' href='{% static "map/css/style.css" %}' />
+    <link rel='stylesheet' href='/static/css/style.css' />
     
     <!-- Scripts -->
-    <script src='{% static "map/js/jquery/jquery-1.11.3.min.js" %}'></script>
-    <script src='{% static "map/js/bootstrap/bootstrap.min.js" %}'></script>
+    <script src='/static/js/jquery/jquery-1.11.3.min.js'></script>
+    <script src='/static/js/bootstrap/bootstrap.min.js'></script>
   </head>
 
   <body>
