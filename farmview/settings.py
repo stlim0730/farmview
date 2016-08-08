@@ -20,7 +20,6 @@ from django.utils.translation import ugettext_lazy as _
 # SECURITY WARNING: don't run with debug turned on in production!
 # 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 
 
@@ -159,15 +158,6 @@ USE_TZ = True
 # Zinnia settings
 # 
 ZINNIA_MARKUP_LANGUAGE = 'textile'
-TEMPLATE_CONTEXT_PROCESSORS = (
-  "django.contrib.auth.context_processors.auth",
-  "django.core.context_processors.debug",
-  "django.core.context_processors.i18n",
-  "django.core.context_processors.media",
-  "django.core.context_processors.static",
-  "django.core.context_processors.tz",
-  "django.contrib.messages.context_processors.messages"
-)
 MIDDLEWARE_CLASSES = (
   'django.contrib.sessions.middleware.SessionMiddleware',
   'django.middleware.common.CommonMiddleware',
