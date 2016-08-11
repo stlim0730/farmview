@@ -68,9 +68,14 @@ body {  height: 100% }
 /*
 * Start Blog definitions
 */
+
+.widgets {
+  color: #D3D3D3;
+}
 .widgettext {
   color: rgba(0,0,0,.44);
   /* font-weight: 600; */
+  color: #D3D3D3;
   font-size: 16px;
 }
 a {  color: #2699BC }

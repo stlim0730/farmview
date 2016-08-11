@@ -1,0 +1,23 @@
+{% extends "zinnia/base.html" %} {% load i18n %} {% load zinnia %} {% load comments %} {% block title %}{{ object.title }}{% endblock title %} {% block meta-description %}{{ object.excerpt|safe }}{% endblock meta-description %} {% block meta-keywords %}{% if object.tags %}{{ object.tags }}{% else %}{{ block.super }}{% endif %}{% endblock meta-keywords %} {% block link %} {{ block.super }} {% with previous_entry=object.previous_entry %}{% if previous_entry %} {% endif %}{% endwith %} {% with next_entry=object.next_entry %}{% if next_entry %} {% endif %}{% endwith %} {% with year=object.publication_date|date:"Y" month=object.publication_date|date:"m" day=object.publication_date|date:"d" %} {% endwith %} {% endblock link %} {% block body-class %}entry entry-{{ object.pk }}{% if object.featured %} featured{% endif %} year-{{ object.publication_date|date:"Y" }} month-{{ object.publication_date|date:"m" }} week-{{ object.publication_date|date:"W" }} day-{{ object.publication_date|date:"d" }}{% endblock body-class %} {% block content %} {% block entry-content %} {% include object.content_template with object_content=object.html_content %} {% endblock entry-content %}  <div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+/*
+var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//farmview-1.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+{% endblock content %} {% block admin-tools %} {% if perms.zinnia.change_entry %}
+{% trans "Edit the entry" %}
+{% endif %} {% endblock admin-tools %}
