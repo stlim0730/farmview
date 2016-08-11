@@ -169,7 +169,7 @@ table {
     display: table;
     clear: both; }
 
-.zinnia #header, .zinnia #footer {
+.zinnia .header, .zinnia #footer {
   clear: both; }
 
 @media (min-width: 1024px) {
@@ -402,7 +402,7 @@ table {
     content: "\21d2"; }
 
 .zinnia .entry-footer {
-  clear: both; 
+  clear: both;
 }
   .zinnia .entry-footer p {
     margin: 0; }
