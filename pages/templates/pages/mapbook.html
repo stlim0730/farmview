@@ -23,106 +23,105 @@ Released   : 20140309
 </head>
 <body class="mapbook">
 <div class="wrapper">
-    <div class="header-wrapper">
+  <div class="header-wrapper">
     <div class="header" class="container">
-        <div class="logo">
-            <h1><a href="#">{% trans "Farmview" %}</a></h1>
-        </div>
-        <div class="menu">
-            <ul>
-                <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
-                <li><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
-                <li><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
-                <li class="current_page_item"><a href="/mapbook" accesskey="4" title="">{% trans "Mapbook" %}</a></li>
-                <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
-                <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
-
-        <li>
-        {% get_available_languages as languages %}
-        {% get_current_language as LANGUAGE_CODE %}
-        {% for lang_code, lang_name in languages %}
-          {% if lang_code != LANGUAGE_CODE %}
-            <form action="{% url 'set_language' %}" method="post">
-                {% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}" />
-                <input name="language" type="hidden" value="{{ lang_code }}" />
-                <button type="submit">{{ lang_name }}</button>
-            </form>
-          {% endif %}
-        {% endfor %}
-        </li>
-            </ul>
-        </div>
+      <div class="logo">
+        <h1><a href="#">{% trans "Farmview" %}</a></h1>
+      </div>
+      <div class="menu">
+        <ul>
+          <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
+          <li><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
+          <li><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
+          <li class="current_page_item"><a href="/mapbook" accesskey="4" title="">{% trans "Mapbook" %}</a></li>
+          <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
+          <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
+          <li>
+            {% get_available_languages as languages %}
+            {% get_current_language as LANGUAGE_CODE %}
+            {% for lang_code, lang_name in languages %}
+              {% if lang_code != LANGUAGE_CODE %}
+                <form action="{% url 'set_language' %}" method="post">
+                  {% csrf_token %}
+                  <input name="next" type="hidden" value="{{ redirect_to }}" />
+                  <input name="language" type="hidden" value="{{ lang_code }}" />
+                  <button type="submit">{{ lang_name }}</button>
+                </form>
+              {% endif %}
+            {% endfor %}
+          </li>
+        </ul>
+      </div>
     </div>
-    </div>
+  </div>
+</div>
 
 <div id="banner">
-    <div class="container">
-        <div class="title">
-            <h1>{% trans "Mapbook" %}</h1>  
-            <span class="byline">{% trans "Map stories about farmland access" %}</span> 
-            <br>
-            <br>
-            <p><em>{% trans "Click on each map to visit an interactive dataset" %}</em></p>
-        </div>
-
+  <div class="container">
+    <div class="title">
+      <h1>{% trans "Mapbook" %}</h1>  
+      <span class="byline">{% trans "Map stories about farmland access" %}</span> 
+      <br>
+      <br>
+      <p><em>{% trans "Click on each map to visit an interactive dataset" %}</em></p>
     </div>
+  </div>
 
-    <!-- Make sure to change anchor names as appropriate -->
-    <div class="container">
-        <table width="100%" border="0" cellpadding="3px">
-          <tbody>
-            {% for mapbook in mapbooks %}
-                {% if forloop.counter0|divisibleby:3 %}
-                <tr>
-                {% endif %}
-                    <td class="col-md-4">
-                        <a href="#{{mapbook.slug}}" title="{{mapbook.title_short}}">
-                            <img src="{{mapbook.thumbnail_url}}" width="100%"></a>
-                        <p>{{mapbook.title_short}}</p>
-                    </td>
-                {% if forloop.counter0 >= 2 and forloop.counter0|add:-2|divisibleby:3 %}
-                </tr>
-                {% elif forloop.counter == mapbooks|length %}
-                    {% if forloop.counter0|divisibleby:3 %}
-                        <td></td><td></td>
-                    {% elif forloop.counter0 >= 1 and forloop.counter0|add:-1|divisibleby:3 %}
-                        <td></td>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-          </tbody>
-        </table>
-    </div>
+  <!-- Make sure to change anchor names as appropriate -->
+  <div class="container">
+    <table width="100%" border="0" cellpadding="3px">
+      <tbody>
+        {% for mapbook in mapbooks %}
+          {% if forloop.counter0|divisibleby:3 %}
+            <tr>
+          {% endif %}
+          <td class="col-md-4">
+            <a href="#{{mapbook.slug}}" title="{{mapbook.title_short}}">
+              <img src="{{mapbook.thumbnail_url}}" width="100%"></a>
+            <p>{{mapbook.title_short}}</p>
+          </td>
+          {% if forloop.counter0 >= 2 and forloop.counter0|add:-2|divisibleby:3 %}
+            </tr>
+          {% elif forloop.counter == mapbooks|length %}
+            {% if forloop.counter0|divisibleby:3 %}
+              <td></td><td></td>
+            {% elif forloop.counter0 >= 1 and forloop.counter0|add:-1|divisibleby:3 %}
+              <td></td>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
 </div>
 
 <!-- Mapbook section -->
 
 {% for mapbook in mapbooks %}
-    {% if forloop.counter0|divisibleby:2 %}
+  {% if forloop.counter0|divisibleby:2 %}
     <div class="extra">
-    {% else %}
+  {% else %}
     <div class="extra2">
-    {% endif %}
-        <div id="{{mapbook.slug}}" class="container"> 
-            <h2 style="text-align: center">{{mapbook.title}}</h2>
-            <br />
-            {{mapbook.cartodb_iframe|safe}}
-            <p class="p" style="margin-top: 20px;">{{mapbook.text|safe}}</p>  
-        </div>
-        <div class = "container">
-            <ul class="actions">
-                <li><a href="#" class="button">{% trans "Return" %}</a></li>
-            </ul>
-        </div>
+  {% endif %}
+      <div id="{{mapbook.slug}}" class="container"> 
+        <h2 style="text-align: center">{{mapbook.title}}</h2>
+        <br />
+        {{mapbook.cartodb_iframe|safe}}
+        <p class="p" style="margin-top: 20px;">{{mapbook.text|safe}}</p>  
+      </div>
+      <div class = "container">
+        <ul class="actions">
+          <li><a href="#" class="button">{% trans "Return" %}</a></li>
+        </ul>
+      </div>
     </div>
 {% endfor %}
 
 <div id="copyright">
-    <div class="container">
-       <p>&copy; {% trans "Farmview. All rights reserved. | Design by" %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
-    </div>
+  <div class="container">
+    <p>&copy; {% trans "Farmview. All rights reserved. | Design by" %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+  </div>
 </div>
 </body>
 </html>
