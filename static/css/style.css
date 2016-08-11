@@ -144,6 +144,21 @@ a:hover {  text-decoration: none }
   width: 100%;
 }
 /*********************************************************************************/
+/* About Page                                                                   */
+/*********************************************************************************/
+.align-left {
+  text-align: left;
+}
+.align-center {
+  text-align: center;
+}
+.font-text {
+  font-size: 1.5em;
+}
+.no-padding {
+  padding: 0em;
+}
+/*********************************************************************************/
 /* Image Style                                                                   */
 /*********************************************************************************/
 .image {  display: inline-block }
@@ -173,10 +188,7 @@ a:hover {  text-decoration: none }
   width: auto;
 }
 .image-thumb {
-  /*max-width: 200px;*/
   max-height: 100px;
-  /*  min-width: 200px;;
-  min-height: 150px;*/
 }
 .image-sponsor {
   max-width: 12%;
@@ -308,17 +320,17 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
 .tbox2 {  width: 48% }
 .tbox1 {  float: left }
 .tbox2 {  float: right }
-#wrapper {  background: #FFF }
+.wrapper {  background: #FFF }
 /*********************************************************************************/
 /* Header                                                                        */
 /*********************************************************************************/
-#header-wrapper {
+.header-wrapper {
   z-index: 10;
   background: #022836;
   position: relative;
   /*top: 0;*/
 }
-#header {
+.header {
   position: relative;
   /*position: fixed;*/
   padding: 2.7em 0em;
@@ -326,13 +338,13 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
 /*********************************************************************************/
 /* Logo                                                                          */
 /*********************************************************************************/
-#logo {
+.logo {
   position: absolute;
   top: .4em;
   left: 0;
 }
-#logo h1 {  color: #FFF }
-#logo a {
+.logo h1 {  color: #FFF }
+.logo a {
   text-decoration: none;
   /* text-transform: uppercase; */
   color: #FFF;
@@ -342,19 +354,19 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
 /*********************************************************************************/
 /* Menu                                                                          */
 /*********************************************************************************/
-#menu {
+.menu {
   position: absolute;
   top: 2em;
   right: 0;
 }
-#menu ul {  display: inline-block }
-#menu li {
+.menu ul {  display: inline-block }
+.menu li {
   display: block;
   float: left;
   text-align: center;
 }
-#menu li a,
-#menu li span {
+.menu li a,
+.menu li span {
   padding: 1em 1.2em;
   letter-spacing: 1px;
   text-decoration: none;
@@ -362,15 +374,15 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
   font-size: 0.85em;
   color: #FFF;
 }
-#menu li:hover a,
-#menu li.active a,
-#menu li.active span {  color: #FFF }
-#menu .current_page_item a {
+.menu li:hover a,
+.menu li.active a,
+.menu li.active span {  color: #FFF }
+.menu .current_page_item a {
   /*background: #009E2D;*/
   background: #297C48;
   color: #FFF;
 }
-#menu button {
+.menu button {
   background: #022836;
   color: #FFF;
   letter-spacing: 1px;
@@ -408,14 +420,14 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
 /*********************************************************************************/
 /* Page                                                                          */
 /*********************************************************************************/
-#page {
+.pages {
   padding: 3em 0em;
   text-align: center;
   background-color: #FFF;
 }
-#page h1 {  color: #022836 }
-#page h2 {  color: #022836 }
-#page .button {
+.pages h1 {  color: #022836 }
+.pages h2 {  color: #022836 }
+.pages .button {
   /*margin-top: 2em;*/
   display: inline-block;
   text-align: center;
@@ -438,18 +450,18 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
 /*********************************************************************************/
 /* Copyright                                                                     */
 /*********************************************************************************/
-#copyright {
+.copyright {
   overflow: hidden;
   padding: 3em 0em;
   background-color: #CDCDCD;
   border-top: 1px solid rgba(255,255,255,0.08);
 }
-#copyright p {
+.copyright p {
   text-align: center;
   font-size: 1em;
   color: rgba(0,0,0,0.5);
 }
-#copyright a {
+.copyright a {
   text-decoration: none;
   color: rgba(0,0,0,0.8);
 }
@@ -700,7 +712,7 @@ input:focus, textarea:focus {
   width:100%;
   background-color:white;
 }*/
-@media only screen and (max-width: 580px) { 
+@media only screen and (max-width: 580px) {
   #form-div {
     left: 3%;
     margin-right: 3%;
