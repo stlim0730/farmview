@@ -44,7 +44,10 @@
     {% endblock entry-info %}
     {% block entry-last-update %}
     <p class="entry-last-update">
-      {% trans "Last update on" %} <time class="updated" datetime="{{ object.last_update|date:"c" }}" itemprop="dateModified">{{ object.last_update|date:"DATE_FORMAT" }}</time>.
+      {% trans "Last update on" %} 
+      <time class="updated" datetime="{{ object.last_update|date:"c" }}" itemprop="dateModified">
+        {{ object.last_update|date:"DATE_FORMAT" }}
+      </time>.
     </p>
     {% endblock entry-last-update %}
     {% block entry-creation-date %}
