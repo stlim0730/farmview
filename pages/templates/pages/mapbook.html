@@ -45,7 +45,11 @@ Released   : 20140309
                   {% csrf_token %}
                   <input name="next" type="hidden" value="{{ redirect_to }}" />
                   <input name="language" type="hidden" value="{{ lang_code }}" />
-                  <button type="submit">{{ lang_name }}</button>
+                  {% if lang_code == "en" %}
+                    <button type="submit"> English </button>
+                  {% else %}
+                    <button type="submit">{{ lang_name }}</button>
+                  {% endif %}
                 </form>
               {% endif %}
             {% endfor %}

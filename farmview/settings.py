@@ -145,7 +145,7 @@ DATABASES = {
 LANGUAGE_CODE = 'en'
 LANGUAGES = [
   ('en', _('English')),
-  ('es', _('Spanish')),
+  ('es', _('Español')),
 ]
 TIME_ZONE = 'US/Pacific'
 USE_I18N = True #specifies whether Django's translation system should be enabled

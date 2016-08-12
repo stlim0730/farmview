@@ -7,38 +7,41 @@
 <script type='text/javascript' src='http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js' async></script>
 
 <div class="wrapper">
-    <div class="header-wrapper">
-      <div class="header" class="container">
-          <div class="logo">
-              <h1><a href="#">{% trans "Farmview" %}</a></h1>
-          </div>
-          <div class="menu">
-              <ul>
-                  <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
-                  <li class="current_page_item"><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
-                  <li><a href="/about" accesskey="3" title="About">{% trans "About" %}</a></li>
-                  <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
-                  <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
-                  <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
-
-        <li>
-        {% get_available_languages as languages %}
-        {% get_current_language as LANGUAGE_CODE %}
-        {% for lang_code, lang_name in languages %}
-          {% if lang_code != LANGUAGE_CODE %}
-            <form action="{% url 'set_language' %}" method="post">
-                {% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}" />
-                <input name="language" type="hidden" value="{{ lang_code }}" />
-                <button type="submit">{{ lang_name }}</button>
-            </form>
-          {% endif %}
-        {% endfor %}
-        </li>
-              </ul>
-          </div>
+  <div class="header-wrapper">
+    <div class="header" class="container">
+      <div class="logo">
+        <h1><a href="#">{% trans "Farmview" %}</a></h1>
+      </div>
+      <div class="menu">
+        <ul>
+          <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
+          <li class="current_page_item"><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
+          <li><a href="/about" accesskey="3" title="About">{% trans "About" %}</a></li>
+          <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
+          <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
+          <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
+          <li>
+            {% get_available_languages as languages %}
+            {% get_current_language as LANGUAGE_CODE %}
+            {% for lang_code, lang_name in languages %}
+              {% if lang_code != LANGUAGE_CODE %}
+                <form action="{% url 'set_language' %}" method="post">
+                  {% csrf_token %}
+                  <input name="next" type="hidden" value="{{ redirect_to }}" />
+                  <input name="language" type="hidden" value="{{ lang_code }}" />
+                  {% if lang_code == "en" %}
+                    <button type="submit"> English </button>
+                  {% else %}
+                    <button type="submit">{{ lang_name }}</button>
+                  {% endif %}
+                </form>
+              {% endif %}
+            {% endfor %}
+          </li>
+        </ul>
       </div>
     </div>
+  </div>
 </div>
 
 <div class='row height-90'>
