@@ -6,13 +6,13 @@
 <script src='/static/js/cartodb/cartodb.js'></script>
 <script type='text/javascript' src='http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js' async></script>
 
-<div id="wrapper">
-    <div id="header-wrapper">
-      <div id="header" class="container">
-          <div id="logo">
+<div class="wrapper">
+    <div class="header-wrapper">
+      <div class="header" class="container">
+          <div class="logo">
               <h1><a href="#">{% trans "Farmview" %}</a></h1>
           </div>
-          <div id="menu">
+          <div class="menu">
               <ul>
                   <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
                   <li class="current_page_item"><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
@@ -48,7 +48,7 @@
     </div>
   </div>
 </div>
-  
+
 <div class='row well'>
   <div id='query-area' class='form-group col-md-12'>
     {% for datafield in datafields %}
@@ -93,7 +93,7 @@
     }, durationMs);
   };
 
-  
+
 
   //
   // Loggly: https://farmview.loggly.com
@@ -105,11 +105,11 @@
     tag: 'loggly-jslogger'
   });
 
-  
 
-  // 
+
+  //
   // Load config
-  // 
+  //
   app.config = JSON.parse('{{ config_json|escapejs }}');
   app.config.vizjson = JSON.parse(app.config.vizjson);
   console.info('Configuration loaded: ', app.config);
@@ -117,11 +117,11 @@
   console.info('Using Carto publication', app.config.vizjson_url);
   app.config.optional_note ? console.info('Note:', app.config.optional_note) : null;
 
-  
 
-  // 
+
+  //
   // Construct basemap layer
-  // 
+  //
   var mapObj = new L.Map('map', {
     scrollWheelZoom: false,
     center: [36.65630120667228, -121.58981323242188],
@@ -136,9 +136,9 @@
   basemap.addTo(mapObj);
   app.layers['basemap'] = basemap;
 
-  
 
-  // 
+
+  //
   // Construct data layers
   //
   app.layers['data'] = {};
@@ -168,7 +168,7 @@
     .addTo(mapObj, layerDef.order)
 
     .done(function(layer) {
-      
+
       app.layers['data'][layerName] = layer;
 
       if(layer.layers.length > 1) {
@@ -177,19 +177,19 @@
 
       layer.setInteraction(true);
 
-      // 
+      //
       // Setup a searchbox powered by Carto
-      // 
+      //
       if($('#map div.cartodb-searchbox').length == 0) {
         var v = cdb.vis.Overlay.create('search', mapObj.viz, {})
         v.show();
         $('#map').append(v.render().el);
       }
 
-      
-      // 
+
+      //
       // Setup a layer selector
-      // 
+      //
       if($('#map div.cartodb-layer-selector-box').length == 0) {
         // Setup an empty layer selector
         let layerSelectorTemplate = $('#layer-selector-template').html();
@@ -204,7 +204,7 @@
           }
         });
       }
-      
+
       // Fill out the layer selector
       let layerCnt = parseInt($('#map div.cartodb-layer-selector-box div.count').text());
       layerCnt++;
@@ -228,7 +228,7 @@
         });
       };
       let layerSwitchTemplate = $($('#layer-switch-template').html());
-      
+
       let layerSwitchLabel = $(layerSwitchTemplate.children('a.layer')[0]);
       layerSwitchLabel.data('layer', layerName);
       layerSwitchLabel.html(layerName);
@@ -243,10 +243,10 @@
       layerSwitch.click(function(e) {
         toggleLayer($(this).data('layer'));
       });
-      
+
       $('ul.layer-list').append(layerSwitchTemplate);
 
-      
+
 
       // TODO: It doesn't work
       // layer.on('mousedown', function(e, latlon, pxPos, data, l) {
@@ -292,16 +292,16 @@
             return;
           }
           else {
-            
+
             //
             // Prepare infowindow; find your data in res.rows[0]
             //
-            
+
             // TODO: Later, I want to just call renderInfowindow(data);
 
-            // 
+            //
             // Parse Carto infowindow template
-            // 
+            //
             let template = layerDef.infowindow.template.replace('\n', '').replace('\\"', '"').replace('\\\'', '\'');
             let templateBody = template.match(/<div\s+class=("|')cartodb-popup-content("|')>[\S\s]*?<\/div>/gi)[0];
             let templateLabels = templateBody.match(/<h[0-9]>[\S\s]*?<\/h[0-9]>/gi);
@@ -336,7 +336,7 @@
             //
             // Render Leaflet popup; find your data in res.rows[0]
             //
-            
+
             // Check if popup exists
             if($('.leaflet-popup-content').length == 0) {
               // For the initial query results for the clicked featrue
@@ -441,10 +441,10 @@
   }
 
 
-  
-  // 
+
+  //
   // Query UI checkbox
-  // 
+  //
   $('#query-area input[type=checkbox].query-group').click(function(e) {
     var checked = $(this).prop('checked');
 
@@ -464,9 +464,9 @@
 
 
 
-  // 
+  //
   // Query submit button
-  // 
+  //
   $('#query-submit').click(function(e) {
     // COLLECT DATASOURCES, FIELD NAMES, AND OPERANDS FOR NON-EMPTY OPERAND UIS
     var query_elems = [];
@@ -485,7 +485,7 @@
         // Get input value per type and generate query clause
         // NOTE: Carto uses single quote for sql but not double quote!
         switch (type) {
-          
+
           case 'text':
             var input = $('#' + field + '-input');
             var val = input.val().trim();
@@ -572,21 +572,21 @@
     // Check the query_per_table; it should contain all the information on query you want to perform
     console.log('query_per_table', query_per_table);
 
-    
 
-    // 
+
+    //
     // Apply query per case of combination
-    // 
+    //
     var layerqueries = {};
 
     var parcel_layer = app.layers['data']['Ag Parcels'];
     var point_layer = app.layers['data']['data_point'];
     var polygon_layer = app.layers['data']['data_polygon'];
-    
+
     var parcel_table = app.tables['Ag Parcels'];
     var point_table = app.tables['data_point'];
     var polygon_table = app.tables['data_polygon'];
-    
+
     var parcel_query = null;
     var point_query = null;
     var polygon_query = null;
@@ -594,7 +594,7 @@
     if (Object.keys(query_per_table).length == 1) {
       if (app.tables['Ag Parcels'] in query_per_table) {
         // Parcel-only query case
-        
+
         parcel_query = query_per_table[app.tables['Ag Parcels']];
         point_query = 'SELECT ' + point_table + '.* FROM ' + point_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + point_table + '.the_geom, parcel.the_geom)';
         polygon_query = 'SELECT ' + polygon_table + '.* FROM ' + polygon_table + ' INNER JOIN (' + parcel_query + ') as parcel ON ST_Intersects(' + polygon_table + '.the_geom, parcel.the_geom)';
@@ -653,11 +653,11 @@
     scrollToTop(500);
   });
 
-  
-  
-  // 
+
+
+  //
   // Query reset button
-  // 
+  //
   $('#query-reset').click(function(e) {
 
     // Uncheck query UI checkboxes

@@ -5,18 +5,18 @@
 {% block meta-keywords %}{% get_tags as entry_tags %}{{ entry_tags|join:", "}}{% endblock meta-keywords %}
 
 {% block meta %}
-    <meta name="generator" content="Zinnia {{ ZINNIA_VERSION }}" />
+  <meta name="generator" content="Zinnia {{ ZINNIA_VERSION }}" />
 {% endblock meta %}
 
 {% block link %}
-    <link rel="index" href="{% url 'zinnia:entry_archive_index' %}" />
-    <link rel="author" type="text/plain" href="{% url 'zinnia:humans' %}" />
-    <link rel="EditURI" type="application/rsd+xml" href="{% url 'zinnia:rsd' %}" />
-    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{% url 'zinnia:wlwmanifest' %}" />
-    <link rel="search" type="application/opensearchdescription+xml" title="Zinnia's Weblog" href="{% url 'zinnia:opensearch' %}" />
-    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last entries" %}" href="{% url 'zinnia:entry_feed' %}" />
-    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last discussions" %}" href="{% url 'zinnia:discussion_feed' %}" />
-    {% get_archives_entries "zinnia/tags/entries_archives_link.html" %}
+  <link rel="index" href="{% url 'zinnia:entry_archive_index' %}" />
+  <link rel="author" type="text/plain" href="{% url 'zinnia:humans' %}" />
+  <link rel="EditURI" type="application/rsd+xml" href="{% url 'zinnia:rsd' %}" />
+  <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{% url 'zinnia:wlwmanifest' %}" />
+  <link rel="search" type="application/opensearchdescription+xml" title="Zinnia's Weblog" href="{% url 'zinnia:opensearch' %}" />
+  <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last entries" %}" href="{% url 'zinnia:entry_feed' %}" />
+  <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last discussions" %}" href="{% url 'zinnia:discussion_feed' %}" />
+  {% get_archives_entries "zinnia/tags/entries_archives_link.html" %}
 {% endblock link %}
 
 {% block breadcrumbs %}
