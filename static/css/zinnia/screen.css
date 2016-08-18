@@ -483,8 +483,12 @@ table {
   padding-top: 1em; }
 
 .zinnia #sidebar h3 {
-  padding: 0.5em;
-  text-align: left; }
+    /* padding: 0.5em; */
+    text-align: center;
+    /* color: #022836; */
+    background: #eaeaea;
+    padding: 5px 5px 10px 5px;
+}
 
 .zinnia #sidebar p {
   padding-left: 1em; }
@@ -1013,6 +1017,8 @@ table {
 
 .zinnia .widgettext {
     color: rgba(0,0,0,.44);
-    /* font-weight: 600; */
+    font-weight: 600;
     font-size: 16px;
+    color: #022836;
+    text-transform: uppercase;
 }
