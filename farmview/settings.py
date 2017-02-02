@@ -122,13 +122,21 @@ WSGI_APPLICATION = 'farmview.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 # 
 DATABASES = {
+  # 'default': {
+  # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+  # 'NAME': 'd4tj4urol6fqf1',
+  # 'USER': 'hjgblmqzztzppf',
+  # 'PASSWORD': 'tTtTEE2HPi7BNZXPhyji6Nxlkv',
+  # 'HOST': 'ec2-54-225-134-223.compute-1.amazonaws.com',
+  # 'PORT': '5432'
+  # }
   'default': {
-  'ENGINE': 'django.db.backends.postgresql_psycopg2',
-  'NAME': 'd4tj4urol6fqf1',
-  'USER': 'hjgblmqzztzppf',
-  'PASSWORD': 'tTtTEE2HPi7BNZXPhyji6Nxlkv',
-  'HOST': 'ec2-54-225-134-223.compute-1.amazonaws.com',
-  'PORT': '5432'
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'farmview',
+    'USER': 'vagrant',
+    'PASSWORD': '',
+    'HOST': '',
+    'PORT': '5432'
   }
 }
 # Parse database configuration from $DATABASE_URL
@@ -183,5 +191,6 @@ STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'static'),
 )
 # STATIC_ROOT = 'staticfiles'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
