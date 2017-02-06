@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
+# Variables
+# PYTHON_VERSION=2.7.13 # Currently, this project uses the native version of Python on the OS
+PG_VERSION=9.3
+PROJECT_NAME=farmview
+
 
 # 
 # Create a symbolic link to the working directory
 # 
-ln -s /vagrant /farmview
+ln -s /vagrant /$PROJECT_NAME
 
 
 # 
@@ -16,25 +21,26 @@ sudo apt-get update
 # 
 # Utilities
 # 
+sudo apt-get install -y build-essential # Required for building ANYTHING on ubuntu
 sudo apt-get install -y git
 
 
 # 
 # Setup Python
 # 
-PYTHON_VERSION=2.7.13
-cd /usr/src
-sudo wget https://www.python.org/ftp/python/2.7.13/Python-$PYTHON_VERSION.tgz
-sudo tar xzf Python-$PYTHON_VERSION.tgz
-cd Python-$PYTHON_VERSION
-sudo ./configure
-sudo make install
-cd /usr/src
-sudo wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
 # sudo apt-get install -y python-pip
-# sudo apt-get install -y python-dev # Required for compilation of Python extensions written in C or C++, like psycopg2
+sudo apt-get install -y python-dev python-setuptools python-imaging libssl-dev libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk
+sudo easy_install pip
+# Setup newer version of Python: Currently, this project uses the native version of Python on the OS
+# cd /usr/src
+# sudo wget https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tgz
+# sudo tar xzf Python-$PYTHON_VERSION.tgz
+# cd Python-$PYTHON_VERSION
+# sudo ./configure
+# sudo make install
+# export PYTHONPATH=/usr/local/lib/python2.7/dist-packages:$PYTHONPATH
 # sudo pip install --upgrade pip
+
 # sudo apt-get install -y python-virtualenv
 
 
@@ -42,30 +48,28 @@ sudo python get-pip.py
 # Install Nginx
 # 
 sudo apt-get install -y nginx
-cp /farmview/deployment/nginx_conf /etc/nginx/sites-available/farmview
-ln -s /etc/nginx/sites-available/farmview /etc/nginx/sites-enabled/
+cp /$PROJECT_NAME/deployment/nginx_conf /etc/nginx/sites-available/$PROJECT_NAME
+ln -s /etc/nginx/sites-available/$PROJECT_NAME /etc/nginx/sites-enabled/
 sudo pip install uwsgi
 
 
 # 
 # Setup Database
 # 
-PG_VERSION=9.3
 sudo apt-get install -y postgresql-$PG_VERSION
 sudo apt-get install -y postgresql-contrib
 sudo apt-get install -y libpq-dev # required for psycopg2
 sudo apt-get install -y python-psycopg2
-sudo cp /farmview/deployment/pg_hba.conf /etc/postgresql/$PG_VERSION/main/
+sudo cp /$PROJECT_NAME/deployment/pg_hba.conf /etc/postgresql/$PG_VERSION/main/
 sudo service postgresql restart
 sudo createuser -U postgres -d vagrant
-sudo createdb -U vagrant farmview
-# pip install psycopg2 # installed using os package apt-get
+sudo createdb -U vagrant $PROJECT_NAME
 
 
 # 
 # Install Python packages
 # 
-sudo pip install -r /farmview/requirements.txt
+# sudo pip install -r /$PROJECT_NAME/requirements.txt
 
 
 # 
