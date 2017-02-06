@@ -22,6 +22,8 @@ sudo apt-get install -y git
 # 
 # Setup Python
 # 
+sudo apt-get install -y python-pip
+sudo apt-get install -y python-dev # Required for compilation of Python extensions written in C or C++, like psycopg2
 PYTHON_VERSION=2.7.13
 cd /usr/src
 sudo wget https://www.python.org/ftp/python/2.7.13/Python-$PYTHON_VERSION.tgz
@@ -29,22 +31,24 @@ sudo tar xzf Python-$PYTHON_VERSION.tgz
 cd Python-$PYTHON_VERSION
 sudo ./configure
 sudo make install
-cd /usr/src
-sudo wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
-# sudo apt-get install -y python-pip
-# sudo apt-get install -y python-dev # Required for compilation of Python extensions written in C or C++, like psycopg2
-# sudo pip install --upgrade pip
+sudo pip install --upgrade pip
+sudo pip install virtualenv
+cd /farmview
+virtualenv -p /usr/local/bin/python venv
+source venv/bin/activate
 # sudo apt-get install -y python-virtualenv
+# http://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
+# Deploying static files
 
 
 # 
 # Install Nginx
 # 
 sudo apt-get install -y nginx
-cp /farmview/deployment/nginx_conf /etc/nginx/sites-available/farmview
-ln -s /etc/nginx/sites-available/farmview /etc/nginx/sites-enabled/
+sudo cp /farmview/deployment/nginx_conf /etc/nginx/sites-available/farmview
+sudo ln -s /etc/nginx/sites-available/farmview /etc/nginx/sites-enabled/
 sudo pip install uwsgi
+# uwsgi --http :8888 --module farmview.wsgi --virtualenv /farmview/venv
 
 
 # 
@@ -73,3 +77,5 @@ sudo pip install -r /farmview/requirements.txt
 # 
 sudo service postgresql restart
 sudo service nginx restart
+
+deactivate
