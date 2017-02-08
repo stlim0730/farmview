@@ -40,8 +40,7 @@ sudo easy_install pip
 # sudo make install
 # export PYTHONPATH=/usr/local/lib/python2.7/dist-packages:$PYTHONPATH
 # sudo pip install --upgrade pip
-
-# sudo apt-get install -y python-virtualenv
+# sudo apt-get install -y python-virtualenv # Currently, not using virtualenv
 
 
 # 
@@ -73,13 +72,30 @@ sudo pip install -r /$PROJECT_NAME/requirements.txt
 
 
 # 
+# Populate local database
+# 
+sudo createuser -U postgres -d hjgblmqzztzppf
+sudo pg_restore -U hjgblmqzztzppf -d $PROJECT_NAME --clean /$PROJECT_NAME/deployment/initial_dataset_feb_8_2017
+sudo psql -d $PROJECT_NAME -U postgres -c "REASSIGN OWNED BY hjgblmqzztzppf TO vagrant"
+
+
+# 
+# Django migration: this isn't supposed to be automatized for now.
+# 
+# python /farmview/manage.py makemigrations
+# python /farmview/manage.py migrate
+
+
+# 
 # Restart the server
 # 
 sudo service postgresql restart
 sudo service nginx restart
 
+
 # 
 # Daemonize uWSGI module
 # 
 cd /farmview && sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module farmview.wsgi
-# Otherwise, # sudo cp /$PROJECT_NAME/deployment/uwsgi_daemon /etc/rc.local
+# Otherwise, copy the command above to rc.local
+# sudo cp /$PROJECT_NAME/deployment/uwsgi_daemon /etc/rc.local
