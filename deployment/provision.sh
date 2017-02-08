@@ -48,8 +48,8 @@ sudo easy_install pip
 # Install Nginx
 # 
 sudo apt-get install -y nginx
-cp /$PROJECT_NAME/deployment/nginx_conf /etc/nginx/sites-available/$PROJECT_NAME
-ln -s /etc/nginx/sites-available/$PROJECT_NAME /etc/nginx/sites-enabled/
+sudo cp /$PROJECT_NAME/deployment/nginx_conf /etc/nginx/sites-available/$PROJECT_NAME
+sudo ln -s /etc/nginx/sites-available/$PROJECT_NAME /etc/nginx/sites-enabled/
 sudo pip install uwsgi
 
 
@@ -69,7 +69,7 @@ sudo createdb -U vagrant $PROJECT_NAME
 # 
 # Install Python packages
 # 
-# sudo pip install -r /$PROJECT_NAME/requirements.txt
+sudo pip install -r /$PROJECT_NAME/requirements.txt
 
 
 # 
@@ -77,3 +77,9 @@ sudo createdb -U vagrant $PROJECT_NAME
 # 
 sudo service postgresql restart
 sudo service nginx restart
+
+# 
+# Daemonize uWSGI module
+# 
+cd /farmview && sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module farmview.wsgi
+# Otherwise, # sudo cp /$PROJECT_NAME/deployment/uwsgi_daemon /etc/rc.local
