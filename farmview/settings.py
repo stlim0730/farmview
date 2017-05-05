@@ -43,7 +43,7 @@ SITE_ID = 1
 # Credentials
 # SECURITY WARNING: keep the secret key used in production secret!
 # 
-SECRET_KEY = '^rbx%hfej#irat_i__!7n6(%e624nqpp0-4))yu+#5q3it$d^m'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 
 
@@ -122,26 +122,15 @@ WSGI_APPLICATION = 'farmview.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 # 
 DATABASES = {
-  # 'default': {
-  # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-  # 'NAME': 'd4tj4urol6fqf1',
-  # 'USER': 'hjgblmqzztzppf',
-  # 'PASSWORD': 'tTtTEE2HPi7BNZXPhyji6Nxlkv',
-  # 'HOST': 'ec2-54-225-134-223.compute-1.amazonaws.com',
-  # 'PORT': '5432'
-  # }
   'default': {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'farmview',
-    'USER': 'vagrant',
-    'PASSWORD': '',
-    'HOST': '',
-    'PORT': '5432'
+    'NAME': os.getenv('DB_NAME'),
+    'USER': os.getenv('DB_USER'),
+    'PASSWORD': os.getenv('DB_PASSWORD'),
+    'HOST': os.getenv('DB_HOST'),
+    'PORT': os.getenv('DB_PORT')
   }
 }
-# Parse database configuration from $DATABASE_URL
-# import dj_database_url
-# DATABASES['default'] =  dj_database_url.config()
 
 
 
@@ -194,3 +183,11 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+
+# To override local settings from default settings,
+#   local_settings.py must not exist on the production server or in shared repository.
+#   This should be at the end of settings.py to override default settings.
+try:
+  from .local_settings import *
+except ImportError:
+  pass
