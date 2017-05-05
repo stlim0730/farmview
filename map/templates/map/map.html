@@ -4,7 +4,7 @@
 {% block map %}
 
 <script src='/static/js/cartodb/cartodb.js'></script>
-<script type='text/javascript' src='http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js' async></script>
+<!-- <script type='text/javascript' src='http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js' async></script> -->
 
 <div class="wrapper">
   <div class="header-wrapper">
@@ -101,12 +101,12 @@
   //
   // Loggly: https://farmview.loggly.com
   //
-  var _LTracker = _LTracker || [];
-  _LTracker.push({
-    logglyKey: '1bcc8e6c-e83e-4cd5-8980-137af809f05e',
-    sendConsoleErrors: true,
-    tag: 'loggly-jslogger'
-  });
+  // var _LTracker = _LTracker || [];
+  // _LTracker.push({
+  //   logglyKey: '1bcc8e6c-e83e-4cd5-8980-137af809f05e',
+  //   sendConsoleErrors: true,
+  //   tag: 'loggly-jslogger'
+  // });
 
 
 
@@ -163,6 +163,7 @@
     app.userName = userName;
 
     cartodb.createLayer(mapObj, {
+      https: true,
       user_name: userName,
       type: layerDef.type,
       sublayers: [layerDef.options]
@@ -417,7 +418,7 @@
       // Setup legends; TODO: interactive legend to turn on/off
       //
       let legendDef = layerDef.legend;
-      if(legendDef.type !== 'none' && legendDef.template !== '') {
+      if(legendDef.items != null && legendDef.visible) {
         $('.cartodb-legend-stack').append(legendDef.template);
       }
 
