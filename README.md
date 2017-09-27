@@ -66,7 +66,7 @@ $ vagrant ssh
 ```
 $ exit
 ```
-- Even though the SSH connection has been quit, the guest machine is still running. There are three different types of teardown process. Refer to Vagrant documentation hear: [Teardown](https://www.vagrantup.com/intro/getting-started/teardown.html).
+- Even though the SSH connection has been quit, the guest machine is still running. There are three different types of teardown process. Refer to Vagrant documentation here: [Teardown](https://www.vagrantup.com/intro/getting-started/teardown.html).
 ```
 $ vagrant suspend
 
