@@ -1,7 +1,7 @@
 # Farmview
 
 ## Note
-- The instructions below help you install and run a local copy of the software on your computer for development purpose. It uses a remote database running on the [production server](http://farmview.herokuapp.com/), though.
+- The instructions below help you install and run a local copy of the software on your computer for development purpose. It still uses remote data on [Carto](https://carto.com/).
 - Updated on Sep 27 2017
 
 ## Requirements: for potential collaborators
