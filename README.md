@@ -1,56 +1,113 @@
-#Farmview
-##Note
-- The instructions below help you install and run a copy of the software on your computer for development purpose. It uses a remote database running on the production server, though (http://farmview.herokuapp.com/).
-- Updated on Mar 27 2016
+# Farmview
 
-##Requirements
+## Note
+- The instructions below help you install and run a local copy of the software on your computer for development purpose. It uses a remote database running on the production server, though (http://farmview.herokuapp.com/).
+- Updated on Sep 27 2017
+
+## Requirements: for potential collaborators
+- Farmview manages development environment using a virtual machine with common configurations to guarantee technical consistency across the collaborators and easier setup process.
+  - We use Vagrant (https://www.vagrantup.com/) and VirtualBox (https://www.virtualbox.org/).
+  - The shared provision script is supposed to install _all the required libraries and dependencies_.
 - Git command line tools (https://git-scm.com/downloads)
-- Python 2.7.10 or later (https://www.python.org/) including pip
-- Django 1.9 or later (https://www.djangoproject.com/)
--
-##Instructions
-- If you don't have the prerequisites, follow the installations below.
-- Install Django using Python package management system
-- (Running from a virtualenv may be helpful with djangotool box and simplejson installed with pip)
+
+## Technical Specification
+- Ubuntu 14.04.5 LTS
+- Postgresql 9.3 or later (Only tested with version 9.3)
+- Python 2.7.10 including pip (Not tested with Python 3)
+- Django 1.9 or later
+- (dev only) UWSGI
+- (dev only) Nginx
+
+## Instructions
+- First, install the latest versions of [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
+- Clone Farmview code repository to your local storage.
 ```
-pip install Django
+$ git clone https://github.com/stlim0730/farmview.git
 ```
-- You need to install `psycopg2` Python package, which is the PostgreSQL database driver for Python. Since Farmview team experienced that Django often fails to find PostgreSQL configurations installed via MacPorts, We strongly recommend installing the package via Homebrew (http://brew.sh/).
+- Create `local_settings.py` for Django server in `/farmview/farmview`.
+  - This configuration file will affect your local instance of the software.
 ```
-brew install psycopg2
+"""
+local_settings.py
+Local settings for development purpose
+  local_settings.py must not exist on the production server
+  or in the shared remote repository (GitHub).
+"""
+
+# Generate a Django secret key here:
+#   https://www.miniwebtool.com/django-secret-key-generator/
+SECRET_KEY = '<your_django_secret_key>'
+
+DEBUG = True
+
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'farmview',
+    'USER': 'vagrant',
+    'PASSWORD': '',
+    'HOST': '',
+    'PORT': '5432'
+  }
+}
 ```
-- After the installation, clone this repository.
+- Run vagrant to turn on the virtual machine (a.k.a. guest machine, in contrast to host machine).
+  - For your initial setup, this command takes extra time (30-50 mins, depending on your internet speed) in downloading and installing Ubuntu and other dependencies.
+  - Even after the initial setup, this command may take long (10-15 mins, depending on your internet speed) if it's fresh start (explained on teardown later).
 ```
-git clone https://github.com/stlim0730/farmview.git
+$ vagrant up
+```
+- Now you will be able to see the app running locally (http://localhost:8000).
+- You may connect to the guest machine to directly access the file system if you want.
+```
+$ vagrant ssh
+```
+- Quit the connection and get back to the host machine.
+```
+$ exit
+```
+- Even though the SSH connection has been quit, the guest machine is still running. There are three different types of teardown process. Refer to Vagrant documentation hear: [Teardown](https://www.vagrantup.com/intro/getting-started/teardown.html).
+```
+$ vagrant suspend
+
+# or
+
+$ vagrant halt
+
+# or
+
+$ vagrant destroy
 ```
 
-##Running the Server
-- Run a server instance.
+## (Re-)Running the Server
+- The Django server automatically starts when the guest machine boots up.
+- You need to restart the server to apply changes made on backend code.
 ```
-python manage.py runserver (this may be preferable to ./run if you are having installation issues)
+$ sudo service nginx restart
 ```
-- If you're using a UNIX system including Mac OS X, you may use this shortcut.
-```
-./run
-```
-- Your terminal will show the localhost IP (e.g., http://127.0.0.1:8000/). Put the IP in your web browser's address bar.
 
-##Admin Panel
-- To access the admin panel of the software, you may click `Admin` on the sidebar menu or go to http://127.0.0.1:8000/admin
+## Collaboration Workflow
+TBD
+
+## Dataflow and Database Prepopulation
+TBD
+
+## Admin Panel
+- To access the admin panel of the software, you may click `Admin` on the sidebar menu or go to http://localhost:8888/admin
 - Log in with your admin account.
 - *Note that the changes you make here will directly affect both your local instance and the remote instance on the production server.*
 
-###Basic Configurations
+### Basic Configurations
 - Under `Map` section, click `Configs`.
 - The software works based on the latest configuration in the list. If you want to update the configuration, press `add config` on the right.
 
-###Datafields
+### Datafields
 - Under `Map` section, click `Datafields`.
 - In this panel, you may config datafields to query about or display on the popup window when clicked.
 - If the panel is empty, you can't make query to the database.
 - Documentation for current settings is here (this documentation is now under extensive revision): https://docs.google.com/document/d/1bK6pKhQRQbSd9EzEprI12aMkCbYrvqmiwgYHuaNMz38/edit
 
-###Translating
+### Translating
 - in the command line run:
 `django-admin.py makemessages -l es -e html,py`
 - go into pages > locale > es > LC_MESSAGES and download the django.po file (Note: can directly edit .po file)
@@ -61,7 +118,7 @@ python manage.py runserver (this may be preferable to ./run if you are having in
 - in the command line run:
 `django-admin.py compilemessages`
 
-##Blog
+## Blog
 - The blog uses Zinnia. For the documentation, look here: 
 - http://docs.django-blog-zinnia.com/en/develop/
 - Use the text formatting guidelines according to Textile:
