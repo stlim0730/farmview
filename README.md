@@ -55,19 +55,23 @@ DATABASES = {
   - For your initial setup, this command takes extra time (30-50 mins, depending on your internet speed) in downloading and installing Ubuntu and other dependencies.
   - Even after the initial setup, this command may take long (10-15 mins, depending on your internet speed) if it's fresh start (explained on teardown later).
 ```
+# On your host machine
 $ vagrant up
 ```
 - Now you will be able to see the app running locally (http://localhost:8000).
-- You may connect to the guest machine to directly access the file system if you want.
+- You may connect to the guest machine.
 ```
+# On your host machine
 $ vagrant ssh
 ```
 - Quit the connection and get back to the host machine.
 ```
+# On your guest machine
 $ exit
 ```
 - Even though the SSH connection has been quit, the guest machine is still running. There are three different types of teardown process. Refer to Vagrant documentation here: [Teardown](https://www.vagrantup.com/intro/getting-started/teardown.html).
 ```
+# On your host machine
 $ vagrant suspend
 
 # or
@@ -83,6 +87,7 @@ $ vagrant destroy
 - The Django server automatically starts when the guest machine boots up.
 - You need to restart the server to apply changes made on backend code.
 ```
+# On your guest machine
 $ sudo service nginx restart
 ```
 
