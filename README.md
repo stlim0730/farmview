@@ -1,22 +1,22 @@
 # Farmview
 
 ## Note
-- The instructions below help you install and run a local copy of the software on your computer for development purpose. It uses a remote database running on the production server, though (http://farmview.herokuapp.com/).
+- The instructions below help you install and run a local copy of the software on your computer for development purpose. It uses a remote database running on the [production server](http://farmview.herokuapp.com/), though.
 - Updated on Sep 27 2017
 
 ## Requirements: for potential collaborators
 - Farmview manages development environment using a virtual machine with common configurations to guarantee technical consistency across the collaborators and easier setup process.
-  - We use Vagrant (https://www.vagrantup.com/) and VirtualBox (https://www.virtualbox.org/).
+  - We use [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
   - The shared provision script is supposed to install _all the required libraries and dependencies_.
-- Git command line tools (https://git-scm.com/downloads)
+- [Git](https://git-scm.com/downloads) command line tools
 
 ## Technical Specification
 - Ubuntu 14.04.5 LTS
 - Postgresql 9.3 or later (Only tested with version 9.3)
 - Python 2.7.10 including pip (Not tested with Python 3)
 - Django 1.9 or later
-- (dev only) UWSGI
-- (dev only) Nginx
+- (development only) UWSGI
+- (development only) Nginx
 
 ## Instructions
 - First, install the latest versions of [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
