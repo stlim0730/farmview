@@ -1,17 +1,5 @@
-# server {
-#   listen 80;
-#   server_name localhost;
-# 
-#   location = /favicon.ico { access_log off; log_not_found off; }
-#   location /static/ {
-#     root /farmview;
-#   }
-# }
-
-
 # the upstream component nginx needs to connect to
 upstream django {
-  # server unix:/farmview/farmview.sock; # for a file socket
   server 127.0.0.1:8001; # This means an internal proxy port for Django!
 }
 
@@ -22,6 +10,7 @@ server {
   # the domain name it will serve for
   server_name localhost; # substitute your machine's IP address or FQDN
   charset     utf-8;
+  sendfile    off; # to avoid caching problems
 
   # max upload size
   client_max_body_size 75M;   # adjust to taste
