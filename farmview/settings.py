@@ -19,7 +19,7 @@ from django.utils.translation import ugettext_lazy as _
 # Debug settings
 # SECURITY WARNING: don't run with debug turned on in production!
 # 
-DEBUG = True
+DEBUG = False
 
 
 

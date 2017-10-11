@@ -96,6 +96,7 @@ sudo service nginx restart
 # 
 # Daemonize uWSGI module
 # 
-cd /farmview && sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module farmview.wsgi
+# cd /farmview && sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module farmview.wsgi
+cd /$PROJECT_NAME && sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module $PROJECT_NAME.wsgi --touch-reload=/$PROJECT_NAME/reload.ini
 # Otherwise, copy the command above to rc.local
 # sudo cp /$PROJECT_NAME/deployment/uwsgi_daemon /etc/rc.local
