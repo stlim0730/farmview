@@ -63,7 +63,7 @@ Released   : 20140309
     <p style = "text-align: center">{% trans "What data would you like to see represented? Any errors that we can correct?  Have other ideas? " %}</p>
     <div id="form-main extra" class="container">
       <div id="form-div">
-        <form class="form" id="form1" method="post" action="http://formspree.io/farmlandmonitoring@gmail.com">
+        <form class="form" id="form1" method="POST" action="http://formspree.io/farmlandmonitoring@gmail.com">
           <p class="name">
             <input name="name" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder={% trans "Name" %} id="name" />
           </p>
@@ -87,42 +87,31 @@ Released   : 20140309
 </div>
 
 <div class="extra">
-  <div class="container">
+  <div class="container" id="contributors">
     <h1>{% trans "Contributors" %}</h1>
     <div class = "profile">
-      <img src="http://i.imgur.com/DQhQ0qf.jpg">
+      <img src="https://i.imgur.com/DQhQ0qf.jpg">
       <a href="https://ourenvironment.berkeley.edu/people/adam-calo"><h2>Adam Calo</h2></a>
       <p>{% trans "Graduate Student Researcher" %}</p>
     </div>
     <div class = "profile">
-      <img src="http://i.imgur.com/lr7eKlO.jpg">
+      <img src="https://i.imgur.com/UbRC2aD.jpg">
       <a href=""><h2>Songtaek Lim</h2></a>
-      <p>{% trans "PhD Student, UC Berkeley School of Information" %}</p>
+      <p>{% trans "PhD Student, Cornell University" %}</p>
     </div>
     <div class = "profile">
-      <img src="http://i.imgur.com/VfQIPgj.jpg">
-      <h2>Bofan Chen</h2>
-      <p>{% trans "3rd year Computer Science, " %}<br> UC Berkeley</p>
-    </div>
-    <div class = "profile">
-      <img src="http://i.imgur.com/Du5ERvV.png">
+      <img src="https://i.imgur.com/Du5ERvV.png">
       <a href="http://karingoh.me"><h2>Karin Goh</h2></a>
-      <p>{% trans "3rd year Computer Science," %} <br> UC Berkeley</p>
+      <p>{% trans "4th year Computer Science," %} <br> UC Berkeley</p>
     </div>
-    <div class = "profile" style="margin-left:12%">
-      <img src="https://scontent.fsnc1-1.fna.fbcdn.net/t31.0-8/12291101_10205195566397589_8854882318934001834_o.jpg">
-      <h2>Kimberly Bourque</h2>
-      <p>{% trans "3rd year Computer Science," %} <br> UC Berkeley</p>
-    </div>
-    <div class = "profile">
-      <img src="https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/425219_10201323601560870_1295658545_n.jpg?oh=a43b728de5d88a91f06071ccc37dd3f3&oe=582B05F1">
-      <h2>Irene Sohyeon Lee</h2>
-      <p>{% trans "Computer Science Major," %} <br> UC Berkeley</p>
-    </div>
-    <div class = "profile">
-      <img src="http://i.imgur.com/6g6YYXV.png">
-      <h2>Natalia Layson</h2>
-      <p>{% trans "2nd year Computer Science and Engineering," %} <br> UC Berkeley</p>
+    <div id="past-contributors">
+      <h1>Past Contributors</h1>
+      <p>
+        Bofan Chen<br>
+        Kimberly Borque<br>
+        Irene Sohyeon Lee<br>
+        Natalia Layson<br>
+      </p>
     </div>
   </div>
 </div>
