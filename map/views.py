@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 try:
     import urllib.request as urllib2
 except ImportError:
@@ -6,6 +7,8 @@ except ImportError:
 import simplejson as json
 from .models import Config
 from .models import Datafield
+import requests
+import os
 
 def map(request):
   configObj = Config.objects.order_by('-pub_date')[0]
@@ -66,3 +69,10 @@ def map(request):
     'data_sources': ['central_coast_joined', 'data_point', 'data_polygon']
   }
   return render(request, 'map/map.html', context)
+
+def geocode(request, location_query):
+  CARTODB_API_KEY = os.environ.get('CARTODB_API_KEY');
+  carto_geocoding_url_template = 'https://farmview.carto.com/api/v2/sql?q=SELECT%20cdb_geocode_street_point(\'{}\')&api_key={}'
+  request_url = carto_geocoding_url_template.format(location_query, CARTODB_API_KEY)
+  geocoding_api_response = requests.get(request_url)
+  return JsonResponse(geocoding_api_response.json())

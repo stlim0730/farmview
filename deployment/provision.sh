@@ -68,14 +68,14 @@ sudo createdb -U vagrant $PROJECT_NAME
 # 
 # Install Python packages
 # 
-sudo pip install -r /$PROJECT_NAME/requirements.txt
+sudo pip install --ignore-installed -r /$PROJECT_NAME/requirements.txt
 
 
 # 
 # Populate local database
 # 
 sudo createuser -U postgres -d hjgblmqzztzppf
-sudo pg_restore -U hjgblmqzztzppf -d $PROJECT_NAME --clean /$PROJECT_NAME/deployment/initial_dataset_feb_8_2017
+sudo pg_restore -U hjgblmqzztzppf -d $PROJECT_NAME --clean /$PROJECT_NAME/deployment/initial_dataset_apr_11_2018
 sudo psql -d $PROJECT_NAME -U postgres -c "REASSIGN OWNED BY hjgblmqzztzppf TO vagrant"
 
 
