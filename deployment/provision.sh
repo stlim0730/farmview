@@ -68,7 +68,11 @@ sudo createdb -U vagrant $PROJECT_NAME
 # 
 # Install Python packages
 # 
-sudo pip install -r /$PROJECT_NAME/requirements.txt
+# --ignore-installed is included because the Vagrant box includes binaries for several of our 
+# dependencies, but in the incorrect version. The existing installations are installed in such 
+# a way (using distutils) that pip can't upgrade them, so they have to be ignored.
+#
+sudo pip install --ignore-installed -r /$PROJECT_NAME/requirements.txt
 
 
 # 
