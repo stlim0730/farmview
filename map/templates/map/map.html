@@ -163,10 +163,12 @@
     app.userName = userName;
 
     cartodb.createLayer(mapObj, {
-      https: true,
       user_name: userName,
       type: layerDef.type,
       sublayers: [layerDef.options]
+    }, 
+    { 
+      https: true
     })
 
     .addTo(mapObj, layerDef.order)
