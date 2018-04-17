@@ -163,10 +163,12 @@
     app.userName = userName;
 
     cartodb.createLayer(mapObj, {
-      https: true,
       user_name: userName,
       type: layerDef.type,
       sublayers: [layerDef.options]
+    }, 
+    { 
+      https: true
     })
 
     .addTo(mapObj, layerDef.order)
@@ -370,7 +372,7 @@
 
               $('.link-to-detail').click(function(e) {
                 // Fill out the form
-                // renderDetailPopup(res.rows[0], tableName);
+                renderDetailPopup(res.rows[0], tableName);
 
                 // Make it visible
                 $('.detail-popup').modal('show');
