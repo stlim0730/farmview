@@ -72,7 +72,7 @@ def map(request):
 
 def geocode(request, location_query):
   CARTODB_API_KEY = os.environ.get('CARTODB_API_KEY');
-  carto_geocoding_url_template = 'https://farmview.carto.com/api/v2/sql?q=SELECT%20cdb_geocode_street_point(\'{}\')&api_key={}'
+  carto_geocoding_url_template = 'https://calo1.carto.com/api/v2/sql?q=SELECT%20cdb_geocode_street_point(\'{}\')&api_key={}'
   request_url = carto_geocoding_url_template.format(location_query, CARTODB_API_KEY)
   geocoding_api_response = requests.get(request_url)
   return JsonResponse(geocoding_api_response.json())
