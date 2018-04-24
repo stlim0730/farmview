@@ -67,7 +67,7 @@ sudo createdb -U vagrant $PROJECT_NAME
 
 # 
 # Install Python packages
-# 
+#
 # --ignore-installed is included because the Vagrant box includes binaries for several of our 
 # dependencies, but in the incorrect version. The existing installations are installed in such 
 # a way (using distutils) that pip can't upgrade them, so they have to be ignored.
@@ -79,7 +79,7 @@ sudo pip install --ignore-installed -r /$PROJECT_NAME/requirements.txt
 # Populate local database
 # 
 sudo createuser -U postgres -d hjgblmqzztzppf
-sudo pg_restore -U hjgblmqzztzppf -d $PROJECT_NAME --clean /$PROJECT_NAME/deployment/initial_dataset_feb_8_2017
+sudo pg_restore -U hjgblmqzztzppf -d $PROJECT_NAME --clean /$PROJECT_NAME/deployment/initial_dataset_apr_11_2018
 sudo psql -d $PROJECT_NAME -U postgres -c "REASSIGN OWNED BY hjgblmqzztzppf TO vagrant"
 
 

@@ -406,13 +406,13 @@
         //
         // Send a query log item
         //
-        _LTracker.push({
-          timestamp: new Date(),
-          querytype: 'infowindow',
-          sql: sql,
-          datapoint: datapoint,
-          table: tableName
-        });
+        // _LTracker.push({
+        //   timestamp: new Date(),
+        //   querytype: 'infowindow',
+        //   sql: sql,
+        //   datapoint: datapoint,
+        //   table: tableName
+        // });
 
       });
 
@@ -527,6 +527,27 @@
             clause = field + ' = ' + vals.join(' or ' + field + ' = ');
             break;
 
+          case 'proximity':
+            var distance_input_miles = parseFloat($('#' + field + '-distance-input').val().replace(',', ''));
+            var location_input = $('#' + field + '-location-input').val().trim();
+            var location_input_escaped = encodeURI(location_input.replace(/[^0-9a-z\s\-_,\.]/gi, ''));
+            if (!isNaN(distance_input_miles) && distance_input_miles > 0 && location_input_escaped) {
+              var distance_meters = distance_input_miles * 1609.34;
+
+              var http = new XMLHttpRequest();
+              var geocode_request_url = "geocode/" + location_input_escaped
+              http.open("GET", geocode_request_url, false);
+              http.send();
+              var response_json = JSON.parse(http.responseText)
+              if (!response_json.total_rows || response_json.total_rows == 0) {
+                console.error('Geocoding could not find a location for the query: ', location_input)
+                return;
+              }
+              var location_geocoded = response_json.rows[0].cdb_geocode_street_point;
+
+              clause = 'ST_DWithin(' + field + '::geography, ST_GeomFromWKB(decode(\'' + location_geocoded + '\', \'hex\')), ' + distance_meters + ')';
+            }
+            break;
           default:
             console.error(type, ': unexpected query type');
             return;
@@ -649,12 +670,12 @@
     layerqueries[point_table] = point_query;
     layerqueries[polygon_table] = polygon_query;
 
-    _LTracker.push({
-      timestamp: new Date(),
-      querytype: 'queryui',
-      userquery: query_per_table,
-      layerqueries: layerqueries
-    });
+    // _LTracker.push({
+    //   timestamp: new Date(),
+    //   querytype: 'queryui',
+    //   userquery: query_per_table,
+    //   layerqueries: layerqueries
+    // });
 
     scrollToTop(500);
   });

@@ -15,7 +15,8 @@ class Datafield(models.Model):
                               ('text', 'Text'),
                               ('range', 'Range'),
                               ('select_one', 'Select One'),
-                              ('select_multiple', 'Select Multiple')
+                              ('select_multiple', 'Select Multiple'),
+                              ('proximity', 'Location Proximity')
                              )
   datafield_type = models.CharField(max_length = 20, choices=DATAFIELD_TYPE_CHOICES)
   datafield_name = models.CharField(max_length = 60)
