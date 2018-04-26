@@ -94,6 +94,9 @@
       let detailPopupForDataSource = $('.detail-popup .wrapper-per-source.data-from-' + table);
 
       for (let key in record) {
+        let targetFieldSelector = '#' + key + '-field.data-field';
+        let field = $(targetFieldSelector);
+
         let value = record[key];
         let humanReadableValue = getHumanReadableValueOrNull(key, value, detailPopupForDataSource);
         if (humanReadableValue == null) {
@@ -123,7 +126,7 @@
       }
 
       // Display the relevant section
-      per_data_source.show();
+      detailPopupForDataSource.show();
     }
 
   </script>
