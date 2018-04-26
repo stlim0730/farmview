@@ -51,7 +51,7 @@
       resetDetailPopup();
     });
 
-    function getLabelWithVal(val, choices) {
+    function getHumanReadableValue(val, choices) {
       let values = val.split(' ');
       let res = [];
 
@@ -70,37 +70,39 @@
       return res.join(', ');
     }
 
+    function getHumanReadableValueOrNull(label, value, popupForDataSource) {
+      let targetFieldSelector = '#' + label + '-field.data-field';
+      let field = $(targetFieldSelector);
+        
+      // isRelevantField is set to true only if the selected section has the field (and only one of it)      
+      let isRelevantField = popupForDataSource.has(targetFieldSelector).length == 1;
+      if (isRelevantField && value) {
+        if ($.inArray(field.data('type'), ['select_one', 'select_multiple']) >= 0) {
+          let choices = $(targetFieldSelector).data('choices');
+          let label = getHumanReadableValue(value, choices);
+          if (label.trim() != '') {
+            return label;
+          }
+        }
+      }
+      return null;
+    }
+
     var renderDetailPopup = function(record, table) {
 
       // Get the relevant section selector for the table
-      let per_data_source = $('.detail-popup .wrapper-per-source.data-from-' + table);
+      let detailPopupForDataSource = $('.detail-popup .wrapper-per-source.data-from-' + table);
 
       for (let key in record) {
-        // Get the field selector for the column from the query results
-        let targetFieldSelector = '#' + key + '-field.data-field';
-        let field = $(targetFieldSelector);
-        
-        // isRelevantField is set to true only if the selected section has the field (and only one of it)
-        let isRelevantField = per_data_source.has(targetFieldSelector).length == 1;
-
         let value = record[key];
-        if (isRelevantField && value) {
-          if ($.inArray(field.data('type'), ['select_one', 'select_multiple']) >= 0) {
-            // Human-readable label translation for categorical variables
-            let choices = $(targetFieldSelector).data('choices');
-            let label = getLabelWithVal(value, choices);
-            if (label.trim() == '') {
-              field.html(value);
-              console.warn(key, value, 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
-            }
-            else {
-              field.html(label);
-            }
-          }
-          else {
-            // Just feed it
-            field.html(value);
-          }
+        let humanReadableValue = getHumanReadableValueOrNull(key, value, detailPopupForDataSource);
+        if (humanReadableValue == null) {
+          field.html(value);
+        } else if (humanReadableValue.trim() == '') {
+          field.html(value);
+          console.warn(key, value, 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
+        } else {
+          field.html(humanReadableValue);
         }
       }
 

@@ -319,23 +319,37 @@
               console.error(layerName, 'some columns don\'t have lables:');
             }
             else {
+              let popupForDataSource = $('.detail-popup .wrapper-per-source.data-from-' + tableName);
               for(let labelIndex in templateLabels) {
                 // Labels to uppercase
                 let label = templateLabels[labelIndex].replace('_', ' ');
                 let tagH = label.match(/<.{2}>/i);
                 let tagT = label.match(/<\/.{2}>/i);
+
                 let labelText = label.match(/>[\S\s]*?<\//i)[0];
                 labelText = labelText.substring(1, labelText.length - 2).toUpperCase();
                 label = tagH + labelText + tagT;
 
                 let col = templateCols[labelIndex];
                 col = col.substring(2, col.length - 2);
-                let val = '<p>' + res.rows[0][col] + '</p>';
 
-                if(val) {
-                  // Skip if data is null
-                  parseRes += label + val;
+                let targetFieldSelector = '#' + col + '-field.data-field';
+                let field = $(targetFieldSelector);
+
+                let value = res.rows[0][col];
+                let humanReadableValue = getHumanReadableValueOrNull(col, value, popupForDataSource);
+
+                let val;
+                if (humanReadableValue == null) {
+                  val = '<p>' + value + '</p>';
+                } else if (humanReadableValue.trim() == '') {
+                  val = '<p>' + value + '</p>';
+                  console.warn(key, value, 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
+                } else {
+                  val = '<p>' + humanReadableValue + '</p>';
                 }
+
+                parseRes += label + val;
               }
             }
 
