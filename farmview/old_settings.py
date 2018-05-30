@@ -101,14 +101,14 @@ WSGI_APPLICATION = 'farmview.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'd4tj4urol6fqf1',
-    'USER': 'hjgblmqzztzppf',
-    'PASSWORD': 'tTtTEE2HPi7BNZXPhyji6Nxlkv',
-    'HOST': 'ec2-54-225-134-223.compute-1.amazonaws.com',
-    'PORT': '5432'
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd4tj4urol6fqf1',
+        'USER': 'hjgblmqzztzppf',
+        'PASSWORD': 'tTtTEE2HPi7BNZXPhyji6Nxlkv',
+        'HOST': 'ec2-54-225-134-223.compute-1.amazonaws.com',
+        'PORT': '5432'
+    }
 }
 
 
@@ -121,13 +121,13 @@ DATABASES = {
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
-  ('en', _('English')),
-  ('es', _('Spanish')),
+    ('en', _('English')),
+    ('es', _('Spanish')),
 ]
 
 TIME_ZONE = 'US/Pacific'
 
-USE_I18N = True #specifies whether Django's translation system should be enabled
+USE_I18N = True  # specifies whether Django's translation system should be enabled
 
 USE_L10N = True
 
@@ -155,7 +155,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
-import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
