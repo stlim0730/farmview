@@ -169,6 +169,19 @@ TBD
 ### Merge
 TBD
 
+## Style and Linting
+Farmview uses PyLint to check Python style. To check the project's style after an edit, ssh into the guest machine and use:
+
+`pylint --load-plugins=pylint_django farmview`
+
+It can be helpful to use the autopep8 utility to automatically correct Python style. You can install and use it on your host machine in the farmview directory:
+
+`sudo pip install --upgrade autopep8
+autopep8 --in-place --aggressive --aggressive --recursive .`
+
+PyLint doesn't check the PEP8 rules exactly, but it's close enough to bring most issues into conformity. 
+
+
 ## Deployment
 Farmview is currently using [Heroku](https://www.heroku.com) as the hosting solution. Similarly to our development environment, the production server needs all the software dependencies installed. Heroku, like other PAAS (platform as a service) providers, has well-pipelined provision & deployment tools. All we should do is maintain the scripts specifying the configurations that Farmview relies on.
 
