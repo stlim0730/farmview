@@ -119,7 +119,7 @@
           if (attachment.mimetype && attachment.mimetype.startsWith('image/')) {
             let thumbmailUrl = 'https://ona.io' + attachment['small_download_url'];
             let originalImgUrl = 'https://ona.io' + attachment['download_url'];
-            let thumbnailArea = $(per_data_source.find('div.thumbnail-area')[0]);
+            let thumbnailArea = $(detailPopupForDataSource.find('div.thumbnail-area')[0]);
             thumbnailArea.html('<a href="' + originalImgUrl + '" target="_blank"><img title="Click for original size" src="' + thumbmailUrl + '"/></a>');
           }
         }
