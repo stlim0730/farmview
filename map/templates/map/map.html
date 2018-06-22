@@ -1,48 +1,10 @@
-{% extends "map/base.html" %}
+{% extends "pages/base.html" %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-{% block map %}
+{% block content %}
 
 <script src='/static/js/cartodb/cartodb.js'></script>
-<!-- <script type='text/javascript' src='http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js' async></script> -->
-
-<div class="wrapper">
-  <div class="header-wrapper">
-    <div class="header" class="container">
-      <div class="logo">
-        <h1><a href="#">{% trans "Farmview" %}</a></h1>
-      </div>
-      <div class="menu">
-        <ul>
-          <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
-          <li class="current_page_item"><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
-          <li><a href="/about" accesskey="3" title="About">{% trans "About" %}</a></li>
-          <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
-          <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
-          <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
-          <li>
-            {% get_available_languages as languages %}
-            {% get_current_language as LANGUAGE_CODE %}
-            {% for lang_code, lang_name in languages %}
-              {% if lang_code != LANGUAGE_CODE %}
-                <form action="{% url 'set_language' %}" method="post">
-                  {% csrf_token %}
-                  <input name="next" type="hidden" value="{{ redirect_to }}" />
-                  <input name="language" type="hidden" value="{{ lang_code }}" />
-                  {% if lang_code == "en" %}
-                    <button type="submit"> English </button>
-                  {% else %}
-                    <button type="submit">Espa&#241;ol</button>
-                  {% endif %}
-                </form>
-              {% endif %}
-            {% endfor %}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+<link rel='stylesheet' href='/static/css/cartodb/cartodb.css' />
 
 <div class='row height-90'>
   <div class='col-md-12 full-height'>
@@ -96,20 +58,6 @@
     }, durationMs);
   };
 
-
-
-  //
-  // Loggly: https://farmview.loggly.com
-  //
-  // var _LTracker = _LTracker || [];
-  // _LTracker.push({
-  //   logglyKey: '1bcc8e6c-e83e-4cd5-8980-137af809f05e',
-  //   sendConsoleErrors: true,
-  //   tag: 'loggly-jslogger'
-  // });
-
-
-
   //
   // Load config
   //
@@ -119,8 +67,6 @@
   console.info('Using configuration updated on', app.config.pub_date);
   console.info('Using Carto publication', app.config.vizjson_url);
   app.config.optional_note ? console.info('Note:', app.config.optional_note) : null;
-
-
 
   //
   // Construct basemap layer
@@ -138,8 +84,6 @@
 
   basemap.addTo(mapObj);
   app.layers['basemap'] = basemap;
-
-
 
   //
   // Construct data layers
