@@ -1,0 +1,18 @@
+<!-- adapted from https://hackernoon.com/reconciling-djangos-mvc-templates-with-react-components-3aa986cf510a -->
+
+{% extends "map/templates/map/partials/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+    <div id="react">
+        <i class="fa fa-lg fa-spinner fa-spin"></i><br><br>
+        <i class="pending">Loading components...</i><br><br>
+    </div>
+
+    <script>
+        window.props = {{props|json}};
+        window.react_mount = document.getElementById('react');
+    </script>
+    <script src="/static/src/{{component}}"></script>
+{% endblock %}
