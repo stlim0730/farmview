@@ -4,12 +4,12 @@
       <div class='modal-header'>
         <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
         <h4 class='modal-title'>Details on the Parcel</h4>
+        <button id="cartodb_id" type="button" value="Generate PDF" onclick="generatePDF();">Download PDF </button>
       </div>
       <div class='modal-body'>
       
         {% for data_source in data_sources %}
           <div class='data-from-{{data_source}} wrapper-per-source collapse'>
-            
             <div class='thumbnail-area'></div>
 
             {% for datafield in datafields %}
@@ -39,6 +39,16 @@
     // Globals
     //
     var NO_DATA_PLACEHOLDER = 'N/A';
+
+    var generatePDF = function() {
+      // console.log(document.getElementById('cartodb_id').value);
+      var http = new XMLHttpRequest();
+      var report_request_url = "report/" + document.getElementById('cartodb_id').value.toString();
+
+      // http.open("GET", "http://localhost:8888/map/report/0", true);
+      // http.send();
+      window.open(report_request_url)
+    }
 
     var resetDetailPopup = function() {
       $('.data-field').html(NO_DATA_PLACEHOLDER);
@@ -96,22 +106,26 @@
       for (let key in record) {
         let targetFieldSelector = '#' + key + '-field.data-field';
         let field = $(targetFieldSelector);
-
         let value = record[key];
         let humanReadableValue = getHumanReadableValueOrNull(key, value, detailPopupForDataSource);
+        
         if (humanReadableValue == null) {
           field.html(value);
-        } else if (humanReadableValue.trim() == '') {
+  
+        }
+          else if (humanReadableValue.trim() == '') {
           field.html(value);
           console.warn(key, value, 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
         } else {
+            document.getElementById("cartodb_id").value = record['cartodb_id'];
+          
           field.html(humanReadableValue);
         }
       }
 
       // Show the image attachment if available
       if ('_attachments' in record) {
-        console.log(record);
+        console.log(record); 
         let attachments = record['_attachments'];
 
         for (let i in attachments) {

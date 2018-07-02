@@ -20,6 +20,7 @@ psycopg2==2.6.2
 pyparsing==2.1.10
 pytz==2016.10
 regex==2017.1.17
+reportlab==3.4.0
 requests==2.13.0
 setuptools>=2.2
 simplejson==3.10.0

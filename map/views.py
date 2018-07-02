@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 from django.http import JsonResponse
 try:
     import urllib.request as urllib2
@@ -9,6 +11,7 @@ from .models import Config
 from .models import Datafield
 import requests
 import os
+
 
 
 def map(request):
@@ -89,3 +92,23 @@ def geocode(request, location_query):
         location_query, CARTODB_API_KEY)
     geocoding_api_response = requests.get(request_url)
     return JsonResponse(geocoding_api_response.json())
+
+def gen_pdf(request, id):
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="somefilename.pdf"'
+    # Create the PDF object, using the response object as its "file."
+    p = canvas.Canvas(response)
+
+    # CARTODB_API_KEY = os.environ.get('CARTODB_API_KEY')
+    # carto_api_request = 'https://calo1.carto.com/api/v2/sql?q=SELECT * FROM central_coast_joined where cartodb_id = '+str(id)+'&api_key=' + str(CARTODB_API_KEY)
+    # carto_api_response = requests.get(carto_api_request)
+    
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(100, 100, "Hello world.")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+    return response
