@@ -1,7 +1,7 @@
 {% extends "pages/base.html" %}
 {% load i18n %}
-
-{% block content %}
+{% block contact-current-page %} class = 'current_page_item'{% endblock %}
+{% block base-content %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by TEMPLATED
@@ -15,47 +15,6 @@ Released   : 20140309
 -->
 <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
-<div class="wrapper">
-  <div class="header-wrapper">
-    <div class="header" class="container">
-      <div class="logo">
-        <h1><a href="#">{% trans "Farmview" %}</a></h1>
-      </div>
-      <div class="menu">
-        <ul>
-          <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
-          <li><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
-          <li><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
-          <li><a href="/mapbook" accesskey="4" title="">{% trans "Mapbook" %}</a></li>
-          <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
-          <li class="current_page_item"><a href="#" accesskey="5" title="">{% trans "Contact Us" %}</a></li>
-          <li>
-            {% get_available_languages as languages %}
-            {% get_current_language as LANGUAGE_CODE %}
-            {% for lang_code, lang_name in languages %}
-              {% if lang_code != LANGUAGE_CODE %}
-                <form action="{% url 'set_language' %}" method="post">
-                  {% csrf_token %}
-                  <input name="next" type="hidden" value="{{ redirect_to }}" />
-                  <input name="language" type="hidden" value="{{ lang_code }}" />
-                  {% if lang_code == "en" %}
-                    <button type="submit"> English </button>
-                  {% else %}
-                    <button type="submit">Espa&#241;ol</button>
-                  {% endif %}
-                </form>
-              {% endif %}
-            {% endfor %}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-    <!-- <div>
-        <p></p>
-        <p style = "text-align: center"> <strong>What data would you like to see represented? Any errors that we can correct?  Have other ideas?  </strong> </p>
-    </div> -->
 
 <div class="pages">
   <div class="container">
@@ -121,4 +80,4 @@ Released   : 20140309
     <p>&copy; {% trans "Farmview. All rights reserved. | Design by " %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
   </div>
 </div>
-{% endblock %}
+{% endblock base-content %}

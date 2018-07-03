@@ -1,80 +1,35 @@
+{% extends "pages/base.html" %}
 {% load i18n %}
-<!doctype html>
-<html lang="{{ LANGUAGE_CODE }}">
-  <head>
-    <meta charset="utf-8">
-    <title>
-      {% block title %}{% endblock title %}{% block title-page %}{% endblock title-page %} - Zinnia's Weblog
-    </title>
-    <meta name="robots" content="follow, all" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="{% block meta-description %}{% trans "Just another Zinnia weblog." %}{% endblock meta-description %}{% block meta-description-page %}{% endblock meta-description-page %}" />
-    <meta name="keywords" content="{% block meta-keywords %}django, blog, weblog, zinnia{% endblock meta-keywords %}" />
-    <meta name="author" content="Fantomas42" />
-    {% block meta %}{% endblock meta %}
-    <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
-    <link rel="pingback" href="/xmlrpc/" />
-    <link rel="shortcut icon" href="/static/zinnia/theme/img/favicon.ico" />
-    <link rel="home" href="{% url 'zinnia:entry_archive_index' %}" />
+{% block blog-current-page %} class = 'current_page_item'{% endblock %}
+<title>
+  {% block title %}{% endblock title %}{% block title-page %}{% endblock title-page %} - Zinnia Weblog
+</title>
 
-    <link rel="stylesheet" type="text/css" media="screen, projection" href="/static/css/zinnia/screen.css" />
-    <link rel="stylesheet" type="text/css" media="print" href="/static/css/screen.css" />
-    <link rel='stylesheet' href="/static/css/style.css" />
+{% block meta %}
+  {{ block.super }}
+  <meta name="robots" content="follow, all" />
+  <meta name="description" content="{% block meta-description %}{% trans "Just another Zinnia weblog." %}{% endblock meta-description %}{% block meta-description-page %}{% endblock meta-description-page %}" />
+  <meta name="keywords" content="{% block meta-keywords %}django, blog, weblog, zinnia{% endblock meta-keywords %}" />
+  <meta name="author" content="Fantomas42, Seongtaek Lim, Brian Pugh" />
+{% endblock meta %}
 
-     <!-- Scripts -->
-    <script src='/static/js/jquery/jquery-1.11.3.min.js'></script>
-    <script src='/static/js/bootstrap/bootstrap.min.js'></script>
-    {% block link %}{% endblock link %}
-    {% block script %}{% endblock script %}
-  </head>
-  <body class="zinnia {% block sidebar-class %}right-sidebar{% endblock sidebar-class %}">
+{% block style %}
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
+  <link rel="pingback" href="/xmlrpc/" />
+  <link rel="shortcut icon" href="/static/zinnia/theme/img/favicon.ico" />
+  <link rel="home" href="{% url 'zinnia:entry_archive_index' %}" />
+  
+  <link rel='stylesheet' href='/static/css/bootstrap/bootstrap.min.css' />
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="/static/css/zinnia/screen.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/static/css/screen.css" />
+  <link rel='stylesheet' href="/static/css/style.css" />
+{% endblock style %}
+
+{% block base-content %}
+<div class="zinnia {% block sidebar-class %}right-sidebar{% endblock sidebar-class %}">
+    {% block slider %}{% endblock slider %}
     <div id="blogwrapper">
-      <div class="header-wrapper">
-        <div class="header" class="container">
-          <div id="bloglogo">
-            <h1>
-              <a href="#">Farmview</a>
-            </h1>
-          </div>
-          <div class="menu">
-            <ul>
-              <li>
-                <a href="/" accesskey="1" title="">{% trans "Homepage" %}</a>
-              </li>
-              <li>
-                <a href="/map" accesskey="2" title="">{% trans "Map" %}</a>
-              </li>
-              <li>
-                <a href="/about" accesskey="3" title="About">{% trans "About" %}</a>
-              </li>
-              <li>
-                <a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a>
-              </li>
-              <li class="current_page_item">
-                <a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a>
-              </li>
-              <li>
-                <a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a>
-              </li>
-              <li>
-                {% get_available_languages as languages %}
-                {% get_current_language as LANGUAGE_CODE %}
-                {% for lang_code, lang_name in languages %}
-                  {% if lang_code != LANGUAGE_CODE %}
-                    <form action="{% url 'set_language' %}" method="post">
-                      {% csrf_token %}
-                      <input name="next" type="hidden" value="{{ redirect_to }}" />
-                      <input name="language" type="hidden" value="{{ lang_code }}" />
-                      <button type="submit">{{ lang_name }}</button>
-                    </form>
-                  {% endif %}
-                {% endfor %}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      {% block slider %}{% endblock slider %}
       <div id="content" class="hfeed" role="main">
         {% block content %}
         <hr />
@@ -106,6 +61,6 @@
       <footer id="footer" role="contentinfo">
       </footer>
     </div>
-    <script id="dsq-count-scr" src="//farmview-1.disqus.com/count.js" async></script>
-  </body>
-</html>
+  </div>
+  <script id="dsq-count-scr" src="//farmview-1.disqus.com/count.js" async></script>
+{% endblock base-content %}

@@ -1,8 +1,8 @@
 {% extends "pages/base.html" %}
 {% load i18n %}
-{% block content %}
+{% block about-current-page %} class = 'current_page_item'{% endblock %}
+{% block base-content %}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by TEMPLATED
 http://templated.co
@@ -14,43 +14,6 @@ Released   : 20140309
 -->
 <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
-<div class="wrapper">
-  <div class="header-wrapper">
-    <div class="header" class="container">
-      <div class="logo">
-        <h1><a href="#">{% trans "Farmview" %}</a></h1>
-      </div>
-      <div class="menu">
-        <ul>
-          <li><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
-          <li><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
-          <li class="current_page_item"><a href="/about" accesskey="3" title="">{% trans "About" %}</a></li>
-          <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
-          <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
-          <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
-          <li>
-            {% get_available_languages as languages %}
-            {% get_current_language as LANGUAGE_CODE %}
-            {% for lang_code, lang_name in languages %}
-              {% if lang_code != LANGUAGE_CODE %}
-                <form action="{% url 'set_language' %}" method="post">
-                  {% csrf_token %}
-                  <input name="next" type="hidden" value="{{ redirect_to }}" />
-                  <input name="language" type="hidden" value="{{ lang_code }}" />
-                  {% if lang_code == "en" %}
-                    <button type="submit"> English </button>
-                  {% else %}
-                    <button type="submit">Espa&#241;ol</button>
-                  {% endif %}
-                </form>
-              {% endif %}
-            {% endfor %}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="pages">
   <div class="container">
     <iframe width="100%" height="450" frameborder="0" class="iframe-right" src="https://berkeley-dlab.cartodb.com/u/calo1/viz/d784298c-7e60-11e5-9a26-0e674067d321/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen ></iframe>
@@ -133,4 +96,4 @@ Released   : 20140309
     <p>&copy; {% trans "Farmview. All rights reserved. | Design by " %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
   </div>
 </div>
-{% endblock %}
+{% endblock base-content %}

@@ -85,9 +85,9 @@ a {  color: #2699BC }
   top: -17px;
   left: -10px;
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
 }
-#bloglogo h1 {  color: #FFF }
+#bloglogo h1 { color: #FFF }
 #bloglogo a {
   text-decoration: none;
   /* text-transform: uppercase; */
@@ -343,12 +343,14 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
   top: .4em;
   left: 0;
 }
-.logo h1 {  color: #FFF }
+.logo h1 {  
+	color: #FFF;
+	font-size: 36px !important;
+}
 .logo a {
   text-decoration: none;
   /* text-transform: uppercase; */
   color: #FFF;
-  font-size: 36px;
   font-weight: 700;
 }
 /*********************************************************************************/
