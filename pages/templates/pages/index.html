@@ -1,122 +1,64 @@
 {% extends "pages/base.html" %}
 {% load i18n %}
-{% block content %}
+{% block home-current-page %} class = 'current_page_item'{% endblock %}
+{% block base-content %}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!--
-Design by TEMPLATED
-http://templated.co
-Released for free under the Creative Commons Attribution License
-
-Name       : PlainDisplay
-Description: A two-column, fixed-width design with dark color scheme.
-Version    : 1.0
-Released   : 20140309
-
--->
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
-    <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <div class="header-wrapper">
-        <div class="header" class="container">
-          <div class="logo">
-            <h1><a href="#">{% trans "Farmview" %}</a></h1>
-          </div>
-          <div class="menu">
-            <ul>
-              <li class="current_page_item"><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
-              <li><a href="/map" accesskey="2" title="Map">{% trans "Map" %}</a></li>
-              <li><a href="/about" accesskey="3" title="About Us">{% trans "About" %}</a></li>
-              <li><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
-              <li><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
-              <li><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
-              <li>
-                {% get_available_languages as languages %}
-                {% get_current_language as LANGUAGE_CODE %}
-                {% for lang_code, lang_name in languages %}
-                  {% if lang_code != LANGUAGE_CODE %}
-                    <form action="{% url 'set_language' %}" method="post">
-                      {% csrf_token %}
-                      <input name="next" type="hidden" value="{{ redirect_to }}" />
-                      <input name="language" type="hidden" value="{{ lang_code }}" />
-                      {% if lang_code == "en" %}
-                        <button type="submit">English</button>
-                      {% else %}
-                        <button type="submit">Espa&#241;ol</button>
-                      {% endif %}
-                    </form>
-                  {% endif %}
-                {% endfor %}
-              </li>
+<div class="wrapper">
+  <div id="banner">
+    <div class="container">
+      <div class="title">
+        <a href = "/map"> <img src="/static/img/map.png" style="width:100%;"> </a>
+        <h2>{% trans "Farmview" %}</h2>
+        <span class="byline">{% trans "Explore public data about farmland in the California Central Coast" %}</span>
+      </div>
+      <ul class="actions">
+        <li><a href="/map" class="button">{% trans "Go to Map" %}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="extra">
+    <div class="container">
+      <div class="title">
+        <span class="byline" style="font-size:1.2em; text-align:center">
+          <p>
+            <a href="http://farmview.herokuapp.com/map/">{% trans "View" %}</a> {% trans "public records about land ownership, soil data, farms currently for lease, and existing ranches.  " %}
+            <br>
+            <a href="https://enketo.ona.io/x/#YpVH" target="_blank">{% trans "Submit" %}</a>{% trans " information about an existing farm operation, land listing, or land that has potential agricultural value." %}
+            <br>
+            <a href="/mapbook">{% trans "Explore" %}</a>{% trans " maps and " %}<a href="https://farmview.cartodb.com/">{% trans "download" %}</a>{% trans " datasets concerning farmland access in the California central coast." %}"
+          </p>
+        </span>
+      </div>
+    </div>
+    <div class="container">
+      <div id="three-column">
+        <div class="boxA">
+          <div class="box">
+            <center><img src="/static/img/survey.png" style="width:70%;" align="middle;"></center>
+            <ul class="actions">
+              <li><a href="https://enketo.ona.io/x/#YpVH" class="button" target="_blank">{% trans "Go to Survey" %}</a></li>
             </ul>
           </div>
         </div>
-      </div>
-      <div id="banner">
-        <div class="container">
-          <div class="title">
-            <a href = "/map"> <img src="/static/img/map.png" style="width:100%;"> </a>
-            <h2>{% trans "Farmview" %}</h2>
-            <span class="byline">{% trans "Explore public data about farmland in the California Central Coast" %}</span>
-          </div>
-          <ul class="actions">
-            <li><a href="/map" class="button">{% trans "Go to Map" %}</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="extra">
-        <div class="container">
-          <div class="title">
-            <span class="byline" style="font-size:1.2em; text-align:center">
-              <p>
-                <a href="http://farmview.herokuapp.com/map/">{% trans "View" %}</a> {% trans "public records about land ownership, soil data, farms currently for lease, and existing ranches.  " %}
-                <br>
-                <a href="https://enketo.ona.io/x/#YpVH" target="_blank">{% trans "Submit" %}</a>{% trans " information about an existing farm operation, land listing, or land that has potential agricultural value." %}
-                <br>
-                <a href="/mapbook">{% trans "Explore" %}</a>{% trans " maps and " %}<a href="https://farmview.cartodb.com/">{% trans "download" %}</a>{% trans " datasets concerning farmland access in the California central coast." %}"
-              </p>
-            </span>
+        <div class="boxB">
+          <div class="box">
+            <center><img src="/static/img/learnmore.png" style="width:70%;"></center>
+            <ul class="actions"><li><a href="/about" class="button">{% trans "Learn More" %}</a></li></ul>
           </div>
         </div>
-        <div class="container">
-          <div id="three-column">
-            <div class="boxA">
-              <div class="box">
-                <center><img src="/static/img/survey.png" style="width:70%;" align="middle;"></center>
-                <ul class="actions">
-                  <li><a href="https://enketo.ona.io/x/#YpVH" class="button" target="_blank">{% trans "Go to Survey" %}</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="boxB">
-              <div class="box">
-                <center><img src="/static/img/learnmore.png" style="width:70%;"></center>
-                <ul class="actions"><li><a href="/about" class="button">{% trans "Learn More" %}</a></li></ul>
-              </div>
-            </div>
-            <div class="boxC">
-              <div class="box">
-                <center><img src="/static/img/contact.png" style="width:70%;"></center>
-                <ul class="actions"><li><a href="/contact" class="button">{% trans "Contact Us" %}</a></li></ul>
-              </div>
-            </div>
+        <div class="boxC">
+          <div class="box">
+            <center><img src="/static/img/contact.png" style="width:70%;"></center>
+            <ul class="actions"><li><a href="/contact" class="button">{% trans "Contact Us" %}</a></li></ul>
           </div>
-        </div>
-      </div>
-      <div class="copyright">
-        <div class="container">
-          <p>&copy; {% trans "Farmview. All rights reserved. | Design by " %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
         </div>
       </div>
     </div>
-  </body>
-</html>
-{% endblock %}
+  </div>
+  <div class="copyright">
+    <div class="container">
+      <p>&copy; {% trans "Farmview. All rights reserved. | Design by " %}<a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+    </div>
+  </div>
+</div>
+{% endblock base-content %}

@@ -8,7 +8,8 @@
   <meta name="generator" content="Zinnia {{ ZINNIA_VERSION }}" />
 {% endblock meta %}
 
-{% block link %}
+{% block style %}
+	{{ block.super }}
   <link rel="index" href="{% url 'zinnia:entry_archive_index' %}" />
   <link rel="author" type="text/plain" href="{% url 'zinnia:humans' %}" />
   <link rel="EditURI" type="application/rsd+xml" href="{% url 'zinnia:rsd' %}" />
@@ -17,7 +18,7 @@
   <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last entries" %}" href="{% url 'zinnia:entry_feed' %}" />
   <link rel="alternate" type="application/rss+xml" title="{% trans "RSS feed of last discussions" %}" href="{% url 'zinnia:discussion_feed' %}" />
   {% get_archives_entries "zinnia/tags/entries_archives_link.html" %}
-{% endblock link %}
+{% endblock style %}
 
 {% block breadcrumbs %}
   {% trans "Blog" as root_name %}
