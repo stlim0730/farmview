@@ -76,9 +76,14 @@ sudo pip install --ignore-installed -r /$PROJECT_NAME/requirements.txt
 
 
 # 
-# Install React
+# Install Node and NPM for React
+#
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
+cd /$PROJECT_NAME
+sudo npm install -g watchify
+sudo npm install
+cd ..
 
 # 
 # Populate local database
@@ -94,18 +99,20 @@ sudo psql -d $PROJECT_NAME -U postgres -c "REASSIGN OWNED BY hjgblmqzztzppf TO v
 # python /farmview/manage.py makemigrations
 # python /farmview/manage.py migrate
 
-
 # 
 # Restart the server
 # 
 sudo service postgresql restart
 sudo service nginx restart
 
+# 
+# Daemonize uWSGI module and start Watchify to bundle and transpile the JS
+# 
+cd /$PROJECT_NAME
+watchify src/pages/map-page.js -v --poll -t [ babelify ] -o static/src/pages/map-page.js > /var/log/watchify.log 2>&1 &
 
-# 
-# Daemonize uWSGI module
-# 
 # cd /farmview && sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module farmview.wsgi
-cd /$PROJECT_NAME && sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module $PROJECT_NAME.wsgi --touch-reload=/$PROJECT_NAME/reload.ini
+sudo uwsgi --daemonize /var/log/uwsgi-daemon.log --socket :8001 --module $PROJECT_NAME.wsgi --touch-reload=/$PROJECT_NAME/reload.ini
+
 # Otherwise, copy the command above to rc.local
 # sudo cp /$PROJECT_NAME/deployment/uwsgi_daemon /etc/rc.local

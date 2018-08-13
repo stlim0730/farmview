@@ -2,11 +2,34 @@
 /* Start Map definitions */
 /**/
 html,
-body {  height: 100% }
-.container-fluid {  height: 85% }
+body {  
+  height: 100%;
+}
+#react-mount {  height: 85% }
 .full-height {
   height: 100%;
-  padding: 0;
+}
+.container-fluid {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.form-group {
+  margin-bottom: 0px;
+}
+.row {
+  margin-bottom: 15px;
+}
+.col {
+  margin-bottom: 15px;
+}
+.col:last-child {
+  padding-right: 0px;
+}
+.col:first-child {
+  padding-left: 0px;
+}
+.well {
+  margin-bottom: 0px;
 }
 .height-90 { height: 90% }
 .detail-popup.modal {  margin-top: 30px }
@@ -60,6 +83,64 @@ body {  height: 100% }
   margin-bottom: 10px;
 }
 .info-window-custom-paragraph {  text-align: center }
+.parcel-list { 
+  background-color: #f8f5f0;
+}
+
+.parcel-list-title { 
+  color: #000;
+  text-align: left;
+  margin: 6px 0px 0px 14px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.no-border-radius {
+  border-radius: 0px;
+}
+
+.no-width-padding {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.card {
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px;
+  -webkit-box-shadow: 0px 1px 2px 1px rgba(119,119,119,0.31);
+  -moz-box-shadow: 0px 1px 2px 1px rgba(119,119,119,0.31);
+  box-shadow: 0px 1px 2px 1px rgba(119,119,119,0.31);
+}
+
+@-webkit-keyframes pulse-opacity {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1 }
+}
+
+@-moz-keyframes pulse-opacity {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1 }
+}
+
+@-o-keyframes pulse-opacity {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1 }
+}
+
+@keyframes pulse-opacity {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1 }
+}
+
+.pulse-loader {
+  -webkit-animation: pulse-opacity .8s ease 0s normal infinite none running;
+  -moz-animation: pulse-opacity .8s ease 0s normal infinite none running;
+  -o-animation: pulse-opacity .8s ease 0s normal infinite none running;
+  animation: pulse-opacity .8s ease 0s normal infinite none running;
+  
+}
+
 /**/
 /* End Map definitions */
 /**/
@@ -85,9 +166,9 @@ a {  color: #2699BC }
   top: -17px;
   left: -10px;
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
 }
-#bloglogo h1 {  color: #FFF }
+#bloglogo h1 { color: #FFF }
 #bloglogo a {
   text-decoration: none;
   /* text-transform: uppercase; */
@@ -106,7 +187,7 @@ body {  height: 100% }
 body {
   margin: 0px;
   padding: 0px;
-  background: #333333;
+  background-color: #f4f1eb;
   font-family: 'Open Sans', sans-serif;
   font-size: 12pt;
   font-weight: 300;
@@ -343,12 +424,14 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
   top: .4em;
   left: 0;
 }
-.logo h1 {  color: #FFF }
+.logo h1 {  
+	color: #FFF;
+	font-size: 36px !important;
+}
 .logo a {
   text-decoration: none;
   /* text-transform: uppercase; */
   color: #FFF;
-  font-size: 36px;
   font-weight: 700;
 }
 /*********************************************************************************/
@@ -358,6 +441,7 @@ ul.contact li a.icon-rss:before {  background: #F2600B }
   position: absolute;
   top: 2em;
   right: 0;
+  margin-right: 1em;
 }
 .menu ul {  display: inline-block }
 .menu li {

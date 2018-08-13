@@ -1,0 +1,5 @@
+{% for datafield in datafields %}
+	{% if datafield.type in "select_one,select_many" %}
+		<div class="human-readability-list" data-name="{{ datafield.name }}" data-human-readables="{{ datafield.choices_str }}"></div>
+	{% endif %}
+{% endfor %}

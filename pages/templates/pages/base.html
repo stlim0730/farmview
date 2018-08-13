@@ -1,26 +1,67 @@
 <!DOCTYPE html>
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <html lang='en'>
   <head>
+  	{% block meta %}
     <meta charset='utf-8' />
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <meta name='description' content='' />
     <meta name='author' content='Seongtaek Lim' />
-    <!-- <link rel='shortcut icon' href='assets/ico/favicon.ico'> -->
-    <title>Farmview</title>
+    {% endblock meta %}
+    <title>{% block title %}Farmview{% endblock %}</title>
+    {% block style %}
+    <link rel='stylesheet' href='/static/css/cartodb/cartodb.css' />
     <!-- Bootstrap core CSS -->
     <link rel='stylesheet' href='/static/css/bootstrap/bootstrap.min.css' />
     <!-- Custom styles for this template -->
     <link rel='stylesheet' href='/static/css/style.css' />
-    <link rel='stylesheet' href='/static/lightbox2/dist/css/lightbox.css'>
+    {% endblock style %}
     <!-- Scripts -->
+    {% block script %}
     <script src='/static/js/jquery/jquery-1.11.3.min.js'></script>
     <script src='/static/js/bootstrap/bootstrap.min.js'></script>
-    <script src='/static/lightbox2/dist/js/lightbox-plus-jquery.js'></script>
+    {% endblock script %}
   </head>
   <body>
-    <!-- <div class='container-fluid'> -->
-    {% block content %}{% endblock %}
-    <!-- </div>/container -->
+    <div class="wrapper">
+	    <div class="header-wrapper">
+	      <div class="header" class="container">
+	        <div class="logo">
+	          <h1><a href="#">{% trans "Farmview" %}</a></h1>
+	        </div>
+	        <div class="menu">
+	          <ul>
+	            <li{% block home-current-page %}{% endblock %}><a href="/" accesskey="1" title="">{% trans "Homepage" %}</a></li>
+	            <li{% block map-current-page %}{% endblock %}><a href="/map" accesskey="2" title="">{% trans "Map" %}</a></li>
+	            <li{% block about-current-page %}{% endblock %}><a href="/about" accesskey="3" title="About">{% trans "About" %}</a></li>
+	            <li{% block mapbook-current-page %}{% endblock %}><a href="/mapbook" accesskey="4" title="Mapbook">{% trans "Mapbook" %}</a></li>
+	            <li{% block blog-current-page %}{% endblock %}><a href="/weblog" accesskey="6" title="Blog">{% trans "Blog" %}</a></li>
+	            <li{% block contact-current-page %}{% endblock %}><a href="/contact" accesskey="5" title="Contact Us">{% trans "Contact Us" %}</a></li>
+	            <li>
+	              {% get_available_languages as languages %}
+	              {% get_current_language as LANGUAGE_CODE %}
+	              {% for lang_code, lang_name in languages %}
+	                {% if lang_code != LANGUAGE_CODE %}
+	                  <form action="{% url 'set_language' %}" method="post">
+	                    {% csrf_token %}
+	                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+	                    <input name="language" type="hidden" value="{{ lang_code }}" />
+	                    {% if lang_code == "en" %}
+	                      <button type="submit"> English </button>
+	                    {% else %}
+	                      <button type="submit">Espa&#241;ol</button>
+	                    {% endif %}
+	                  </form>
+	                {% endif %}
+	              {% endfor %}
+	            </li>
+	          </ul>
+	        </div>
+	      </div>
+	    </div>
+    </div>
+    {% block base-content %}{% endblock %}
   </body>
 </html>
