@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendered component matches snapshot 1`] = `
+<div
+  className="ReactVirtualized__Table"
+  role="grid"
+  style={Object {}}
+>
+  <div
+    className="ReactVirtualized__Table__headerRow"
+    role="row"
+    style={
+      Object {
+        "height": 30,
+        "overflow": "hidden",
+        "paddingRight": 0,
+        "width": 500,
+      }
+    }
+  >
+    <div
+      className="ReactVirtualized__Table__headerColumn"
+      role="columnheader"
+      style={
+        Object {
+          "WebkitFlex": "0 1 80px",
+          "flex": "0 1 80px",
+          "msFlex": "0 1 80px",
+        }
+      }
+    >
+      <span
+        className="ReactVirtualized__Table__headerTruncatedText"
+        title="Index"
+      >
+        Index
+      </span>
+    </div>
+    <div
+      className="ReactVirtualized__Table__headerColumn"
+      role="columnheader"
+      style={
+        Object {
+          "WebkitFlex": "0 1 80px",
+          "flex": "0 1 80px",
+          "msFlex": "0 1 80px",
+        }
+      }
+    >
+      <span
+        className="ReactVirtualized__Table__headerTruncatedText"
+        title="Size"
+      >
+        Size
+      </span>
+    </div>
+    <div
+      className="ReactVirtualized__Table__headerColumn"
+      role="columnheader"
+      style={
+        Object {
+          "WebkitFlex": "0 1 80px",
+          "flex": "0 1 80px",
+          "msFlex": "0 1 80px",
+        }
+      }
+    >
+      <span
+        className="ReactVirtualized__Table__headerTruncatedText"
+        title="Location"
+      >
+        Location
+      </span>
+    </div>
+    <div
+      className="ReactVirtualized__Table__headerColumn"
+      role="columnheader"
+      style={
+        Object {
+          "WebkitFlex": "0 1 80px",
+          "flex": "0 1 80px",
+          "msFlex": "0 1 80px",
+        }
+      }
+    >
+      <span
+        className="ReactVirtualized__Table__headerTruncatedText"
+        title="Zoning Type"
+      >
+        Zoning Type
+      </span>
+    </div>
+    <div
+      className="ReactVirtualized__Table__headerColumn"
+      role="columnheader"
+      style={
+        Object {
+          "WebkitFlex": "0 1 80px",
+          "flex": "0 1 80px",
+          "msFlex": "0 1 80px",
+        }
+      }
+    >
+      <span
+        className="ReactVirtualized__Table__headerTruncatedText"
+        title="Soil Type"
+      >
+        Soil Type
+      </span>
+    </div>
+  </div>
+  <div
+    aria-label="grid"
+    aria-readonly={true}
+    className="ReactVirtualized__Grid ReactVirtualized__Table__Grid"
+    onScroll={[Function]}
+    role="rowgroup"
+    style={
+      Object {
+        "WebkitOverflowScrolling": "touch",
+        "boxSizing": "border-box",
+        "direction": "ltr",
+        "height": 370,
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "position": "relative",
+        "width": 500,
+        "willChange": "transform",
+      }
+    }
+    tabIndex={0}
+  />
+</div>
+`;

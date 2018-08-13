@@ -75,6 +75,23 @@ INSTALLED_APPS = (
 #
 ROOT_URLCONF = 'farmview.urls'
 
+#
+# File structure
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# Use this tool to verify your file is accessible:
+#   python manage.py findstatic --verbosity 2 your-static-file
+#
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static')
+)
+# STATIC_ROOT = 'staticfiles'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 #
 # Templates
@@ -82,7 +99,9 @@ ROOT_URLCONF = 'farmview.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'build')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,7 +115,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 #
 # WSGI instance
@@ -151,23 +169,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
-
-#
-# File structure
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-# Use this tool to verify your file is accessible:
-#   python manage.py findstatic --verbosity 2 your-static-file
-#
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-# STATIC_ROOT = 'staticfiles'
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 # To override local settings from default settings,
 #   local_settings.py must not exist on the production server or in shared repository.
