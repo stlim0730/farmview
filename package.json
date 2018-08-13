@@ -22,13 +22,16 @@
     "start": "react-scripts start",
     "test": "jest",
     "eject": "react-scripts eject",
-    "build": "browserify src/pages/map-page.js -v -t [ babelify ] -o static/src/pages/map-page.js",
+    "build": "browserify src/pages/map-page.js -v -t [ babelify ] -g [ envify --NODE-ENV production ] -g uglifyify | uglifyjs --compress --mangle > static/src/pages/map-page.js",
     "postinstall": "npm run build"
   },
   "devDependencies": {
     "babel-jest": "^23.4.0",
+    "envify": "^4.1.0",
     "jest": "^23.4.0",
     "react-test-renderer": "^16.4.1",
+    "uglify-js": "^3.4.7",
+    "uglifyify": "^5.0.1",
     "watchify": "^3.11.0"
   },
   "engines": {
