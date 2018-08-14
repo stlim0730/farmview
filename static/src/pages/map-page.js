@@ -50510,10 +50510,10 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getParcelsWithinMapBounds = function getParcelsWithinMapBounds(userName, mapBounds, parcelWhereClause, startIndex, endIndex, callback, errorCallback) {
+var getParcelsWithinMapBounds = function getParcelsWithinMapBounds(userName, mapBounds, parcelWhereClause, startIndex, endIndex, cancelToken, callback, errorCallback) {
 	var sql = getSqlForParcelsWithinMapBounds(mapBounds, parcelWhereClause, startIndex, endIndex);
-	return makeSqlRequest(sql, userName).then(function (response) {
-		callback(response.data);
+	return makeSqlRequest(sql, userName, cancelToken).then(function (response) {
+		response && callback(response.data);
 	});
 };
 
@@ -50522,11 +50522,21 @@ var getParcelRowCountWithinMapBounds = function getParcelRowCountWithinMapBounds
 	return makeSqlRequest(sql, userName).then(callback);
 };
 
-var makeSqlRequest = function makeSqlRequest(sql, userName) {
+var makeSqlRequest = function makeSqlRequest(sql, userName, cancelToken) {
 	var url = getUrlBase(userName) + sql;
-	return _axios2.default.get(url).catch(function (error) {
-		console.error('error url', url);
-		throw error;
+
+	var options = {};
+	if (cancelToken) {
+		options = {
+			cancelToken: cancelToken.token
+		};
+	}
+
+	return _axios2.default.get(url, options).catch(function (error) {
+		if (!_axios2.default.isCancel(error)) {
+			console.error('error url', url);
+			throw error;
+		}
 	});
 };
 
@@ -50967,6 +50977,8 @@ var MapPage = function (_React$PureComponent) {
 
 				_this._setupLayer = function (layerIndex) {
 						var layerDef = _this.state.config.vizjson.layers[1].options.layer_definition.layers[layerIndex];
+						var tableName = layerDef.options.sql.toLowerCase().split('from')[1].trim();
+						tableName = tableName.includes('.') ? tableName.split('.')[1] : tableName;
 						var layerName = layerDef.options.layer_name;
 						cartodb.createLayer(_this.state.map, {
 								user_name: _this.state.cartoUserName,
@@ -51348,11 +51360,13 @@ var _listView2 = _interopRequireDefault(_listView);
 
 var _cartoSqlClient = require('./carto-sql-client');
 
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -51375,6 +51389,7 @@ var ParcelList = function (_React$PureComponent) {
 			    stopIndex = _ref.stopIndex;
 
 			//console.log(`Loading rows ${startIndex} to ${stopIndex}.`);
+
 			_this.setState({
 				mostRecentStartIndex: startIndex,
 				mostRecentStopIndex: stopIndex
@@ -51408,21 +51423,35 @@ var ParcelList = function (_React$PureComponent) {
 				leastIndexLoading = unloadedStartIndex;
 			}
 
+			//console.log(`Loading rows ${unloadedStartIndex} to ${unloadedStopIndex}.`);
+			// if (isNaN(unloadedStartIndex) || isNaN(unloadedStopIndex)) {
+			// 	console.error("Unexpected row indices: ", {
+			// 		startIndex: startIndex, 
+			// 		stopIndex: stopIndex, 
+			// 		unloadedStartIndex: unloadedStartIndex, 
+			// 		unloadedStopIndex: unloadedStopIndex, 
+			// 		leastIndexLoading: leastIndexLoading, 
+			// 		greatestIndexLoading: greatestIndexLoading, 
+			// 		leastIndexLoaded: this.state.leastIndexLoaded, 
+			// 		greatestIndexLoaded: this.state.greatestIndexLoaded,
+			// 		mostRecentStartIndex: this.state.mostRecentStartIndex,
+			// 		mostRecentStopIndex: this.state.mostRecentStopIndex });
+			// }
 			_this.setState({
 				leastIndexLoading: leastIndexLoading,
 				greatestIndexLoading: greatestIndexLoading
 			});
-
-			//console.log(`Loading rows ${unloadedStartIndex} to ${unloadedStopIndex}.`);
-			return (0, _cartoSqlClient.getParcelsWithinMapBounds)(_this.props.cartoUserName, _this.state.mapBounds, _this.props.parcelWhereClause, unloadedStartIndex, unloadedStopIndex, function (response) {
+			return (0, _cartoSqlClient.getParcelsWithinMapBounds)(_this.props.cartoUserName, _this.state.mapBounds, _this.props.parcelWhereClause, unloadedStartIndex, unloadedStopIndex, _this.state.requestCancellationToken, function (response) {
 				var _this$state$parcelLis;
 
 				var newList = (_this$state$parcelLis = _this.state.parcelList).splice.apply(_this$state$parcelLis, [unloadedStartIndex, response.rows.length].concat(_toConsumableArray(response.rows)));
+				var greatestIndexLoaded = _this.state.greatestIndexLoaded === undefined ? unloadedStopIndex : Math.max(_this.state.greatestIndexLoaded, unloadedStopIndex);
+				var leastIndexLoaded = _this.state.leastIndexLoaded === undefined ? unloadedStartIndex : Math.min(_this.state.leastIndexLoaded, unloadedStartIndex);
 				_this.setState({
 					parcelList: newList,
 					rowsLoaded: true,
-					greatestIndexLoaded: Math.max(_this.state.greatestIndexLoaded, unloadedStopIndex),
-					leastIndexLoaded: Math.min(_this.state.leastIndexLoaded, unloadedStartIndex)
+					greatestIndexLoaded: greatestIndexLoaded,
+					leastIndexLoaded: leastIndexLoaded
 				});
 			}, function () {});
 		};
@@ -51466,14 +51495,14 @@ var ParcelList = function (_React$PureComponent) {
 		};
 
 		_this._resetRowLoadingMemoization = function (callback) {
-			var _this$setState;
-
-			_this.setState((_this$setState = {
+			_this.state.requestCancellationToken.cancel();
+			_this.setState({
 				greatestIndexLoaded: undefined,
 				leastIndexLoaded: undefined,
 				leastIndexLoading: undefined,
-				greatestIndexLoading: undefined
-			}, _defineProperty(_this$setState, 'leastIndexLoaded', undefined), _defineProperty(_this$setState, 'greatestIndexLoaded', undefined), _this$setState), callback);
+				greatestIndexLoading: undefined,
+				requestCancellationToken: _axios2.default.CancelToken.source()
+			}, callback);
 		};
 
 		_this._populateRowCount = function (callback) {
@@ -51495,7 +51524,8 @@ var ParcelList = function (_React$PureComponent) {
 			rowCountLoaded: false,
 			parcelList: _immutable2.default.List(),
 			rowCount: 0,
-			mapBounds: _this.props.map ? _this.props.map.getBounds() : null
+			mapBounds: _this.props.map ? _this.props.map.getBounds() : null,
+			requestCancellationToken: _axios2.default.CancelToken.source()
 		};
 		return _this;
 	}
@@ -51512,6 +51542,7 @@ var ParcelList = function (_React$PureComponent) {
 			var _this2 = this;
 
 			if (this.props.parcelWhereClause !== prevProps.parcelWhereClause) {
+				this.state.requestCancellationToken.cancel();
 				this.setState({
 					leastIndexLoading: undefined,
 					greatestIndexLoading: undefined,
@@ -51520,10 +51551,11 @@ var ParcelList = function (_React$PureComponent) {
 					rowsLoaded: false,
 					rowCountLoaded: false,
 					parcelList: _immutable2.default.List(),
-					rowCount: 0
+					rowCount: 0,
+					requestCancellationToken: _axios2.default.CancelToken.source()
 				}, function () {
 					_this2._populateRowCount(function () {
-						return _this2.loadMoreRows({ startIndex: _this2.state.mostRecentStartIndex, stopIndex: _this2.state.mostRecentStopIndex });
+						_this2.loadMoreRows({ startIndex: _this2.state.mostRecentStartIndex, stopIndex: _this2.state.mostRecentStopIndex });
 					});
 				});
 			}
@@ -51551,7 +51583,7 @@ var ParcelList = function (_React$PureComponent) {
 
 exports.default = ParcelList;
 
-},{"./carto-sql-client":235,"./list-view":237,"immutable":151,"prop-types":158,"react":233,"react-dom":162}],241:[function(require,module,exports){
+},{"./carto-sql-client":235,"./list-view":237,"axios":2,"immutable":151,"prop-types":158,"react":233,"react-dom":162}],241:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
