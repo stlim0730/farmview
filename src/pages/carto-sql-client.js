@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const getParcelsWithinMapBounds = (userName, mapBounds, parcelWhereClause, startIndex, endIndex, callback, errorCallback) => {
+const getParcelsWithinMapBounds = (userName, mapBounds, parcelWhereClause, startIndex, endIndex, cancelToken, callback, errorCallback) => {
 	const sql = getSqlForParcelsWithinMapBounds(mapBounds, parcelWhereClause, startIndex, endIndex);
-	return makeSqlRequest(sql, userName)
+	return makeSqlRequest(sql, userName, cancelToken)
 			.then(response => {
-				callback(response.data);
+				response && callback(response.data);
 			});
 }
 
@@ -13,12 +13,22 @@ const getParcelRowCountWithinMapBounds = (userName, mapBounds, parcelWhereClause
 	return makeSqlRequest(sql, userName).then(callback);
 }
 
-const makeSqlRequest = (sql, userName) => {
+const makeSqlRequest = (sql, userName, cancelToken) => {
 	const url = getUrlBase(userName) + sql;
-	return axios.get(url)
+
+	let options = {};
+	if (cancelToken) {
+		options = {
+		cancelToken: cancelToken.token
+		};	
+	}
+
+	return axios.get(url, options)
 		.catch(function(error) {
-			console.error('error url', url)
-			throw error;
+			if (!axios.isCancel(error)) {
+				console.error('error url', url)
+				throw error;
+			}
 		});
 }
 

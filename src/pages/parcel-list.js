@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import ListView from './list-view';
 import { getParcelsWithinMapBounds, getParcelRowCountWithinMapBounds } from './carto-sql-client';
+import axios from 'axios';
 
 export default class ParcelList extends React.PureComponent {
 
@@ -15,6 +16,7 @@ export default class ParcelList extends React.PureComponent {
 			parcelList: Immutable.List(),
 			rowCount: 0,
 			mapBounds: this.props.map ? this.props.map.getBounds() : null,
+			requestCancellationToken: axios.CancelToken.source(),
 		};
 	}
 
@@ -25,6 +27,7 @@ export default class ParcelList extends React.PureComponent {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.parcelWhereClause !== prevProps.parcelWhereClause) {
+			this.state.requestCancellationToken.cancel();
 			this.setState({
 				leastIndexLoading: undefined,
 				greatestIndexLoading: undefined,
@@ -33,17 +36,21 @@ export default class ParcelList extends React.PureComponent {
 				rowsLoaded: false,
 				rowCountLoaded: false,
 				parcelList: Immutable.List(),
-				rowCount: 0
+				rowCount: 0,
+				requestCancellationToken: axios.CancelToken.source()
 			},
 			() => {
 				this._populateRowCount(
-				() => this.loadMoreRows({ startIndex: this.state.mostRecentStartIndex, stopIndex: this.state.mostRecentStopIndex }));
+				() => {
+					this.loadMoreRows({ startIndex: this.state.mostRecentStartIndex, stopIndex: this.state.mostRecentStopIndex });
+				});
 			});
 		}
 	}
 
 	loadMoreRows = ({ startIndex, stopIndex }) => {
 		//console.log(`Loading rows ${startIndex} to ${stopIndex}.`);
+
 		this.setState({
 			mostRecentStartIndex: startIndex,
 			mostRecentStopIndex: stopIndex
@@ -76,25 +83,40 @@ export default class ParcelList extends React.PureComponent {
 			leastIndexLoading = unloadedStartIndex;
 		}
 
+		//console.log(`Loading rows ${unloadedStartIndex} to ${unloadedStopIndex}.`);
+		// if (isNaN(unloadedStartIndex) || isNaN(unloadedStopIndex)) {
+		// 	console.error("Unexpected row indices: ", {
+		// 		startIndex: startIndex, 
+		// 		stopIndex: stopIndex, 
+		// 		unloadedStartIndex: unloadedStartIndex, 
+		// 		unloadedStopIndex: unloadedStopIndex, 
+		// 		leastIndexLoading: leastIndexLoading, 
+		// 		greatestIndexLoading: greatestIndexLoading, 
+		// 		leastIndexLoaded: this.state.leastIndexLoaded, 
+		// 		greatestIndexLoaded: this.state.greatestIndexLoaded,
+		// 		mostRecentStartIndex: this.state.mostRecentStartIndex,
+		// 		mostRecentStopIndex: this.state.mostRecentStopIndex });
+		// }
 		this.setState({
 				leastIndexLoading: leastIndexLoading,
 				greatestIndexLoading: greatestIndexLoading,
 			});
-
-		//console.log(`Loading rows ${unloadedStartIndex} to ${unloadedStopIndex}.`);
 		return getParcelsWithinMapBounds(
 			this.props.cartoUserName,
 			this.state.mapBounds,
 			this.props.parcelWhereClause,
 			unloadedStartIndex,
 			unloadedStopIndex,
+			this.state.requestCancellationToken,
 			response => {
 				const newList = this.state.parcelList.splice(unloadedStartIndex, response.rows.length, ...response.rows);
+				let greatestIndexLoaded = this.state.greatestIndexLoaded === undefined ? unloadedStopIndex : Math.max(this.state.greatestIndexLoaded, unloadedStopIndex);
+				let leastIndexLoaded = this.state.leastIndexLoaded === undefined ? unloadedStartIndex : Math.min(this.state.leastIndexLoaded, unloadedStartIndex);
 				this.setState({
 					parcelList: newList,
 					rowsLoaded: true,
-					greatestIndexLoaded: Math.max(this.state.greatestIndexLoaded, unloadedStopIndex),
-					leastIndexLoaded: Math.min(this.state.leastIndexLoaded, unloadedStartIndex)
+					greatestIndexLoaded: greatestIndexLoaded,
+					leastIndexLoaded: leastIndexLoaded
 				});
 	    },
 	    () => { });
@@ -136,13 +158,13 @@ export default class ParcelList extends React.PureComponent {
 	}
 
 	_resetRowLoadingMemoization = (callback) => {
+		this.state.requestCancellationToken.cancel();
 		this.setState({
 			greatestIndexLoaded: undefined,
 			leastIndexLoaded: undefined,
 			leastIndexLoading: undefined,
 			greatestIndexLoading: undefined,
-			leastIndexLoaded: undefined,
-			greatestIndexLoaded: undefined
+			requestCancellationToken: axios.CancelToken.source()
 		}, callback)
 	}
 

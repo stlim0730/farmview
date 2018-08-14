@@ -14,7 +14,7 @@ export default class MapPage extends React.PureComponent {
 		this.state = {
 	    cartoUserName: null,
 	    tables: {},
-	    layers: {},
+	    layers: {}
 	  };
 	}
 
@@ -71,6 +71,8 @@ export default class MapPage extends React.PureComponent {
 
 	_setupLayer = (layerIndex) => {
 		let layerDef = this.state.config.vizjson.layers[1].options.layer_definition.layers[layerIndex];
+		let tableName = layerDef.options.sql.toLowerCase().split('from')[1].trim();
+		tableName = tableName.includes('.') ? tableName.split('.')[1] : tableName;
 		let layerName = layerDef.options.layer_name;
 		cartodb.createLayer(this.state.map, {
 	      user_name: this.state.cartoUserName,
