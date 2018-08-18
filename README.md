@@ -2,7 +2,7 @@
 
 ## Note
 - The instructions below help you install and run a local copy of the software on your computer for development purpose. It still uses remote data on [Carto](https://carto.com/).
-- Updated on Oct 21 2017
+- Updated on Aug 17 2018
 
 ## Requirements: for potential collaborators
 - Farmview manages development environment using a virtual machine with static configurations to guarantee technical consistency across the collaborators and easier setup process.
@@ -15,6 +15,7 @@
 - Postgresql 9.3 or later (Only tested with version 9.3)
 - Python 2.7.10 including pip (Not tested with Python 3)
 - Django 1.9 or later
+- NPM 5.6.0
 - (development only) UWSGI
 - (development only) Nginx
 
@@ -94,7 +95,13 @@ $ vagrant destroy
 - I usually suspend the guest machine when I wrap up a coding or a testing session. I destroy the guest machine when I want to explicitly run provision (including Python package installation) script of vagrant.
 
 ## (Re-)Running the Server
-The Django server automatically starts when the guest machine boots up.
+The Django server automatically starts when the guest machine boots up. Watchify watches for changes from the Javascript root file and transpiles the Javascript when necessary.
+
+You can follow the Watchify logs in real time on the guest machine using
+
+```
+tail -f /var/log/watchify.log
+```
 
 Nginx server uses UWSGI module as an app container for Django. When you made changes in Django backend, use the command below to restart Django app.
 
@@ -109,6 +116,17 @@ In general, you don't need to restart Nginx server. When you have to, use the co
 # On your guest machine
 $ sudo service nginx restart
 ```
+
+## React and Django
+Farmview was initially built with Django doing all of the backend work and front-end template rendering. It has since been moved to a model in which React directs the frontend and makes API calls to the Django server to fetch data. With respect to this change, usages of Django templates should be removed over time as existing features are edited. It is worth noting that Django still handles the site's url routing, though this might be worth handling in React in the future.
+
+## React Environment
+React requires a number of tools and dependencies that are worth enumerating:
+
+Watchify: watches the Javascript files to trigger Browserify transpilation
+Browserify: bundles Javascript into a single root file and employs various transforms (e.g. Babel)
+Babel: transpiles modern Javascript (ES6, 2016, 2017, &c.) and JSX to JS compatible with target browser. Invoked by Browserify as a transform. Configured in .babelrc.
+React Virtualized: used for just-in-time loading of the parcel list view from the Carto SQL API.
 
 ## Collaboration Workflow
 You should follow standard Git workflow to guarantee traceable states of your contribution and the integrity of the shared codebase. Please refer to the suggested workflow as follows.
