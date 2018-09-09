@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from reportlab.pdfgen import canvas
+from reportlab.pdfgen import textobject
 from django.http import HttpResponse
 from django.http import JsonResponse
 try:
@@ -11,6 +12,7 @@ from .models import Config
 from .models import Datafield
 import requests
 import os
+import logging
 
 
 
@@ -93,22 +95,49 @@ def geocode(request, location_query):
     geocoding_api_response = requests.get(request_url)
     return JsonResponse(geocoding_api_response.json())
 
-def gen_pdf(request, id):
+def gen_pdf(request, id, table):
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="somefilename.pdf"'
     # Create the PDF object, using the response object as its "file."
-    p = canvas.Canvas(response)
+    c = canvas.Canvas(response)
 
-    # CARTODB_API_KEY = os.environ.get('CARTODB_API_KEY')
-    # carto_api_request = 'https://calo1.carto.com/api/v2/sql?q=SELECT * FROM central_coast_joined where cartodb_id = '+str(id)+'&api_key=' + str(CARTODB_API_KEY)
-    # carto_api_response = requests.get(carto_api_request)
-    
+    CARTODB_API_KEY = os.environ.get('CARTODB_API_KEY')
+    carto_api_request = 'https://calo1.carto.com/api/v2/sql?q=SELECT * FROM '+str(table)+' where cartodb_id = ' + str(id) +'&api_key=' + str(CARTODB_API_KEY)
+    carto_api_response = requests.get(carto_api_request)  
+
+    contents = carto_api_response.content
+    stuff = json.loads(contents)  
+    rows = stuff['rows'][0]
+#     for k,v in rows.items():
+# #     if v is not None:
+#         print(k,': '+ str(v))
+    # logger = logging.getLogger(__name__)
+    # logger.debug(str(JsonResponse(carto_api_response.json())))
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, "Hello world.")
+    c.setFontSize(size= 24)
+    c.drawString(210, 800, "Parcel Information")
+    c.setFont('Helvetica', 12)
+    # c.drawString(70, 775 - 15, 'cartodb_id' + ': ' + str(rows.items()[0][1]))
+    response_data = rows.items()
+    nextPage = False
+    startOfPageIndex = 0
+    for i in range(0, len(response_data)):
+        if not nextPage:
+            if startOfPageIndex:
+                c.drawString(50, 830 - (13 * (i - startOfPageIndex) ), str(response_data[i][0]) + ': ' + str(response_data[i][1]))    
+            else:
+                c.drawString(50, 775 - (13 * (i - startOfPageIndex) ), str(response_data[i][0]) + ': ' + str(response_data[i][1]))
+        if (775 - (13 * (i - startOfPageIndex))) < 10:
+            c.showPage()
+            startOfPageIndex = i - 1
+            
+        # factor += factor
+    # c.drawString(70, 775 - 15, str(factor))
+    # c.drawString(70, 775 - 30, str(len(response_data)))
 
     # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
+    c.showPage()
+    c.save()
     return response

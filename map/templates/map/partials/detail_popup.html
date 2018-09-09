@@ -3,8 +3,8 @@
     <div class='modal-content'>
       <div class='modal-header'>
         <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
-        <h4 class='modal-title'>Details on the Parcel</h4>
-        <button id="cartodb_id" type="button" value="Generate PDF" onclick="generatePDF();">Download PDF </button>
+        <h4 class='modal-title' id="table_name" value="">Details on the Parcel</h4>
+        <button id="cartodb_id"  type="button" value="Generate PDF" onclick="generatePDF();">Download PDF </button>
       </div>
       <div class='modal-body'>
       
@@ -43,11 +43,13 @@
     var generatePDF = function() {
       // console.log(document.getElementById('cartodb_id').value);
       var http = new XMLHttpRequest();
-      var report_request_url = "report/" + document.getElementById('cartodb_id').value.toString();
-
+      var report_request_url = "report/" + document.getElementById('cartodb_id').value.toString() + '/' + document.getElementById('table_name').value.toString();
+      // var cartodb_id = document.getElementById('cartodb_id').value.toString();
+      // var table_name =
+      console.log(report_request_url);
       // http.open("GET", "http://localhost:8888/map/report/0", true);
       // http.send();
-      window.open(report_request_url)
+      window.open(report_request_url);
     }
 
     var resetDetailPopup = function() {
@@ -102,11 +104,14 @@
 
       // Get the relevant section selector for the table
       let detailPopupForDataSource = $('.detail-popup .wrapper-per-source.data-from-' + table);
-
+      document.getElementById("table_name").value = table;
+      console.log(document.getElementById("table_name").value);
       for (let key in record) {
         let targetFieldSelector = '#' + key + '-field.data-field';
         let field = $(targetFieldSelector);
+        // console.log(field)
         let value = record[key];
+        // console.log(key)
         let humanReadableValue = getHumanReadableValueOrNull(key, value, detailPopupForDataSource);
         
         if (humanReadableValue == null) {
@@ -118,6 +123,7 @@
           console.warn(key, value, 'has wrong definition (e.g., unexpected value, wrong number of vals and labels, etc.)!');
         } else {
             document.getElementById("cartodb_id").value = record['cartodb_id'];
+            // console.log(humanReadableValue);
           
           field.html(humanReadableValue);
         }
@@ -125,7 +131,7 @@
 
       // Show the image attachment if available
       if ('_attachments' in record) {
-        console.log(record); 
+        // console.log(record); 
         let attachments = record['_attachments'];
 
         for (let i in attachments) {
