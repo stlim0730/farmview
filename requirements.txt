@@ -4,7 +4,7 @@ bleach==1.4.3
 chardet==2.3.0
 dj-database-url==0.4.1
 dj-static==0.0.6
-Django==1.11.28
+Django==2.2
 django-blog-zinnia==0.17
 django-contrib-comments==1.7.3
 django-mptt==0.8.7
@@ -17,7 +17,7 @@ mots-vides==2015.5.11
 olefile==0.44
 packaging==16.8
 Pillow==4.0.0
-psycopg2==2.7.1
+psycopg2-binary
 pyparsing==2.1.10
 pytz==2016.10
 regex==2017.1.17
