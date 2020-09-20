@@ -62,7 +62,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SITE_ID = 1
 ZINNIA_MARKUP_LANGUAGE = 'textile'
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',

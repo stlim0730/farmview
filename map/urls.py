@@ -1,10 +1,10 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.map, name='map'),
-    url(r'^geocode/(.*)$', views.geocode, name='geocode'),
-    url(r'^datafields$', views.datafields, name='datafields'),
-    url(r'^config$', views.config, name='config')
+    re_path(r'^$', views.map, name='map'),
+    re_path(r'^geocode/(.*)$', views.geocode, name='geocode'),
+    re_path(r'^datafields$', views.datafields, name='datafields'),
+    re_path(r'^config$', views.config, name='config')
 ]
