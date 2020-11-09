@@ -1,10 +1,10 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from pages import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^about/$', views.about, name='about'),
-    url(r'^mapbook/$', views.mapbook, name='mapbook'),
-    url(r'^contact/$', views.contact, name='contact')
+    re_path(r'^$', views.index, name='index'),
+    re_path(r'^about/$', views.about, name='about'),
+    re_path(r'^mapbook/$', views.mapbook, name='mapbook'),
+    re_path(r'^contact/$', views.contact, name='contact')
 ]
