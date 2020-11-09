@@ -12,7 +12,7 @@
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
     "immutable": "^3.8.2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
