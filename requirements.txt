@@ -21,7 +21,7 @@ psycopg2-binary
 pyparsing==2.1.10
 pytz==2016.10
 regex==2017.1.17
-requests==2.16.2
+requests==2.20.0
 setuptools>=2.2
 six==1.12.0
 static3==0.7.0
