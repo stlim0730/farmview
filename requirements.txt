@@ -4,7 +4,7 @@ bleach==1.4.3
 chardet==3.0.2
 dj-database-url==0.4.1
 dj-static==0.0.6
-Django==2.2.8
+Django==2.2.18
 django-blog-zinnia==0.20
 django-contrib-comments==1.9.2
 django-mptt==0.8.7
