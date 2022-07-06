@@ -11,7 +11,7 @@ django-mptt==0.8.7
 django-tagging==0.4.5
 django-xmlrpc==0.1.7
 dropbox==10.0.0
-html5lib==0.9999999
+html5lib==0.999999999
 gunicorn==19.9.0
 mots-vides==2015.5.11
 olefile==0.44
